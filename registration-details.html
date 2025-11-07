@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Details - KU Campus</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'ku-purple': '#4E2A84',
+                        'ku-purple-new': '#7C3E99',
+                        'ku-purple-new-hover': '#6A3485',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .left-tab-button.active {
+            background-color: #7C3E99;
+            color: white;
+        }
+        .sub-tab-button:hover {
+            border-bottom-color: #D1D5DB;
+        }
+        .sub-tab-button.active {
+            color: #7C3E99;
+            border-bottom-color: #7C3E99;
+        }
+        .info-alert {
+            background-color: #E8F4FD;
+            border-left: 4px solid #3B82F6;
+        }
+        .step-item {
+            position: relative;
+        }
+        .step-item::before {
+            content: '';
+            position: absolute;
+            left: 14px;
+            top: 40px;
+            bottom: -20px;
+            width: 2px;
+            background-color: #E5E7EB;
+        }
+        .step-item:last-child::before {
+            display: none;
+        }
+        .step-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #7C3E99;
+            color: white;
+            flex-shrink: 0;
+        }
+        .step-icon svg {
+            width: 18px;
+            height: 18px;
+        }
+    </style>
+</head>
+
+<body class="antialiased flex flex-col bg-gray-50">
+
+    <!-- Header -->
+    <header class="h-16 bg-white border-b border-gray-200 px-6 flex items-center justify-between shadow-sm sticky top-0 z-30">
+        <div class="flex items-center">
+            <svg class="w-6 h-6 mr-3 text-ku-purple" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4M12 21V7"></path>
+            </svg>
+            <h1 class="text-xl font-semibold text-gray-800">KU Campus</h1>
+        </div>
+        <div class="flex items-center space-x-4">
+            <div class="relative">
+                <button class="p-2 text-gray-600 hover:bg-gray-100 rounded-full transition duration-150">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 bg-ku-purple text-white rounded-full flex items-center justify-center font-semibold">A</div>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex-1 flex overflow-hidden">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-gray-900 text-gray-100 flex-shrink-0 overflow-y-auto">
+            <nav class="p-4 space-y-2">
+                <a href="index.html" class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-800 rounded-lg transition duration-150">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                    </svg>
+                    Home
+                </a>
+                <div class="pt-4">
+                    <p class="px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Academic Administration</p>
+                    <a href="admission.html" class="flex items-center px-4 py-2 mt-2 text-gray-300 hover:bg-gray-800 rounded-lg transition duration-150">
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        Admission Management
+                    </a>
+                    <a href="registration.html" class="flex items-center px-4 py-2 text-white bg-ku-purple-new rounded-lg transition duration-150">
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                        </svg>
+                        Registration Management
+                    </a>
+                    <a href="student-search.html" class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-800 rounded-lg transition duration-150">
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                        Student Search
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto">
+            <div class="p-6 max-w-7xl mx-auto">
+                <!-- Breadcrumb -->
+                <nav class="text-sm mb-6">
+                    <ol class="flex items-center space-x-2 text-gray-600">
+                        <li><a href="index.html" class="hover:text-ku-purple-new">Home</a></li>
+                        <li>/</li>
+                        <li><a href="#" class="hover:text-ku-purple-new">Academic Administration</a></li>
+                        <li>/</li>
+                        <li><a href="#" class="hover:text-ku-purple-new">Admission Management</a></li>
+                        <li>/</li>
+                        <li><a href="registration.html" class="hover:text-ku-purple-new">Registration Management</a></li>
+                        <li>/</li>
+                        <li class="text-gray-900 font-medium">Update</li>
+                    </ol>
+                </nav>
+
+                <!-- Student Info Card -->
+                <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+                    <div class="flex items-start gap-6">
+                        <!-- Profile Photo -->
+                        <div class="relative flex-shrink-0">
+                            <img class="h-32 w-32 rounded-2xl object-cover" src="https://preview.keenthemes.com/metronic8/demo1/assets/media/avatars/300-6.jpg" alt="Profile">
+                            <button class="absolute bottom-0 right-0 bg-white p-2 rounded-lg shadow-md hover:bg-gray-50 transition">
+                                <svg class="w-4 h-4 text-ku-purple-new" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <!-- Student Details -->
+                        <div class="flex-1">
+                            <h2 class="text-2xl font-semibold text-gray-900 mb-6">İrem Akçay</h2>
+                            <div class="grid grid-cols-2 gap-x-12 gap-y-3">
+                                <div class="flex items-center">
+                                    <p class="text-sm text-gray-500 font-medium w-40">Application Number</p>
+                                    <p class="text-sm text-gray-900">12345</p>
+                                </div>
+                                <div class="flex items-center">
+                                    <p class="text-sm text-gray-500 font-medium w-40">Academic Career</p>
+                                    <p class="text-sm text-gray-900">UGRD - Undergraduate</p>
+                                </div>
+                                <div class="flex items-center">
+                                    <p class="text-sm text-gray-500 font-medium w-40">Academic Program</p>
+                                    <p class="text-sm text-gray-900">CE - College of Engineering</p>
+                                </div>
+                                <div class="flex items-center">
+                                    <p class="text-sm text-gray-500 font-medium w-40">Academic Plan</p>
+                                    <p class="text-sm text-gray-900">COMP - Computer Engineering</p>
+                                </div>
+                                <div class="flex items-center">
+                                    <p class="text-sm text-gray-500 font-medium w-40">Admit Term</p>
+                                    <p class="text-sm text-gray-900">2232 - Fall 2023</p>
+                                </div>
+                                <div class="flex items-center">
+                                    <p class="text-sm text-gray-500 font-medium w-40">Admit Type</p>
+                                    <p class="text-sm text-gray-900">Lorem Ipsum</p>
+                                </div>
+                                <div class="flex items-center">
+                                    <p class="text-sm text-gray-500 font-medium w-40">Student Number</p>
+                                    <p class="text-sm text-gray-900">0012345</p>
+                                </div>
+                                <div class="flex items-center">
+                                    <p class="text-sm text-gray-500 font-medium w-40">National ID</p>
+                                    <p class="text-sm text-gray-900">11111111111</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Info Alert -->
+                <div class="info-alert rounded-lg p-4 mb-6 flex items-start gap-3">
+                    <div class="flex-shrink-0 mt-0.5">
+                        <svg class="w-5 h-5 text-blue-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+                        </svg>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-semibold text-blue-900 mb-1">Info</h3>
+                        <p class="text-sm text-blue-800">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse in sapien non metus semper egestas ac porta felis. Aliquam et tincidunt dolor, non mollis nunc. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse in sapien non metus semper egestas ac porta felis. Aliquam et tincidunt dolor, non mollis nunc.</p>
+                    </div>
+                    <button class="flex-shrink-0 text-blue-500 hover:text-blue-700">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Tabs Section -->
+                <div class="bg-white rounded-xl shadow-md flex overflow-hidden">
+                    <!-- Left Sidebar Tabs -->
+                    <div class="w-64 bg-gray-50 border-r border-gray-200 flex-shrink-0">
+                        <nav class="p-4 space-y-1">
+                            <button class="left-tab-button active w-full text-left px-4 py-3 rounded-lg flex items-center gap-3 transition duration-150" data-tab="upload-photo">
+                                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                </svg>
+                                <div class="flex items-center gap-2 flex-1">
+                                    <svg class="w-5 h-5 text-ku-purple-new" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    <span class="text-sm font-medium">Upload Photo</span>
+                                </div>
+                            </button>
+                            <button class="left-tab-button w-full text-left px-4 py-3 rounded-lg flex items-center gap-3 text-gray-700 hover:bg-gray-100 transition duration-150" data-tab="matriculation-form">
+                                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                                <div class="flex items-center gap-2 flex-1">
+                                    <svg class="w-5 h-5 text-ku-purple-new" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    <span class="text-sm font-medium">Matriculation Form</span>
+                                </div>
+                            </button>
+                            <button class="left-tab-button w-full text-left px-4 py-3 rounded-lg flex items-center gap-3 text-gray-700 hover:bg-gray-100 transition duration-150" data-tab="registration-documents">
+                                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                                </svg>
+                                <div class="flex items-center gap-2 flex-1">
+                                    <svg class="w-5 h-5 text-ku-purple-new" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    <span class="text-sm font-medium">Registration Documents</span>
+                                </div>
+                            </button>
+                            <button class="left-tab-button w-full text-left px-4 py-3 rounded-lg flex items-center gap-3 text-gray-700 hover:bg-gray-100 transition duration-150" data-tab="elc-form">
+                                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                                <div class="flex items-center gap-2 flex-1">
+                                    <svg class="w-5 h-5 text-ku-purple-new" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    <span class="text-sm font-medium">ELC Form</span>
+                                </div>
+                            </button>
+                            <button class="left-tab-button w-full text-left px-4 py-3 rounded-lg flex items-center gap-3 text-gray-700 hover:bg-gray-100 transition duration-150" data-tab="health-form">
+                                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                                <div class="flex items-center gap-2 flex-1">
+                                    <svg class="w-5 h-5 text-ku-purple-new" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    <span class="text-sm font-medium">Health Information Form</span>
+                                </div>
+                            </button>
+                            <button class="left-tab-button w-full text-left px-4 py-3 rounded-lg flex items-center gap-3 text-gray-700 hover:bg-gray-100 transition duration-150" data-tab="data-privacy">
+                                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                                </svg>
+                                <div class="flex items-center gap-2 flex-1">
+                                    <svg class="w-5 h-5 text-ku-purple-new" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    <span class="text-sm font-medium">Data & Privacy</span>
+                                </div>
+                            </button>
+                            <button class="left-tab-button w-full text-left px-4 py-3 rounded-lg flex items-center gap-3 text-gray-700 hover:bg-gray-100 transition duration-150" data-tab="registration-summary">
+                                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
+                                </svg>
+                                <div class="flex items-center gap-2 flex-1">
+                                    <svg class="w-5 h-5 text-ku-purple-new" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    <span class="text-sm font-medium">Registration Summary</span>
+                                </div>
+                            </button>
+                        </nav>
+                    </div>
+
+                    <!-- Right Content Area -->
+                    <div class="flex-1 flex flex-col">
+                        <!-- Tab Content -->
+                        <div class="flex-1">
+                            <!-- Upload Photo Tab -->
+                            <div id="upload-photo" class="tab-content h-full">
+                                <div class="p-6 h-full">
+                                    <h3 class="text-xl font-semibold text-gray-900 mb-6">Upload Photo</h3>
+                                    <p class="text-sm text-gray-600 mb-6">Please upload your 3cm x 2cm biometric photo taken against a white background.</p>
+
+                                    <div class="bg-gray-50 rounded-lg p-6">
+                                        <h4 class="text-sm font-semibold text-gray-700 mb-4">Biometric Photo</h4>
+                                        <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-ku-purple-new transition cursor-pointer">
+                                            <div class="flex flex-col items-center">
+                                                <svg class="w-12 h-12 text-gray-400 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                                </svg>
+                                                <p class="text-sm text-gray-600 mb-1">http://img.1.sized-type/jpeg</p>
+                                                <p class="text-xs text-gray-500">View in wordpress</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Matriculation Form Tab -->
+                            <div id="matriculation-form" class="tab-content hidden h-full flex flex-col">
+                                <!-- Sub-tabs for Matriculation Form -->
+                                <div class="border-b border-gray-200 px-6 pt-4">
+                                    <nav class="flex space-x-6 -mb-px">
+                                        <button class="sub-tab-button active py-3 text-sm font-medium border-b-2 border-ku-purple-new text-ku-purple-new" data-subtab="instructions">
+                                            Instructions
+                                        </button>
+                                        <button class="sub-tab-button py-3 text-sm text-gray-600 hover:text-gray-900 border-b-2 border-transparent" data-subtab="personal-info">
+                                            Personal Info
+                                        </button>
+                                        <button class="sub-tab-button py-3 text-sm text-gray-600 hover:text-gray-900 border-b-2 border-transparent" data-subtab="contact-info">
+                                            Contact Info
+                                        </button>
+                                        <button class="sub-tab-button py-3 text-sm text-gray-600 hover:text-gray-900 border-b-2 border-transparent" data-subtab="academic-info">
+                                            Academic Info
+                                        </button>
+                                        <button class="sub-tab-button py-3 text-sm text-gray-600 hover:text-gray-900 border-b-2 border-transparent" data-subtab="finance-accounting">
+                                            Finance & Accounting
+                                        </button>
+                                    </nav>
+                                </div>
+                                
+                                <div class="flex-1 overflow-y-auto p-6">
+                                    <!-- Instructions Sub-tab -->
+                                    <div id="instructions" class="sub-tab-content">
+                                        <h3 class="text-xl font-semibold text-gray-900 mb-4">Matriculation Form</h3>
+                                        <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6">
+                                            <div class="flex items-start gap-3">
+                                                <svg class="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+                                                </svg>
+                                                <div>
+                                                    <h4 class="font-semibold text-blue-900 mb-1">Info</h4>
+                                                    <p class="text-sm text-blue-800">If you have Turkish citizenship but do not report it during registration, your student records may not be properly synced with the national e-Devlet system. This could lead to issues with your student status, official documents, or graduation procedures in the future.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Personal Info Sub-tab -->
+                                    <div id="personal-info" class="sub-tab-content hidden">
+                                        <h3 class="text-xl font-semibold text-gray-900 mb-6">Personal Information</h3>
+                                        <p class="text-gray-600">Personal information form fields will be displayed here.</p>
+                                    </div>
+
+                                    <!-- Contact Info Sub-tab -->
+                                    <div id="contact-info" class="sub-tab-content hidden">
+                                        <h3 class="text-xl font-semibold text-gray-900 mb-6">Contact Information</h3>
+                                        <p class="text-gray-600">Contact information form fields will be displayed here.</p>
+                                    </div>
+
+                                    <!-- Academic Info Sub-tab -->
+                                    <div id="academic-info" class="sub-tab-content hidden">
+                                        <h3 class="text-xl font-semibold text-gray-900 mb-6">Academic Information</h3>
+                                        <p class="text-gray-600">Academic information form fields will be displayed here.</p>
+                                    </div>
+
+                                    <!-- Finance & Accounting Sub-tab -->
+                                    <div id="finance-accounting" class="sub-tab-content hidden">
+                                        <h3 class="text-xl font-semibold text-gray-900 mb-6">Finance & Accounting</h3>
+                                        <p class="text-gray-600">Finance and accounting form fields will be displayed here.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Registration Documents Tab -->
+                            <div id="registration-documents" class="tab-content hidden h-full">
+                                <div class="p-6">
+                                    <h3 class="text-xl font-semibold text-gray-900 mb-6">Registration Documents</h3>
+                                    <p class="text-gray-600">Content for Registration Documents tab will be displayed here.</p>
+                                </div>
+                            </div>
+
+                            <!-- ELC Form Tab -->
+                            <div id="elc-form" class="tab-content hidden h-full">
+                                <div class="p-6">
+                                    <h3 class="text-xl font-semibold text-gray-900 mb-6">ELC Form</h3>
+                                    <p class="text-gray-600">Content for ELC Form tab will be displayed here.</p>
+                                </div>
+                            </div>
+
+                            <!-- Health Information Form Tab -->
+                            <div id="health-form" class="tab-content hidden h-full">
+                                <div class="p-6">
+                                    <h3 class="text-xl font-semibold text-gray-900 mb-6">Health Information Form</h3>
+                                    <p class="text-gray-600">Content for Health Information Form tab will be displayed here.</p>
+                                </div>
+                            </div>
+
+                            <!-- Data & Privacy Tab -->
+                            <div id="data-privacy" class="tab-content hidden h-full">
+                                <div class="p-6">
+                                    <h3 class="text-xl font-semibold text-gray-900 mb-6">Data & Privacy</h3>
+                                    <p class="text-gray-600">Content for Data & Privacy tab will be displayed here.</p>
+                                </div>
+                            </div>
+
+                            <!-- Registration Summary Tab -->
+                            <div id="registration-summary" class="tab-content hidden h-full">
+                                <div class="p-6">
+                                    <h3 class="text-xl font-semibold text-gray-900 mb-6">Registration Summary</h3>
+                                    <p class="text-gray-600">Content for Registration Summary tab will be displayed here.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="mt-6 flex justify-end gap-3">
+                    <button class="px-6 py-2.5 bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold rounded-xl shadow-sm transition duration-150">
+                        Discard Changes
+                    </button>
+                    <button class="px-6 py-2.5 bg-ku-purple-new hover:bg-ku-purple-new-hover text-white font-semibold rounded-xl shadow-sm transition duration-150">
+                        Save
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Tab switching functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const leftTabButtons = document.querySelectorAll('.left-tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+            const subTabButtons = document.querySelectorAll('.sub-tab-button');
+            const subTabContents = document.querySelectorAll('.sub-tab-content');
+
+            // Left sidebar tab switching
+            leftTabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const targetTab = this.getAttribute('data-tab');
+
+                    // Remove active class from all buttons
+                    leftTabButtons.forEach(btn => {
+                        btn.classList.remove('active', 'bg-ku-purple-new', 'text-white');
+                        btn.classList.add('text-gray-700', 'hover:bg-gray-100');
+                    });
+
+                    // Add active class to clicked button
+                    this.classList.add('active', 'bg-ku-purple-new', 'text-white');
+                    this.classList.remove('text-gray-700', 'hover:bg-gray-100');
+
+                    // Hide all tab contents
+                    tabContents.forEach(content => content.classList.add('hidden'));
+
+                    // Show target tab content
+                    document.getElementById(targetTab).classList.remove('hidden');
+                });
+            });
+
+            // Sub-tab switching (for Matriculation Form)
+            subTabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const targetSubTab = this.getAttribute('data-subtab');
+
+                    // Remove active class from all sub-tab buttons
+                    subTabButtons.forEach(btn => {
+                        btn.classList.remove('active', 'border-ku-purple-new', 'text-ku-purple-new');
+                        btn.classList.add('text-gray-600', 'border-transparent');
+                    });
+
+                    // Add active class to clicked button
+                    this.classList.add('active', 'border-ku-purple-new', 'text-ku-purple-new');
+                    this.classList.remove('text-gray-600', 'border-transparent');
+
+                    // Hide all sub-tab contents
+                    subTabContents.forEach(content => content.classList.add('hidden'));
+
+                    // Show target sub-tab content
+                    document.getElementById(targetSubTab).classList.remove('hidden');
+                });
+            });
+
+            // Close info alert
+            const closeAlertBtn = document.querySelector('.info-alert button');
+            if (closeAlertBtn) {
+                closeAlertBtn.addEventListener('click', function() {
+                    this.closest('.info-alert').remove();
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>

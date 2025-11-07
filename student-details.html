@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Details - KU Campus</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'ku-purple': '#4E2A84',
+                        'ku-purple-new': '#7C3E99',
+                        'ku-purple-new-hover': '#6A3485',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .info-section {
+            border: 1px solid #E5E7EB;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        .info-section.collapsed .section-content {
+            display: none;
+        }
+        .chevron-icon {
+            transition: transform 0.3s ease;
+        }
+        .info-section.collapsed .chevron-icon {
+            transform: rotate(-180deg);
+        }
+        /* Custom dropdown arrow */
+        select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236B7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.5rem center;
+            background-size: 1.5em 1.5em;
+            padding-right: 2.5rem;
+        }
+    </style>
+</head>
+
+<body class="antialiased flex flex-col bg-gray-50">
+
+    <!-- Header -->
+    <header class="h-16 bg-white border-b border-gray-200 px-6 flex items-center justify-between shadow-sm sticky top-0 z-30">
+        <div class="flex items-center">
+            <svg class="w-6 h-6 mr-3 text-ku-purple" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4M12 21V7"></path>
+            </svg>
+            <h1 class="text-xl font-semibold text-gray-800">KU Campus</h1>
+        </div>
+        <div class="flex items-center space-x-4">
+            <div class="relative">
+                <button class="p-2 text-gray-600 hover:bg-gray-100 rounded-full transition duration-150">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 bg-ku-purple text-white rounded-full flex items-center justify-center font-semibold">A</div>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex-1 flex overflow-hidden">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-gray-900 text-gray-100 flex-shrink-0 overflow-y-auto">
+            <nav class="p-4 space-y-2">
+                <a href="index.html" class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-800 rounded-lg transition duration-150">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                    </svg>
+                    Home
+                </a>
+                <div class="pt-4">
+                    <p class="px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider">Academic Administration</p>
+                    <a href="admission.html" class="flex items-center px-4 py-2 mt-2 text-gray-300 hover:bg-gray-800 rounded-lg transition duration-150">
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        Admission Management
+                    </a>
+                    <a href="registration.html" class="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-800 rounded-lg transition duration-150">
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                        </svg>
+                        Registration Management
+                    </a>
+                    <a href="student-search.html" class="flex items-center px-4 py-2 text-white bg-ku-purple-new rounded-lg transition duration-150">
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                        Student Search
+                    </a>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto">
+            <div class="p-6 max-w-7xl mx-auto">
+                <!-- Breadcrumb -->
+                <nav class="text-sm mb-6">
+                    <ol class="flex items-center space-x-2 text-gray-600">
+                        <li><a href="index.html" class="hover:text-ku-purple-new">Home</a></li>
+                        <li>/</li>
+                        <li><a href="#" class="hover:text-ku-purple-new">Academic Administration</a></li>
+                        <li>/</li>
+                        <li><a href="#" class="hover:text-ku-purple-new">Student Management</a></li>
+                        <li>/</li>
+                        <li><a href="student-search.html" class="hover:text-ku-purple-new">Student Search</a></li>
+                        <li>/</li>
+                        <li class="text-gray-900 font-medium">Update</li>
+                    </ol>
+                </nav>
+
+                <!-- Student Header Card -->
+                <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+                    <div class="flex items-start gap-6 relative">
+                        <!-- Profile Photo -->
+                        <div class="relative flex-shrink-0">
+                            <img class="h-32 w-32 rounded-2xl object-cover" src="https://preview.keenthemes.com/metronic8/demo1/assets/media/avatars/300-6.jpg" alt="Profile">
+                            <!-- Edit Icon -->
+                            <button class="absolute bottom-0 right-0 bg-ku-purple-new hover:bg-ku-purple-new-hover text-white rounded-full p-2 shadow-lg transition">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <!-- Student Basic Info -->
+                        <div class="flex-1">
+                            <h2 class="text-2xl font-semibold text-gray-900 mb-4">İrem Akçay</h2>
+                            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                                <!-- Row 1 -->
+                                <div>
+                                    <p class="text-xs text-gray-500 mb-1">Student No</p>
+                                    <p class="text-sm font-medium text-gray-900">11127</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500 mb-1">National ID</p>
+                                    <p class="text-sm font-medium text-gray-900">60136</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500 mb-1">Admit Type</p>
+                                    <p class="text-sm font-medium text-gray-900">Regular</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500 mb-1">Admit Term</p>
+                                    <p class="text-sm font-medium text-gray-900">2232 - Fall 2023</p>
+                                </div>
+
+                                <!-- Row 2 -->
+                                <div>
+                                    <p class="text-xs text-gray-500 mb-1">Academic Career</p>
+                                    <p class="text-sm font-medium text-gray-900">Material Science & Eng PhD</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500 mb-1">Academic Program</p>
+                                    <p class="text-sm font-medium text-gray-900">Mechanical Engineering</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500 mb-1">Academic Plan</p>
+                                    <p class="text-sm font-medium text-gray-900">PhD Program</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500 mb-1">Academic Sub-Plan</p>
+                                    <p class="text-sm font-medium text-gray-900">N/A</p>
+                                </div>
+
+                                <!-- Row 3 -->
+                                <div>
+                                    <p class="text-xs text-gray-500 mb-1">Student Status</p>
+                                    <span class="inline-flex items-center px-2 py-1 text-xs font-medium rounded bg-teal-100 text-teal-800">Active</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Cross Link -->
+                        <div class="absolute top-0 right-0">
+                            <a href="student-profile.html" class="inline-flex items-center gap-1 text-sm font-medium text-ku-purple-new hover:text-ku-purple-new-hover transition">
+                                Student Profile
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabs / Collapse Bar -->
+                <div class="bg-white rounded-xl shadow-md mb-6">
+                    <div class="flex items-center justify-between px-6 border-b border-gray-200">
+                        <nav class="flex space-x-8 -mb-px py-2">
+                            <button onclick="switchTab('personal-info', this)" class="tab-button active border-b-2 border-ku-purple-new text-ku-purple-new py-4 text-sm font-medium" data-tab="personal-info" aria-selected="true">Personal Info</button>
+                            <button onclick="switchTab('contact-info', this)" class="tab-button border-b-2 border-transparent text-gray-600 hover:text-gray-900 py-4 text-sm" data-tab="contact-info" aria-selected="false">Contact Info</button>
+                        </nav>
+                        <button class="text-ku-purple-new hover:text-ku-purple-new-hover font-medium text-sm" onclick="collapseAll(event,this)">Collapse All</button>
+                    </div>
+
+                    <!-- Tab Contents -->
+                    <div class="p-6">
+                        <!-- Personal Info Tab -->
+                        <div id="personal-info" class="tab-content">
+                            <!-- Personal Information Section -->
+                            <div class="info-section mb-4">
+                                <button class="section-header w-full flex items-center justify-between p-4 hover:bg-gray-50 transition" onclick="toggleSection(this)">
+                                    <h3 class="text-lg font-semibold text-gray-900">Personal Information</h3>
+                                    <svg class="chevron-icon w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                                <div class="section-content p-6 border-t border-gray-200">
+                                    <div class="grid grid-cols-2 gap-6">
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">National ID Type <span class="text-red-500">*</span></label>
+                                            <select class="w-full border border-gray-300 rounded-lg p-2.5 bg-white appearance-none cursor-pointer focus:ring-2 focus:ring-ku-purple-new focus:border-ku-purple-new transition">
+                                                <option>YÖK Student Number</option>
+                                                <option>Turkish ID</option>
+                                                <option>Passport</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">National ID</label>
+                                            <input type="text" value="60136" class="w-full border border-gray-300 rounded-lg p-2.5">
+                                            <p class="text-xs text-gray-500 mt-1">Optional</p>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">Name</label>
+                                            <input type="text" value="k*********" class="w-full border border-gray-300 rounded-lg p-2.5 bg-gray-50" readonly>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">Last Name</label>
+                                            <input type="text" value="k*" class="w-full border border-gray-300 rounded-lg p-2.5 bg-gray-50" readonly>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">Preferred Name <span class="text-gray-400">- Optional</span></label>
+                                            <select class="w-full border border-gray-300 rounded-lg p-2.5 bg-white appearance-none cursor-pointer focus:ring-2 focus:ring-ku-purple-new focus:border-ku-purple-new transition">
+                                                <option>Select</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">Date of Birth</label>
+                                            <div class="relative">
+                                                <input type="text" value="13.01.1963" class="w-full border border-gray-300 rounded-lg p-2.5 pr-10">
+                                                <svg class="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">Country of Birth</label>
+                                            <select class="w-full border border-gray-300 rounded-lg p-2.5 bg-white appearance-none cursor-pointer focus:ring-2 focus:ring-ku-purple-new focus:border-ku-purple-new transition">
+                                                <option>TUR - Türkiye</option>
+                                                <option>USA - United States</option>
+                                                <option>GBR - United Kingdom</option>
+                                                <option>DEU - Germany</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">Location of Birth</label>
+                                            <input type="text" value="o*****" class="w-full border border-gray-300 rounded-lg p-2.5">
+                                            <p class="text-xs text-gray-500 mt-1">Optional</p>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">Gender <span class="text-gray-400">- Optional</span></label>
+                                            <select class="w-full border border-gray-300 rounded-lg p-2.5 bg-white appearance-none cursor-pointer focus:ring-2 focus:ring-ku-purple-new focus:border-ku-purple-new transition">
+                                                <option>Male</option>
+                                                <option>Female</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">Marital Status <span class="text-gray-400">- Optional</span></label>
+                                            <select class="w-full border border-gray-300 rounded-lg p-2.5 bg-white appearance-none cursor-pointer focus:ring-2 focus:ring-ku-purple-new focus:border-ku-purple-new transition">
+                                                <option>Select</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">Registered City <span class="text-gray-400">- Optional</span></label>
+                                            <select class="w-full border border-gray-300 rounded-lg p-2.5 bg-white appearance-none cursor-pointer focus:ring-2 focus:ring-ku-purple-new focus:border-ku-purple-new transition">
+                                                <option>Istanbul</option>
+                                                <option>Ankara</option>
+                                                <option>Izmir</option>
+                                                <option>Bursa</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">Registered County <span class="text-gray-400">- Optional</span></label>
+                                            <select class="w-full border border-gray-300 rounded-lg p-2.5 bg-white appearance-none cursor-pointer focus:ring-2 focus:ring-ku-purple-new focus:border-ku-purple-new transition">
+                                                <option>Select</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Other Information Section -->
+                            <div class="info-section mb-4">
+                                <button class="section-header w-full flex items-center justify-between p-4 hover:bg-gray-50 transition" onclick="toggleSection(this)">
+                                    <h3 class="text-lg font-semibold text-gray-900">Other Information</h3>
+                                    <svg class="chevron-icon w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                                <div class="section-content p-6 border-t border-gray-200">
+                                    <div class="grid grid-cols-2 gap-6">
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">Student Disability <span class="text-gray-400">- Optional</span></label>
+                                            <select class="w-full border border-gray-300 rounded-lg p-2.5 bg-white appearance-none cursor-pointer focus:ring-2 focus:ring-ku-purple-new focus:border-ku-purple-new transition">
+                                                <option>Select</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">Disability Rate</label>
+                                            <input type="text" value="NO" class="w-full border border-gray-300 rounded-lg p-2.5">
+                                            <p class="text-xs text-gray-500 mt-1">Optional</p>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">Other Disability <span class="text-gray-400">- Optional</span></label>
+                                            <select class="w-full border border-gray-300 rounded-lg p-2.5 bg-white appearance-none cursor-pointer focus:ring-2 focus:ring-ku-purple-new focus:border-ku-purple-new transition">
+                                                <option>Select</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">Army Status <span class="text-gray-400">- Optional</span></label>
+                                            <select class="w-full border border-gray-300 rounded-lg p-2.5 bg-white appearance-none cursor-pointer focus:ring-2 focus:ring-ku-purple-new focus:border-ku-purple-new transition">
+                                                <option>Undefined</option>
+                                                <option>Completed</option>
+                                                <option>Exempt</option>
+                                                <option>Postponed</option>
+                                                <option>Not Applicable</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">Military End Date <span class="text-gray-400">- Optional</span></label>
+                                            <div class="relative">
+                                                <input type="text" class="w-full border border-gray-300 rounded-lg p-2.5 pr-10">
+                                                <svg class="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">Martyr/Veteran Relationship <span class="text-gray-400">- Optional</span></label>
+                                            <select class="w-full border border-gray-300 rounded-lg p-2.5 bg-white appearance-none cursor-pointer focus:ring-2 focus:ring-ku-purple-new focus:border-ku-purple-new transition">
+                                                <option>Select</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label class="flex items-center cursor-pointer">
+                                                <input type="checkbox" class="w-4 h-4 text-ku-purple-new border-gray-300 rounded focus:ring-2 focus:ring-ku-purple-new">
+                                                <span class="ml-2 text-sm font-medium text-gray-700">Parent UGRD Edu First</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Citizenship Section -->
+                            <div class="info-section mb-4">
+                                <button class="section-header w-full flex items-center justify-between p-4 hover:bg-gray-50 transition" onclick="toggleSection(this)">
+                                    <h3 class="text-lg font-semibold text-gray-900">Citizenship</h3>
+                                    <svg class="chevron-icon w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                                <div class="section-content p-6 border-t border-gray-200">
+                                    <div class="flex justify-end mb-4">
+                                        <button class="flex items-center gap-2 px-4 py-2 text-ku-purple-new hover:text-ku-purple-new-hover font-medium text-sm">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                            </svg>
+                                            Add New
+                                        </button>
+                                    </div>
+                                    <div class="overflow-x-auto">
+                                        <table class="w-full">
+                                            <thead class="bg-gray-50 border-b border-gray-200">
+                                                <tr>
+                                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Country</th>
+                                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Citizenship Number</th>
+                                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td colspan="3" class="px-4 py-8 text-center text-gray-500">No data available in table.</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Passport Section -->
+                            <div class="info-section mb-4">
+                                <button class="section-header w-full flex items-center justify-between p-4 hover:bg-gray-50 transition" onclick="toggleSection(this)">
+                                    <h3 class="text-lg font-semibold text-gray-900">Passport</h3>
+                                    <svg class="chevron-icon w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                                <div class="section-content p-6 border-t border-gray-200">
+                                    <div class="flex justify-end mb-4">
+                                        <button class="flex items-center gap-2 px-4 py-2 text-ku-purple-new hover:text-ku-purple-new-hover font-medium text-sm">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                            </svg>
+                                            Add New
+                                        </button>
+                                    </div>
+                                    <div class="overflow-x-auto">
+                                        <table class="w-full">
+                                            <thead class="bg-gray-50 border-b border-gray-200">
+                                                <tr>
+                                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Country</th>
+                                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Passport Number</th>
+                                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Issue Date</th>
+                                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Issuing Authority</th>
+                                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Expiration Date</th>
+                                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Comment</th>
+                                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td colspan="7" class="px-4 py-8 text-center text-gray-500">No data available in table.</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Residence Permit Section -->
+                            <div class="info-section mb-4">
+                                <button class="section-header w-full flex items-center justify-between p-4 hover:bg-gray-50 transition" onclick="toggleSection(this)">
+                                    <h3 class="text-lg font-semibold text-gray-900">Residence Permit</h3>
+                                    <svg class="chevron-icon w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                                <div class="section-content p-6 border-t border-gray-200">
+                                    <div class="flex justify-end mb-4">
+                                        <button class="flex items-center gap-2 px-4 py-2 text-ku-purple-new hover:text-ku-purple-new-hover font-medium text-sm">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                            </svg>
+                                            Add New
+                                        </button>
+                                    </div>
+                                    <div class="overflow-x-auto">
+                                        <table class="w-full">
+                                            <thead class="bg-gray-50 border-b border-gray-200">
+                                                <tr>
+                                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Permit Number</th>
+                                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Issue Date</th>
+                                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Expire Date</th>
+                                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Permit Type</th>
+                                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td colspan="6" class="px-4 py-8 text-center text-gray-500">No data available in table.</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Contact Info Tab -->
+                        <div id="contact-info" class="tab-content hidden">
+                            <!-- Addresses Section -->
+                            <div class="info-section mb-4">
+                                <button class="section-header w-full flex items-center justify-between p-4 hover:bg-gray-50 transition" onclick="toggleSection(this)">
+                                    <h3 class="text-lg font-semibold text-gray-900">Addresses</h3>
+                                    <svg class="chevron-icon w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                                <div class="section-content p-6 border-t border-gray-200">
+                                    <div class="flex justify-end mb-4">
+                                        <button class="flex items-center gap-2 px-4 py-2 text-ku-purple-new hover:text-ku-purple-new-hover font-medium text-sm">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                            </svg>
+                                            Add New
+                                        </button>
+                                    </div>
+                                    <div class="overflow-x-auto">
+                                        <table class="w-full">
+                                            <thead class="bg-gray-50 border-b border-gray-200">
+                                                <tr>
+                                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Address Type</th>
+                                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Address</th>
+                                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Is Billing Address ?</th>
+                                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td colspan="5" class="px-4 py-8 text-center text-gray-500">No data available in table.</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Phones Section -->
+                            <div class="info-section mb-4">
+                                <button class="section-header w-full flex items-center justify-between p-4 hover:bg-gray-50 transition" onclick="toggleSection(this)">
+                                    <h3 class="text-lg font-semibold text-gray-900">Phones</h3>
+                                    <svg class="chevron-icon w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                                <div class="section-content p-6 border-t border-gray-200">
+                                    <div class="flex justify-end mb-4">
+                                        <button class="flex items-center gap-2 px-4 py-2 text-ku-purple-new hover:text-ku-purple-new-hover font-medium text-sm">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                            </svg>
+                                            Add New
+                                        </button>
+                                    </div>
+                                    <div class="overflow-x-auto">
+                                        <table class="w-full">
+                                            <thead class="bg-gray-50 border-b border-gray-200">
+                                                <tr>
+                                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Phone Type</th>
+                                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Phone Number</th>
+                                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Preferred</th>
+                                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td colspan="4" class="px-4 py-8 text-center text-gray-500">No data available in table.</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- E-mail Addresses Section -->
+                            <div class="info-section mb-4">
+                                <button class="section-header w-full flex items-center justify-between p-4 hover:bg-gray-50 transition" onclick="toggleSection(this)">
+                                    <h3 class="text-lg font-semibold text-gray-900">E-mail Addresses</h3>
+                                    <svg class="chevron-icon w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                                <div class="section-content p-6 border-t border-gray-200">
+                                    <div class="flex justify-end mb-4">
+                                        <button class="flex items-center gap-2 px-4 py-2 text-ku-purple-new hover:text-ku-purple-new-hover font-medium text-sm">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                            </svg>
+                                            Add New
+                                        </button>
+                                    </div>
+                                    <div class="overflow-x-auto">
+                                        <table class="w-full">
+                                            <thead class="bg-gray-50 border-b border-gray-200">
+                                                <tr>
+                                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">E-mail Type</th>
+                                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">E-mail Address</th>
+                                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Preferred</th>
+                                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td colspan="4" class="px-4 py-8 text-center text-gray-500">No data available in table.</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Relationship Section -->
+                            <div class="info-section mb-4">
+                                <button class="section-header w-full flex items-center justify-between p-4 hover:bg-gray-50 transition" onclick="toggleSection(this)">
+                                    <h3 class="text-lg font-semibold text-gray-900">Relationship</h3>
+                                    <svg class="chevron-icon w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                                <div class="section-content p-6 border-t border-gray-200">
+                                    <div class="flex justify-end mb-4">
+                                        <button class="flex items-center gap-2 px-4 py-2 text-ku-purple-new hover:text-ku-purple-new-hover font-medium text-sm">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                            </svg>
+                                            Add New
+                                        </button>
+                                    </div>
+                                    <div class="overflow-x-auto">
+                                        <table class="w-full">
+                                            <thead class="bg-gray-50 border-b border-gray-200">
+                                                <tr>
+                                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Type of Relation</th>
+                                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
+                                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Last Name</th>
+                                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Phone Number</th>
+                                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">E-mail Address</th>
+                                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Emergency Contact</th>
+                                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td colspan="7" class="px-4 py-8 text-center text-gray-500">No data available in table.</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex justify-end gap-3">
+                    <button class="px-6 py-2.5 bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold rounded-xl shadow-sm transition duration-150">
+                        Return to Search
+                    </button>
+                    <button class="px-6 py-2.5 bg-ku-purple-new hover:bg-ku-purple-new-hover text-white font-semibold rounded-xl shadow-sm transition duration-150">
+                        Save
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Tab switching (explicit function ensures consistent behavior after other actions)
+        function switchTab(targetId, btn) {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabButtons.forEach(b => {
+                b.classList.remove('active', 'border-ku-purple-new', 'text-ku-purple-new');
+                b.classList.add('text-gray-600', 'border-transparent');
+                b.setAttribute('aria-selected', 'false');
+            });
+            if (btn) {
+                btn.classList.add('active', 'border-ku-purple-new', 'text-ku-purple-new');
+                btn.classList.remove('text-gray-600', 'border-transparent');
+                btn.setAttribute('aria-selected', 'true');
+            }
+
+            tabContents.forEach(content => {
+                content.classList.add('hidden');
+                content.setAttribute('aria-hidden', 'true');
+            });
+            const active = document.getElementById(targetId);
+            if (active) {
+                active.classList.remove('hidden');
+                active.setAttribute('aria-hidden', 'false');
+            }
+        }
+
+        // Toggle section collapse
+        function toggleSection(button) {
+            const section = button.closest('.info-section');
+            section.classList.toggle('collapsed');
+        }
+
+        // Collapse All functionality
+        function collapseAll(e, buttonEl) {
+            const sections = document.querySelectorAll('.info-section');
+            const button = buttonEl || e.target;
+            const allCollapsed = Array.from(sections).every(s => s.classList.contains('collapsed'));
+            
+            sections.forEach(section => {
+                if (allCollapsed) {
+                    section.classList.remove('collapsed');
+                    button.textContent = 'Collapse All';
+                } else {
+                    section.classList.add('collapsed');
+                    button.textContent = 'Expand All';
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>

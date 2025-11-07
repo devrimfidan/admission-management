@@ -28,6 +28,28 @@
         .table-column-data {
             display: table-cell; /* Default display for table cells */
         }
+        /* Sticky column styles */
+        .sticky-column {
+            position: sticky;
+            left: 0;
+            z-index: 10;
+            background-color: white;
+        }
+        thead .sticky-column {
+            background-color: rgb(249, 250, 251);
+            z-index: 11;
+        }
+        tbody tr .sticky-column {
+            box-shadow: 2px 0 5px -2px rgba(0, 0, 0, 0.1);
+        }
+        .lock-icon {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            margin-left: 6px;
+        }
+        .scrolled .lock-icon {
+            opacity: 1;
+        }
         /* Style for the Modal backdrop and positioning */
         .modal {
             background-color: rgba(0, 0, 0, 0.5);
@@ -499,9 +521,10 @@
                                         <input type="checkbox" id="selectAll" class="h-4 w-4 rounded border-gray-300 text-ku-purple-new focus:ring-ku-purple-new cursor-pointer" title="Select All" aria-label="Select All">
                                     </th>
                                     <!-- 14 Columns defined by user -->
-                                    <th data-column="app_id" class="sortable table-column-data px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        <div class="flex items-center justify-between">
+                                    <th data-column="app_id" class="sortable table-column-data sticky-column px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        <div class="flex items-center justify-between relative">
                                             <span>Application Number</span>
+                                            <svg class="lock-icon w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg>
                                             <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"></path></svg>
                                         </div>
                                     </th>
@@ -573,7 +596,7 @@
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <input type="checkbox" class="row-checkbox h-4 w-4 rounded border-gray-300 text-ku-purple-new focus:ring-ku-purple-new cursor-pointer" aria-label="Select row">
                                     </td>
-                                    <td data-column="app_id" class="table-column-data px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">APP-6001</td>
+                                    <td data-column="app_id" class="table-column-data sticky-column px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">APP-6001</td>
                                     <td data-column="student_num" class="table-column-data px-6 py-4 whitespace-nowrap text-sm text-gray-500">S-778899</td>
                                     <td data-column="full_name" class="table-column-data px-6 py-4 whitespace-nowrap text-sm text-gray-500">Ayşe Demir</td>
                                     <td data-column="name" class="table-column-data px-6 py-4 whitespace-nowrap text-sm text-gray-500">Ayşe</td>
@@ -591,7 +614,7 @@
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <input type="checkbox" class="row-checkbox h-4 w-4 rounded border-gray-300 text-ku-purple-new focus:ring-ku-purple-new cursor-pointer" aria-label="Select row">
                                     </td>
-                                    <td data-column="app_id" class="table-column-data px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">APP-6002</td>
+                                    <td data-column="app_id" class="table-column-data sticky-column px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">APP-6002</td>
                                     <td data-column="student_num" class="table-column-data px-6 py-4 whitespace-nowrap text-sm text-gray-500">S-665544</td>
                                     <td data-column="full_name" class="table-column-data px-6 py-4 whitespace-nowrap text-sm text-gray-500">Burak Can</td>
                                     <td data-column="name" class="table-column-data px-6 py-4 whitespace-nowrap text-sm text-gray-500">Burak</td>
@@ -789,6 +812,19 @@
             closeModal(null, modalId);
         }
 
+        // Sticky column scroll detection
+        document.addEventListener('DOMContentLoaded', () => {
+            const tableContainer = document.querySelector('.overflow-x-auto');
+            if (tableContainer) {
+                tableContainer.addEventListener('scroll', () => {
+                    if (tableContainer.scrollLeft > 0) {
+                        tableContainer.classList.add('scrolled');
+                    } else {
+                        tableContainer.classList.remove('scrolled');
+                    }
+                });
+            }
+        });
 
         document.addEventListener('DOMContentLoaded', function() {
             

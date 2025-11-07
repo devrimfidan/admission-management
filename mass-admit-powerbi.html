@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mass Admit Analytics - Power BI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Segoe+UI:wght@300;400;600;700&display=swap');
+        body { 
+            font-family: 'Segoe UI', 'Helvetica Neue', sans-serif; 
+            background-color: #f3f2f1;
+            margin: 0;
+            overflow: hidden;
+        }
+        .powerbi-header {
+            background: linear-gradient(90deg, #F2C811 0%, #e0b80f 100%);
+            height: 44px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .filter-pane {
+            background: #ffffff;
+            border-right: 1px solid #e1dfdd;
+            overflow-y: auto;
+        }
+        .visual-container {
+            background: white;
+            border-radius: 2px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            padding: 16px;
+        }
+        .checkbox-custom {
+            width: 16px;
+            height: 16px;
+            border: 1px solid #605e5c;
+            border-radius: 2px;
+            cursor: pointer;
+        }
+        .checkbox-custom:checked {
+            background-color: #0078d4;
+            border-color: #0078d4;
+        }
+        .metric-card {
+            background: linear-gradient(135deg, #0078d4 0%, #005a9e 100%);
+            color: white;
+            border-radius: 2px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .metric-value {
+            font-size: 48px;
+            font-weight: 600;
+            line-height: 1;
+        }
+        .metric-label {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-top: 8px;
+        }
+        .table-powerbi {
+            width: 100%;
+            font-size: 12px;
+            border-collapse: collapse;
+        }
+        .table-powerbi thead {
+            background-color: #f3f2f1;
+            font-weight: 600;
+        }
+        .table-powerbi th, .table-powerbi td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #edebe9;
+        }
+        .table-powerbi tbody tr:hover {
+            background-color: #f3f2f1;
+        }
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 2px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .status-assigned { background-color: #dff6dd; color: #107c10; }
+        .status-pending { background-color: #fff4ce; color: #797673; }
+        .status-processing { background-color: #deecf9; color: #004578; }
+        .filter-section-header {
+            font-size: 12px;
+            font-weight: 600;
+            color: #323130;
+            padding: 12px 16px 8px;
+            background-color: #faf9f8;
+            border-bottom: 1px solid #edebe9;
+        }
+        .search-box {
+            border: 1px solid #edebe9;
+            padding: 6px 12px;
+            font-size: 12px;
+            border-radius: 2px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .search-box:focus {
+            outline: none;
+            border-color: #0078d4;
+        }
+    </style>
+</head>
+<body>
+    <!-- Power BI Header -->
+    <div class="powerbi-header flex items-center justify-between px-4">
+        <div class="flex items-center space-x-4">
+            <svg class="w-5 h-5 text-black" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M4 3a1 1 0 0 0-1 1v16a1 1 0 0 0 2 0V4a1 1 0 0 0-1-1Zm5 4a1 1 0 0 0-1 1v12a1 1 0 0 0 2 0V8a1 1 0 0 0-1-1Zm5 3a1 1 0 0 0-1 1v9a1 1 0 0 0 2 0v-9a1 1 0 0 0-1-1Zm5-4a1 1 0 0 0-1 1v13a1 1 0 0 0 2 0V7a1 1 0 0 0-1-1Z"/>
+            </svg>
+            <span class="text-sm font-semibold text-black">Mass Admit Analytics</span>
+        </div>
+        <div class="flex items-center space-x-3">
+            <button class="text-black text-xs hover:bg-black hover:bg-opacity-10 px-3 py-1 rounded">Refresh</button>
+            <button class="text-black text-xs hover:bg-black hover:bg-opacity-10 px-3 py-1 rounded">Export</button>
+            <button class="text-black text-xs hover:bg-black hover:bg-opacity-10 px-3 py-1 rounded" onclick="window.location.href='powerbi-reports.html'">Exit</button>
+        </div>
+    </div>
+
+    <div class="flex" style="height: calc(100vh - 44px);">
+        <!-- Filters Pane -->
+        <div class="filter-pane w-64 flex-shrink-0">
+            <div class="p-4 border-b border-gray-200">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-sm font-semibold text-gray-800">Filters</span>
+                    <button class="text-xs text-blue-600 hover:underline" onclick="clearAllFilters()">Clear all</button>
+                </div>
+            </div>
+
+            <!-- Academic Career Filter -->
+            <div class="filter-section">
+                <div class="filter-section-header">Academic Career</div>
+                <div class="p-3">
+                    <input type="text" placeholder="Search" class="search-box mb-2" id="careerSearch" oninput="filterCheckboxes('career')">
+                    <div id="careerFilters" class="space-y-1">
+                        <label class="flex items-center space-x-2 text-sm cursor-pointer p-1 hover:bg-gray-50 rounded">
+                            <input type="checkbox" class="checkbox-custom filter-checkbox" data-filter="career" value="Undergrad" checked onchange="applyFilters()">
+                            <span>Undergraduate</span>
+                        </label>
+                        <label class="flex items-center space-x-2 text-sm cursor-pointer p-1 hover:bg-gray-50 rounded">
+                            <input type="checkbox" class="checkbox-custom filter-checkbox" data-filter="career" value="Graduate" checked onchange="applyFilters()">
+                            <span>Graduate</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admit Type Filter -->
+            <div class="filter-section">
+                <div class="filter-section-header">Admit Type</div>
+                <div class="p-3">
+                    <input type="text" placeholder="Search" class="search-box mb-2" id="admitTypeSearch" oninput="filterCheckboxes('admitType')">
+                    <div id="admitTypeFilters" class="space-y-1">
+                        <label class="flex items-center space-x-2 text-sm cursor-pointer p-1 hover:bg-gray-50 rounded">
+                            <input type="checkbox" class="checkbox-custom filter-checkbox" data-filter="admitType" value="FRS" checked onchange="applyFilters()">
+                            <span>Freshman (FRS)</span>
+                        </label>
+                        <label class="flex items-center space-x-2 text-sm cursor-pointer p-1 hover:bg-gray-50 rounded">
+                            <input type="checkbox" class="checkbox-custom filter-checkbox" data-filter="admitType" value="TRF" checked onchange="applyFilters()">
+                            <span>Transfer (TRF)</span>
+                        </label>
+                        <label class="flex items-center space-x-2 text-sm cursor-pointer p-1 hover:bg-gray-50 rounded">
+                            <input type="checkbox" class="checkbox-custom filter-checkbox" data-filter="admitType" value="INT" checked onchange="applyFilters()">
+                            <span>International (INT)</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KUNet Status Filter -->
+            <div class="filter-section">
+                <div class="filter-section-header">KUNet Status</div>
+                <div class="p-3">
+                    <input type="text" placeholder="Search" class="search-box mb-2" id="statusSearch" oninput="filterCheckboxes('status')">
+                    <div id="statusFilters" class="space-y-1">
+                        <label class="flex items-center space-x-2 text-sm cursor-pointer p-1 hover:bg-gray-50 rounded">
+                            <input type="checkbox" class="checkbox-custom filter-checkbox" data-filter="status" value="Assigned" checked onchange="applyFilters()">
+                            <span>Assigned</span>
+                        </label>
+                        <label class="flex items-center space-x-2 text-sm cursor-pointer p-1 hover:bg-gray-50 rounded">
+                            <input type="checkbox" class="checkbox-custom filter-checkbox" data-filter="status" value="Pending" checked onchange="applyFilters()">
+                            <span>Pending</span>
+                        </label>
+                        <label class="flex items-center space-x-2 text-sm cursor-pointer p-1 hover:bg-gray-50 rounded">
+                            <input type="checkbox" class="checkbox-custom filter-checkbox" data-filter="status" value="Processing" checked onchange="applyFilters()">
+                            <span>Processing</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 overflow-y-auto p-4">
+            <div class="grid grid-cols-1 gap-4">
+                <!-- KPI Cards Row -->
+                <div class="grid grid-cols-4 gap-4">
+                    <div class="metric-card">
+                        <div class="metric-value" id="totalSelected">186</div>
+                        <div class="metric-label">Total Selected</div>
+                    </div>
+                    <div class="metric-card" style="background: linear-gradient(135deg, #107c10 0%, #0b5a08 100%);">
+                        <div class="metric-value" id="freshmanCount">92</div>
+                        <div class="metric-label">Freshman (49%)</div>
+                    </div>
+                    <div class="metric-card" style="background: linear-gradient(135deg, #ca5010 0%, #9e3d0d 100%);">
+                        <div class="metric-value" id="transferCount">58</div>
+                        <div class="metric-label">Transfer (31%)</div>
+                    </div>
+                    <div class="metric-card" style="background: linear-gradient(135deg, #8764b8 0%, #6b4c9a 100%);">
+                        <div class="metric-value" id="intlCount">36</div>
+                        <div class="metric-label">International (19%)</div>
+                    </div>
+                </div>
+
+                <!-- Charts Row -->
+                <div class="grid grid-cols-2 gap-4">
+                    <!-- Admit Type Distribution -->
+                    <div class="visual-container" style="min-height: 300px; max-height: 300px; display: flex; flex-direction: column;">
+                        <h3 class="text-sm font-semibold mb-4 text-gray-800">Admit Type Distribution</h3>
+                        <div style="flex: 1; position: relative; min-height: 0;">
+                            <canvas id="admitTypeChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- plan Distribution -->
+                    <div class="visual-container" style="min-height: 300px; max-height: 300px; display: flex; flex-direction: column;">
+                        <h3 class="text-sm font-semibold mb-4 text-gray-800">Distribution by plan</h3>
+                        <div style="flex: 1; position: relative; min-height: 0;">
+                            <canvas id="planChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Matriculation and KUNet Status -->
+                <div class="grid grid-cols-2 gap-4">
+                    <!-- Matriculation Progress -->
+                    <div class="visual-container" style="min-height: 280px; max-height: 280px; display: flex; flex-direction: column;">
+                        <h3 class="text-sm font-semibold mb-4 text-gray-800">Matriculation Progress</h3>
+                        <div style="flex: 1; position: relative; min-height: 0;">
+                            <canvas id="matriculationChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- KUNet ID Status -->
+                    <div class="visual-container" style="min-height: 280px; max-height: 280px; display: flex; flex-direction: column;">
+                        <h3 class="text-sm font-semibold mb-4 text-gray-800">KUNet ID Assignment Status</h3>
+                        <div style="flex: 1; position: relative; min-height: 0;">
+                            <canvas id="kunetChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detailed Data Table -->
+                <div class="visual-container">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-sm font-semibold text-gray-800">Mass Admit Details</h3>
+                        <input type="text" placeholder="Search..." class="search-box w-64" id="tableSearch" oninput="filterTable()">
+                    </div>
+                    <div class="overflow-x-auto" style="max-height: 400px;">
+                        <table class="table-powerbi" id="dataTable">
+                            <thead>
+                                <tr>
+                                    <th>Application Number</th>
+                                    <th>Student Number</th>
+                                    <th>Full Name</th>
+                                    <th>Academic Career</th>
+                                    <th>Academic Plan</th>
+                                    <th>Admit Type</th>
+                                    <th>KUNet ID</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableBody">
+                                <!-- Data will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample data
+        const massAdmitData = [
+            { appNum: 'APP-8001', studentNum: 'S-990011', name: 'Emre Yılmaz', career: 'Undergrad', plan: 'Engineering', admitType: 'FRS', kunet: 'eyilmaz', status: 'Assigned' },
+            { appNum: 'APP-8002', studentNum: 'S-990022', name: 'Aylin Kaya', career: 'Undergrad', plan: 'Business', admitType: 'TRF', kunet: 'akaya', status: 'Assigned' },
+            { appNum: 'APP-8003', studentNum: 'S-990033', name: 'Cem Demir', career: 'Graduate', plan: 'Computer Science', admitType: 'INT', kunet: 'cdemir', status: 'Assigned' },
+            { appNum: 'APP-8004', studentNum: 'S-990044', name: 'Seda Öztürk', career: 'Undergrad', plan: 'Arts', admitType: 'FRS', kunet: '-', status: 'Pending' },
+            { appNum: 'APP-8005', studentNum: 'S-990055', name: 'Burak Şahin', career: 'Graduate', plan: 'Engineering', admitType: 'INT', kunet: 'bsahin', status: 'Assigned' },
+            { appNum: 'APP-8006', studentNum: 'S-990066', name: 'Elif Çelik', career: 'Undergrad', plan: 'Business', admitType: 'TRF', kunet: '-', status: 'Processing' },
+            { appNum: 'APP-8007', studentNum: 'S-990077', name: 'Mert Arslan', career: 'Undergrad', plan: 'Engineering', admitType: 'FRS', kunet: 'marslan', status: 'Assigned' },
+            { appNum: 'APP-8008', studentNum: 'S-990088', name: 'Deniz Aydın', career: 'Graduate', plan: 'Computer Science', admitType: 'INT', kunet: 'daydin', status: 'Assigned' },
+        ];
+
+        let filteredData = [...massAdmitData];
+        let admitTypeChart, planChart, matriculationChart, kunetChart;
+
+        function initCharts() {
+            // Admit Type Chart
+            const admitTypeCtx = document.getElementById('admitTypeChart').getContext('2d');
+            admitTypeChart = new Chart(admitTypeCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Freshman', 'Transfer', 'International'],
+                    datasets: [{
+                        data: [92, 58, 36],
+                        backgroundColor: ['#107c10', '#ca5010', '#8764b8'],
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom' } }
+                }
+            });
+
+            // plan Distribution Chart
+            const planCtx = document.getElementById('planChart').getContext('2d');
+            planChart = new Chart(planCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Engineering', 'Business', 'Computer Sci.', 'Arts'],
+                    datasets: [{
+                        label: 'Students',
+                        data: [68, 52, 42, 24],
+                        backgroundColor: '#0078d4',
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true } }
+                }
+            });
+
+            // Matriculation Progress Chart
+            const matriculationCtx = document.getElementById('matriculationChart').getContext('2d');
+            matriculationChart = new Chart(matriculationCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Selected', 'Admitted', 'Registered', 'Enrolled'],
+                    datasets: [{
+                        label: 'Count',
+                        data: [186, 186, 142, 98],
+                        backgroundColor: ['#0078d4', '#107c10', '#ca5010', '#8764b8'],
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    plugins: { legend: { display: false } },
+                    scales: { x: { beginAtZero: true } }
+                }
+            });
+
+            // KUNet Status Chart
+            const kunetCtx = document.getElementById('kunetChart').getContext('2d');
+            kunetChart = new Chart(kunetCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Assigned', 'Pending', 'Processing'],
+                    datasets: [{
+                        data: [142, 28, 16],
+                        backgroundColor: ['#107c10', '#ca5010', '#0078d4'],
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom' } }
+                }
+            });
+        }
+
+        function getStatusBadge(status) {
+            const classes = {
+                'Assigned': 'status-assigned',
+                'Pending': 'status-pending',
+                'Processing': 'status-processing'
+            };
+            return `<span class="status-badge ${classes[status]}">${status}</span>`;
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+            
+            filteredData.forEach(row => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${row.appNum}</td>
+                    <td>${row.studentNum}</td>
+                    <td>${row.name}</td>
+                    <td>${row.career}</td>
+                    <td>${row.plan}</td>
+                    <td>${row.admitType}</td>
+                    <td>${row.kunet}</td>
+                    <td>${getStatusBadge(row.status)}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            updateKPIs();
+        }
+
+        function updateKPIs() {
+            const total = filteredData.length;
+            const freshman = filteredData.filter(r => r.admitType === 'FRS').length;
+            const transfer = filteredData.filter(r => r.admitType === 'TRF').length;
+            const intl = filteredData.filter(r => r.admitType === 'INT').length;
+
+            document.getElementById('totalSelected').textContent = total;
+            document.getElementById('freshmanCount').textContent = freshman;
+            document.getElementById('transferCount').textContent = transfer;
+            document.getElementById('intlCount').textContent = intl;
+
+            const freshmanPct = Math.round((freshman / total) * 100);
+            const transferPct = Math.round((transfer / total) * 100);
+            const intlPct = Math.round((intl / total) * 100);
+
+            document.querySelector('#freshmanCount').nextElementSibling.textContent = `Freshman (${freshmanPct}%)`;
+            document.querySelector('#transferCount').nextElementSibling.textContent = `Transfer (${transferPct}%)`;
+            document.querySelector('#intlCount').nextElementSibling.textContent = `International (${intlPct}%)`;
+        }
+
+        function applyFilters() {
+            const careerFilters = Array.from(document.querySelectorAll('[data-filter="career"]:checked')).map(cb => cb.value);
+            const admitTypeFilters = Array.from(document.querySelectorAll('[data-filter="admitType"]:checked')).map(cb => cb.value);
+            const statusFilters = Array.from(document.querySelectorAll('[data-filter="status"]:checked')).map(cb => cb.value);
+
+            filteredData = massAdmitData.filter(row => {
+                return careerFilters.includes(row.career) &&
+                       admitTypeFilters.includes(row.admitType) &&
+                       statusFilters.includes(row.status);
+            });
+
+            renderTable();
+        }
+
+        function filterTable() {
+            const searchTerm = document.getElementById('tableSearch').value.toLowerCase();
+            const rows = document.querySelectorAll('#tableBody tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchTerm) ? '' : 'none';
+            });
+        }
+
+        function filterCheckboxes(type) {
+            const searchId = type + 'Search';
+            const containerId = type + 'Filters';
+            const searchTerm = document.getElementById(searchId).value.toLowerCase();
+            const labels = document.querySelectorAll(`#${containerId} label`);
+            
+            labels.forEach(label => {
+                const text = label.textContent.toLowerCase();
+                label.style.display = text.includes(searchTerm) ? 'flex' : 'none';
+            });
+        }
+
+        function clearAllFilters() {
+            document.querySelectorAll('.filter-checkbox').forEach(cb => cb.checked = true);
+            applyFilters();
+        }
+
+        window.addEventListener('load', () => {
+            initCharts();
+            renderTable();
+        });
+    </script>
+</body>
+</html>

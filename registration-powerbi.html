@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Analytics - Power BI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Segoe+UI:wght@300;400;600;700&display=swap');
+        body { 
+            font-family: 'Segoe UI', 'Helvetica Neue', sans-serif; 
+            background-color: #f3f2f1;
+            margin: 0;
+            overflow: hidden;
+        }
+        .powerbi-header {
+            background: linear-gradient(90deg, #F2C811 0%, #e0b80f 100%);
+            height: 44px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .filter-pane {
+            background: #ffffff;
+            border-right: 1px solid #e1dfdd;
+            overflow-y: auto;
+        }
+        .visual-container {
+            background: white;
+            border-radius: 2px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            padding: 16px;
+            height: 100%;
+        }
+        .filter-item {
+            border-bottom: 1px solid #edebe9;
+            cursor: pointer;
+        }
+        .filter-item:hover {
+            background-color: #f3f2f1;
+        }
+        .checkbox-custom {
+            width: 16px;
+            height: 16px;
+            border: 2px solid #8a8886;
+            border-radius: 2px;
+            cursor: pointer;
+        }
+        .checkbox-custom:checked {
+            background-color: #0078d4;
+            border-color: #0078d4;
+        }
+        .metric-card {
+            background: linear-gradient(135deg, #0078d4 0%, #005a9e 100%);
+            color: white;
+            border-radius: 2px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .metric-value {
+            font-size: 48px;
+            font-weight: 600;
+            line-height: 1;
+        }
+        .metric-label {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-top: 8px;
+        }
+        .btn-powerbi {
+            background-color: #0078d4;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 2px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .btn-powerbi:hover {
+            background-color: #106ebe;
+        }
+        .table-powerbi {
+            width: 100%;
+            font-size: 12px;
+            border-collapse: collapse;
+        }
+        .table-powerbi thead {
+            background-color: #f3f2f1;
+            font-weight: 600;
+        }
+        .table-powerbi th, .table-powerbi td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #edebe9;
+        }
+        .table-powerbi tbody tr:hover {
+            background-color: #f3f2f1;
+        }
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 2px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .status-completed { background-color: #dff6dd; color: #107c10; }
+        .status-assigned { background-color: #fff4ce; color: #8a8886; }
+        .status-pending { background-color: #fde7e9; color: #a80000; }
+        .filter-section-header {
+            font-size: 12px;
+            font-weight: 600;
+            color: #323130;
+            padding: 12px 16px 8px;
+            background-color: #faf9f8;
+            border-bottom: 1px solid #edebe9;
+        }
+        .search-box {
+            border: 1px solid #edebe9;
+            padding: 6px 12px;
+            font-size: 12px;
+            border-radius: 2px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .search-box:focus {
+            outline: none;
+            border-color: #0078d4;
+        }
+    </style>
+</head>
+<body>
+    <!-- Power BI Header -->
+    <div class="powerbi-header flex items-center justify-between px-4">
+        <div class="flex items-center space-x-4">
+            <svg class="w-5 h-5 text-black" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M4 3a1 1 0 0 0-1 1v16a1 1 0 0 0 2 0V4a1 1 0 0 0-1-1Zm5 4a1 1 0 0 0-1 1v12a1 1 0 0 0 2 0V8a1 1 0 0 0-1-1Zm5 3a1 1 0 0 0-1 1v9a1 1 0 0 0 2 0v-9a1 1 0 0 0-1-1Zm5-4a1 1 0 0 0-1 1v13a1 1 0 0 0 2 0V7a1 1 0 0 0-1-1Z"/>
+            </svg>
+            <span class="text-sm font-semibold text-black">Registration Analytics</span>
+        </div>
+        <div class="flex items-center space-x-3">
+            <button class="text-black text-xs hover:bg-black hover:bg-opacity-10 px-3 py-1 rounded">Refresh</button>
+            <button class="text-black text-xs hover:bg-black hover:bg-opacity-10 px-3 py-1 rounded">Export</button>
+            <button class="text-black text-xs hover:bg-black hover:bg-opacity-10 px-3 py-1 rounded" onclick="window.location.href='powerbi-reports.html'">Exit</button>
+        </div>
+    </div>
+
+    <div class="flex" style="height: calc(100vh - 44px);">
+        <!-- Filters Pane -->
+        <div class="filter-pane w-64 flex-shrink-0">
+            <div class="p-4 border-b border-gray-200">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-sm font-semibold text-gray-800">Filters</span>
+                    <button class="text-xs text-blue-600 hover:underline" onclick="clearAllFilters()">Clear all</button>
+                </div>
+            </div>
+
+            <!-- Academic Career Filter -->
+            <div class="filter-section">
+                <div class="filter-section-header">Academic Career</div>
+                <div class="p-3">
+                    <input type="text" placeholder="Search" class="search-box mb-2" id="careerSearch" oninput="filterCheckboxes('career')">
+                    <div id="careerFilters" class="space-y-1">
+                        <label class="flex items-center space-x-2 text-sm cursor-pointer p-1 hover:bg-gray-50 rounded">
+                            <input type="checkbox" class="checkbox-custom filter-checkbox" data-filter="career" value="Undergrad" checked onchange="applyFilters()">
+                            <span>Undergraduate</span>
+                        </label>
+                        <label class="flex items-center space-x-2 text-sm cursor-pointer p-1 hover:bg-gray-50 rounded">
+                            <input type="checkbox" class="checkbox-custom filter-checkbox" data-filter="career" value="Graduate" checked onchange="applyFilters()">
+                            <span>Graduate</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admit Term Filter -->
+            <div class="filter-section">
+                <div class="filter-section-header">Admit Term</div>
+                <div class="p-3">
+                    <input type="text" placeholder="Search" class="search-box mb-2" id="termSearch" oninput="filterCheckboxes('term')">
+                    <div id="termFilters" class="space-y-1">
+                        <label class="flex items-center space-x-2 text-sm cursor-pointer p-1 hover:bg-gray-50 rounded">
+                            <input type="checkbox" class="checkbox-custom filter-checkbox" data-filter="term" value="2025 Fall" checked onchange="applyFilters()">
+                            <span>2025 Fall</span>
+                        </label>
+                        <label class="flex items-center space-x-2 text-sm cursor-pointer p-1 hover:bg-gray-50 rounded">
+                            <input type="checkbox" class="checkbox-custom filter-checkbox" data-filter="term" value="2026 Spring" checked onchange="applyFilters()">
+                            <span>2026 Spring</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Academic Plan Filter -->
+            <div class="filter-section">
+                <div class="filter-section-header">Academic Plan</div>
+                <div class="p-3">
+                    <input type="text" placeholder="Search" class="search-box mb-2" id="planSearch" oninput="filterCheckboxes('plan')">
+                    <div id="planFilters" class="space-y-1 max-h-48 overflow-y-auto">
+                        <label class="flex items-center space-x-2 text-sm cursor-pointer p-1 hover:bg-gray-50 rounded">
+                            <input type="checkbox" class="checkbox-custom filter-checkbox" data-filter="plan" value="MSCOMPTH" checked onchange="applyFilters()">
+                            <span>M.S. Computer Sci & Eng</span>
+                        </label>
+                        <label class="flex items-center space-x-2 text-sm cursor-pointer p-1 hover:bg-gray-50 rounded">
+                            <input type="checkbox" class="checkbox-custom filter-checkbox" data-filter="plan" value="MAARHATH" checked onchange="applyFilters()">
+                            <span>M.A. Arch. & History of Art</span>
+                        </label>
+                        <label class="flex items-center space-x-2 text-sm cursor-pointer p-1 hover:bg-gray-50 rounded">
+                            <input type="checkbox" class="checkbox-custom filter-checkbox" data-filter="plan" value="ASOCDBUSAD" checked onchange="applyFilters()">
+                            <span>Business Administration</span>
+                        </label>
+                        <label class="flex items-center space-x-2 text-sm cursor-pointer p-1 hover:bg-gray-50 rounded">
+                            <input type="checkbox" class="checkbox-custom filter-checkbox" data-filter="plan" value="ECON" checked onchange="applyFilters()">
+                            <span>Economics</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 overflow-y-auto p-4">
+            <div class="grid grid-cols-1 gap-4">
+                <!-- KPI Cards Row -->
+                <div class="grid grid-cols-4 gap-4">
+                    <div class="metric-card">
+                        <div class="metric-value" id="totalStudents">156</div>
+                        <div class="metric-label">Total Students</div>
+                    </div>
+                    <div class="metric-card" style="background: linear-gradient(135deg, #107c10 0%, #0b5a08 100%);">
+                        <div class="metric-value" id="completedCount">89</div>
+                        <div class="metric-label">Completed (57%)</div>
+                    </div>
+                    <div class="metric-card" style="background: linear-gradient(135deg, #ca5010 0%, #9e3d0d 100%);">
+                        <div class="metric-value" id="assignedCount">52</div>
+                        <div class="metric-label">In Progress (33%)</div>
+                    </div>
+                    <div class="metric-card" style="background: linear-gradient(135deg, #d13438 0%, #a4262c 100%);">
+                        <div class="metric-value" id="pendingCount">15</div>
+                        <div class="metric-label">Pending (10%)</div>
+                    </div>
+                </div>
+
+                <!-- Registration Funnel and Status -->
+                <div class="grid grid-cols-2 gap-4">
+                    <!-- Registration Completion Funnel -->
+                    <div class="visual-container" style="min-height: 300px; max-height: 300px; display: flex; flex-direction: column;">
+                        <h3 class="text-sm font-semibold mb-4 text-gray-800">Registration Completion Funnel</h3>
+                        <div style="flex: 1; position: relative; min-height: 0;">
+                            <canvas id="funnelChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Document Status Breakdown -->
+                    <div class="visual-container" style="min-height: 300px; max-height: 300px; display: flex; flex-direction: column;">
+                        <h3 class="text-sm font-semibold mb-4 text-gray-800">Document Status Distribution</h3>
+                        <div style="flex: 1; position: relative; min-height: 0;">
+                            <canvas id="statusChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timeline and Plan Analysis -->
+                <div class="grid grid-cols-2 gap-4">
+                    <!-- Registration Timeline -->
+                    <div class="visual-container" style="min-height: 280px; max-height: 280px; display: flex; flex-direction: column;">
+                        <h3 class="text-sm font-semibold mb-4 text-gray-800">Registration Timeline (Last 30 Days)</h3>
+                        <div style="flex: 1; position: relative; min-height: 0;">
+                            <canvas id="timelineChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Plan Analysis -->
+                    <div class="visual-container" style="min-height: 280px; max-height: 280px; display: flex; flex-direction: column;">
+                        <h3 class="text-sm font-semibold mb-4 text-gray-800">Completion Rate by Academic Plan</h3>
+                        <div style="flex: 1; position: relative; min-height: 0;">
+                            <canvas id="planChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detailed Data Table -->
+                <div class="visual-container">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-sm font-semibold text-gray-800">Student Registration Details</h3>
+                        <input type="text" placeholder="Search..." class="search-box w-64" id="tableSearch" oninput="filterTable()">
+                    </div>
+                    <div class="overflow-x-auto" style="max-height: 400px;">
+                        <table class="table-powerbi" id="dataTable">
+                            <thead>
+                                <tr>
+                                    <th>Application Number</th>
+                                    <th>Student Number</th>
+                                    <th>Full Name</th>
+                                    <th>Academic Career</th>
+                                    <th>Academic Plan</th>
+                                    <th>Admit Term</th>
+                                    <th>Matric Form</th>
+                                    <th>Reg Documents</th>
+                                    <th>ELC Form</th>
+                                    <th>Completed Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableBody">
+                                <!-- Data will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample data
+        const registrationData = [
+            { applicationNumber: 'A-2025-001', studentNum: 'S-778899', name: 'Ayşe Demir', career: 'Undergrad', plan: 'MSCOMPTH', term: '2025 Fall', matric: 'Completed', regDocs: 'Assigned', elc: 'Completed', completed: '2025-11-05' },
+            { applicationNumber: 'A-2026-014', studentNum: 'S-665544', name: 'Burak Can', career: 'Graduate', plan: 'MAARHATH', term: '2026 Spring', matric: 'Assigned', regDocs: 'Assigned', elc: 'Completed', completed: '2025-11-06' },
+            { applicationNumber: 'A-2025-037', studentNum: 'S-123456', name: 'Elif Yılmaz', career: 'Undergrad', plan: 'ASOCDBUSAD', term: '2025 Fall', matric: 'Completed', regDocs: 'Completed', elc: 'Completed', completed: '2025-11-03' },
+            { applicationNumber: 'A-2026-022', studentNum: 'S-234567', name: 'Mehmet Kaya', career: 'Graduate', plan: 'ECON', term: '2026 Spring', matric: 'Completed', regDocs: 'Completed', elc: 'Assigned', completed: '2025-11-04' },
+            { applicationNumber: 'A-2025-045', studentNum: 'S-345678', name: 'Zeynep Öztürk', career: 'Undergrad', plan: 'MSCOMPTH', term: '2025 Fall', matric: 'Pending', regDocs: 'Pending', elc: 'Pending', completed: '-' },
+            { applicationNumber: 'A-2026-031', studentNum: 'S-456789', name: 'Can Şahin', career: 'Graduate', plan: 'MAARHATH', term: '2026 Spring', matric: 'Completed', regDocs: 'Completed', elc: 'Completed', completed: '2025-10-28' },
+            { applicationNumber: 'A-2025-052', studentNum: 'S-567890', name: 'Selin Arslan', career: 'Undergrad', plan: 'ASOCDBUSAD', term: '2025 Fall', matric: 'Assigned', regDocs: 'Pending', elc: 'Assigned', completed: '-' },
+            { applicationNumber: 'A-2026-039', studentNum: 'S-678901', name: 'Emre Çelik', career: 'Graduate', plan: 'ECON', term: '2026 Spring', matric: 'Completed', regDocs: 'Completed', elc: 'Completed', completed: '2025-10-30' },
+        ];
+
+        let filteredData = [...registrationData];
+
+        // Initialize charts
+        let funnelChart, statusChart, timelineChart, planChart;
+
+        function destroyIfExists(chart) {
+            if (chart && typeof chart.destroy === 'function') {
+                try { chart.destroy(); } catch (_) {}
+            }
+        }
+
+        function getCtx(id) {
+            const el = document.getElementById(id);
+            return el && typeof el.getContext === 'function' ? el.getContext('2d') : null;
+        }
+
+        function initCharts() {
+            // Clean up any existing charts to prevent Chart.js errors on re-init
+            destroyIfExists(funnelChart);
+            destroyIfExists(statusChart);
+            destroyIfExists(timelineChart);
+            destroyIfExists(planChart);
+            if (typeof Chart === 'undefined') {
+                console.error('Chart.js is not available. Skipping chart initialization.');
+                return;
+            }
+
+            // Funnel Chart
+            const funnelCtx = getCtx('funnelChart');
+            if (funnelCtx) {
+                funnelChart = new Chart(funnelCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Applications', 'Matriculation', 'Reg Documents', 'ELC Form', 'Completed'],
+                    datasets: [{
+                        label: 'Students',
+                        data: [156, 145, 125, 110, 89],
+                        backgroundColor: ['#0078d4', '#106ebe', '#005a9e', '#004578', '#003152'],
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: { beginAtZero: true }
+                    }
+                }
+                });
+            } else {
+                console.warn('Funnel canvas not found');
+            }
+
+            // Status Chart
+            const statusCtx = getCtx('statusChart');
+            if (statusCtx) {
+                statusChart = new Chart(statusCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Completed', 'Assigned', 'Pending'],
+                    datasets: [{
+                        data: [89, 52, 15],
+                        backgroundColor: ['#107c10', '#ca5010', '#d13438'],
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
+                });
+            }
+
+            // Timeline Chart
+            const timelineCtx = getCtx('timelineChart');
+            if (timelineCtx) {
+                timelineChart = new Chart(timelineCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Oct 15', 'Oct 20', 'Oct 25', 'Oct 30', 'Nov 4', 'Nov 7'],
+                    datasets: [{
+                        label: 'Completed Registrations',
+                        data: [12, 25, 38, 56, 72, 89],
+                        borderColor: '#0078d4',
+                        backgroundColor: 'rgba(0, 120, 212, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+                });
+            }
+
+            // Plan Chart
+            const planCtx = getCtx('planChart');
+            if (planCtx) {
+                planChart = new Chart(planCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['MSCOMPTH', 'MAARHATH', 'ASOCDBUSAD', 'ECON'],
+                    datasets: [{
+                        label: 'Completion Rate %',
+                        data: [65, 58, 52, 71],
+                        backgroundColor: '#0078d4',
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: { 
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '%';
+                                }
+                            }
+                        }
+                    }
+                }
+                });
+            }
+        }
+
+        function getStatusBadge(status) {
+            const classes = {
+                'Completed': 'status-completed',
+                'Assigned': 'status-assigned',
+                'Pending': 'status-pending'
+            };
+            return `<span class="status-badge ${classes[status]}">${status}</span>`;
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+            
+            filteredData.forEach(row => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${row.applicationNumber || ''}</td>
+                    <td>${row.studentNum}</td>
+                    <td>${row.name}</td>
+                    <td>${row.career}</td>
+                    <td>${row.plan}</td>
+                    <td>${row.term}</td>
+                    <td>${getStatusBadge(row.matric)}</td>
+                    <td>${getStatusBadge(row.regDocs)}</td>
+                    <td>${getStatusBadge(row.elc)}</td>
+                    <td>${row.completed}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            updateKPIs();
+        }
+
+        function updateKPIs() {
+            const total = filteredData.length;
+            const completed = filteredData.filter(r => r.matric === 'Completed' && r.regDocs === 'Completed' && r.elc === 'Completed').length;
+            const assigned = filteredData.filter(r => (r.matric === 'Assigned' || r.regDocs === 'Assigned' || r.elc === 'Assigned') && !(r.matric === 'Completed' && r.regDocs === 'Completed' && r.elc === 'Completed')).length;
+            const pending = total - completed - assigned;
+
+            document.getElementById('totalStudents').textContent = total;
+            document.getElementById('completedCount').textContent = completed;
+            document.getElementById('assignedCount').textContent = assigned;
+            document.getElementById('pendingCount').textContent = pending;
+
+            // Update completion percentage
+            const completedPct = Math.round((completed / total) * 100);
+            const assignedPct = Math.round((assigned / total) * 100);
+            const pendingPct = Math.round((pending / total) * 100);
+
+            document.querySelector('#completedCount').nextElementSibling.textContent = `Completed (${completedPct}%)`;
+            document.querySelector('#assignedCount').nextElementSibling.textContent = `In Progress (${assignedPct}%)`;
+            document.querySelector('#pendingCount').nextElementSibling.textContent = `Pending (${pendingPct}%)`;
+        }
+
+        function applyFilters() {
+            const careerFilters = Array.from(document.querySelectorAll('[data-filter="career"]:checked')).map(cb => cb.value);
+            const termFilters = Array.from(document.querySelectorAll('[data-filter="term"]:checked')).map(cb => cb.value);
+            const planFilters = Array.from(document.querySelectorAll('[data-filter="plan"]:checked')).map(cb => cb.value);
+
+            filteredData = registrationData.filter(row => {
+                return careerFilters.includes(row.career) &&
+                       termFilters.includes(row.term) &&
+                       planFilters.includes(row.plan);
+            });
+
+            renderTable();
+        }
+
+        function filterTable() {
+            const searchTerm = document.getElementById('tableSearch').value.toLowerCase();
+            const rows = document.querySelectorAll('#tableBody tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchTerm) ? '' : 'none';
+            });
+        }
+
+        function filterCheckboxes(type) {
+            const searchId = type + 'Search';
+            const containerId = type + 'Filters';
+            const searchTerm = document.getElementById(searchId).value.toLowerCase();
+            const labels = document.querySelectorAll(`#${containerId} label`);
+            
+            labels.forEach(label => {
+                const text = label.textContent.toLowerCase();
+                label.style.display = text.includes(searchTerm) ? 'flex' : 'none';
+            });
+        }
+
+        function clearAllFilters() {
+            document.querySelectorAll('.filter-checkbox').forEach(cb => cb.checked = true);
+            applyFilters();
+        }
+
+        // Initialize on load (resilient)
+        window.addEventListener('load', () => {
+            try {
+                initCharts();
+            } catch (e) {
+                console.error('Chart initialization failed:', e);
+            }
+            // Always render data even if charts fail
+            renderTable();
+        });
+    </script>
+</body>
+</html>

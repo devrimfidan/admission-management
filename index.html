@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KU Campus - Management Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        
+        /* Custom Brand Colors */
+        .text-ku-purple { color: #4338ca; } 
+        .focus\:ring-ku-purple:focus { --tw-ring-color: #4338ca; }
+        .focus\:border-ku-purple:focus { --tw-border-color: #4338ca; }
+        .hover\:text-ku-purple:hover { color: #4338ca; }
+        .bg-ku-purple-light { background-color: #ede9fe; }
+
+        /* Requested Button Colors */
+        .bg-ku-purple-new { background-color: #824aef; }
+        .hover\:bg-ku-purple-new-hover:hover { background-color: #713de6; } 
+        
+        .bg-powerbi-yellow { background-color: #F2C811; }
+        .hover\:bg-powerbi-yellow-hover:hover { background-color: #e0b80f; }
+
+        body { height: 100vh; } 
+        
+        /* Styles for the dynamic column visibility */
+        .table-column-data {
+            display: table-cell; /* Default display for table cells */
+        }
+        /* Style for the Modal backdrop and positioning */
+        .modal {
+            background-color: rgba(0, 0, 0, 0.5);
+            transition: opacity 0.3s ease;
+        }
+        
+        /* Custom Tile Styles */
+        .tile {
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .tile:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+
+<body class="antialiased flex flex-col">
+
+    <!-- Header -->
+    <header class="h-16 bg-white border-b border-gray-200 px-6 flex items-center justify-between shadow-sm sticky top-0 z-30 flex-shrink-0">
+        <div class="flex items-center">
+            <svg class="w-6 h-6 mr-3 text-ku-purple" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4M12 21V7"></path></svg>
+            <span class="text-xl font-bold text-ku-purple tracking-wide">KU Campus</span>
+        </div>
+        
+        <!-- User Menu -->
+        <div class="flex items-center space-x-3">
+            <button class="text-gray-500 hover:text-ku-purple">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-2.81A3 3 0 0018 10V8a6 6 0 10-12 0v2c0 1.5.54 2.92 1.405 4.19L4 17h5m6 0v1a3 3 0 01-6 0v-1m6 0H9"></path></svg>
+            </button>
+            <div class="flex items-center space-x-2 cursor-pointer">
+                <span class="text-sm font-medium text-gray-700 hidden sm:block">Alparslan O.</span>
+                <img class="h-8 w-8 rounded-full object-cover" src="https://placehold.co/32x32/14b8a6/FFFFFF?text=AO" alt="User Avatar" onerror="this.onerror=null; this.src='https://placehold.co/32x32/065f46/FFFFFF?text=U';">
+                <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <div class="flex flex-1 overflow-hidden">
+        
+        <!-- Sidebar -->
+        <aside class="w-16 sm:w-64 bg-slate-800 flex-shrink-0 overflow-y-auto">
+            <div class="p-4 text-white">
+                <p class="hidden sm:block text-xs font-medium uppercase tracking-wider mb-4 text-indigo-400">Navigation Menu</p>
+                <ul class="space-y-3 text-sm">
+                    <li class="group">
+                        <a href="#" class="flex items-center p-2 rounded-lg text-gray-400 hover:bg-slate-700 hover:text-white transition duration-150" onclick="setMode('tiles', event)">
+                            <svg class="w-6 h-6 sm:mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                            <span class="hidden sm:block">Home</span>
+                        </a>
+                    </li>
+                    <li class="group">
+                        <a href="staging.html" class="flex items-center p-2 rounded-lg text-gray-400 hover:bg-slate-700 hover:text-white transition duration-150">
+                            <svg class="w-6 h-6 sm:mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                            <span class="hidden sm:block">Staging</span>
+                        </a>
+                    </li>
+                    <li class="group">
+                        <a href="admission.html" class="flex items-center p-2 rounded-lg text-gray-400 hover:bg-slate-700 hover:text-white transition duration-150">
+                            <svg class="w-6 h-6 sm:mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <span class="hidden sm:block">Admission</span>
+                        </a>
+                    </li>
+                    <li class="group">
+                        <a href="mass-admit.html" class="flex items-center p-2 rounded-lg text-gray-400 hover:bg-slate-700 hover:text-white transition duration-150">
+                            <svg class="w-6 h-6 sm:mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5V4H2v16h5m10 0V10m0 10H7m10-10H7m0 10V10"></path></svg>
+                            <span class="hidden sm:block">Mass Admit</span>
+                        </a>
+                    </li>
+                    <li class="group">
+                        <a href="registration.html" class="flex items-center p-2 rounded-lg text-gray-400 hover:bg-slate-700 hover:text-white transition duration-150">
+                            <svg class="w-6 h-6 sm:mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                            <span class="hidden sm:block">Registration</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="powerbi-reports.html" class="flex items-center p-2 rounded-lg bg-slate-700 text-white transition duration-150">
+                            <svg class="w-6 h-6 sm:mr-3" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 3a1 1 0 0 0-1 1v16a1 1 0 0 0 2 0V4a1 1 0 0 0-1-1Zm5 4a1 1 0 0 0-1 1v12a1 1 0 0 0 2 0V8a1 1 0 0 0-1-1Zm5 3a1 1 0 0 0-1 1v9a1 1 0 0 0 2 0v-9a1 1 0 0 0-1-1Zm5-4a1 1 0 0 0-1 1v13a1 1 0 0 0 2 0V7a1 1 0 0 0-1-1Z"/></svg>
+                            <span class="hidden sm:block">Power BI Reports</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <div class="flex-1 overflow-y-auto flex flex-col">
+            <main class="flex-grow p-6 pb-20">
+                
+                <!-- Tile Selection View (NEW HOME PAGE) -->
+                <div id="tilesView" class="hidden">
+                    
+                    <!-- Breadcrumbs & Title for Tile View -->
+                    <div class="mb-6">
+                        <nav class="text-xs sm:text-sm text-gray-500 mb-4">
+                            <span class="font-semibold text-ku-purple">Home / Academic Administration /</span>
+                        </nav>
+                        <h1 class="text-2xl font-bold text-gray-800">Academic Administration Management</h1>
+                        <p class="text-gray-500">Select an area to manage.</p>
+                    </div>
+
+                    <!-- Tiles Grid -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-8">
+                        <!-- Tile: Staging/Student Records -->
+                        <a href="staging.html" class="tile bg-white p-6 rounded-xl shadow-lg border border-gray-100 flex flex-col justify-between">
+                            <div>
+                                <div class="w-12 h-12 bg-gray-200 text-gray-600 rounded-full flex items-center justify-center mb-4">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                                </div>
+                                <h2 class="text-xl font-semibold text-gray-800 mb-2">Student Staging Records</h2>
+                                <p class="text-sm text-gray-500">View and validate pre-admission and staging data for new applicants.</p>
+                            </div>
+                            <span class="mt-4 text-sm font-medium text-gray-500 flex items-center">
+                                Go to Staging 
+                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                            </span>
+                        </a>
+
+                        <!-- Tile: Admission Management -->
+                        <a href="admission.html" class="tile bg-white p-6 rounded-xl shadow-lg border border-gray-100 flex flex-col justify-between">
+                            <div>
+                                <div class="w-12 h-12 bg-gray-200 text-gray-600 rounded-full flex items-center justify-center mb-4">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                </div>
+                                <h2 class="text-xl font-semibold text-gray-800 mb-2">Admission Management</h2>
+                                <p class="text-sm text-gray-500">Review and process applicant admissions and decisions.</p>
+                            </div>
+                            <span class="mt-4 text-sm font-medium text-gray-500 flex items-center">
+                                Go to Admission 
+                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                            </span>
+                        </a>
+
+                        <!-- Tile: Mass Admit -->
+                        <a href="mass-admit.html" class="tile bg-white p-6 rounded-xl shadow-lg border border-gray-100 flex flex-col justify-between">
+                            <div>
+                                <div class="w-12 h-12 bg-gray-200 text-gray-600 rounded-full flex items-center justify-center mb-4">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5V4H2v16h5m10 0V10m0 10H7m10-10H7m0 10V10"></path></svg>
+                                </div>
+                                <h2 class="text-xl font-semibold text-gray-800 mb-2">Mass Admit</h2>
+                                <p class="text-sm text-gray-500">Perform batch admission actions for selected applicants.</p>
+                            </div>
+                            <span class="mt-4 text-sm font-medium text-gray-500 flex items-center">
+                                Go to Mass Admit 
+                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                            </span>
+                        </a>
+
+                        <!-- Tile: Registration Management -->
+                        <a href="registration.html" class="tile bg-white p-6 rounded-xl shadow-lg border border-gray-100 flex flex-col justify-between">
+                            <div>
+                                <div class="w-12 h-12 bg-ku-purple-light text-ku-purple rounded-full flex items-center justify-center mb-4">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                                </div>
+                                <h2 class="text-xl font-semibold text-gray-800 mb-2">Registration Management</h2>
+                                <p class="text-sm text-gray-500">Search, track, and manage all student registration records and documents.</p>
+                            </div>
+                            <span class="mt-4 text-sm font-medium text-ku-purple flex items-center">
+                                Go to Registration 
+                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+
+
+                <!-- Registration Dashboard View (PREVIOUS PAGE CONTENT) -->
+                <div id="dashboardView" class="hidden">
+                    
+                    <div class="mb-6">
+                        <!-- Breadcrumbs & Title for Dashboard View -->
+                        <nav class="text-xs sm:text-sm text-gray-500 mb-4">
+                            <span class="text-gray-400">Home / Academic Administration / Admission Management /</span>
+                            <span class="font-semibold text-ku-purple">Registration Management</span>
+                        </nav>
+                        <h1 class="text-2xl font-bold text-gray-800">Registration Management Dashboard</h1>
+                    </div>
+
+                    <!-- Search Filters Card -->
+                    <div class="bg-white rounded-xl shadow-lg mb-8">
+                        <div class="w-full flex justify-between items-center p-6 border-b border-gray-200">
+                            <h2 class="text-xl font-semibold text-gray-800">Registration Search Filters</h2>
+                        </div>
+                        
+                        <div id="filterContent" class="p-6">
+
+                            <!-- Accordion 1: Applicant & Identity -->
+                            <div class="mb-6 border border-gray-200 rounded-lg">
+                                <button type="button" class="w-full flex justify-between items-center p-4 text-lg font-medium text-gray-700 hover:bg-gray-50 transition duration-150 accordion-toggle" data-target="accordion1">
+                                    Applicant & Identity
+                                    <svg id="icon1" class="w-5 h-5 text-gray-500 transform transition-transform duration-300 rotate-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </button>
+                                <div id="accordion1" class="accordion-content p-6 transition-all duration-300">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                                        
+                                        <!-- Name -->
+                                        <div class="flex flex-col sm:flex-row items-start sm:items-center">
+                                            <label for="name" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">
+                                                Name
+                                            </label>
+                                            <input type="text" id="name" class="w-full sm:w-2/3 border border-gray-300 rounded-lg p-2.5 focus:ring-ku-purple focus:border-ku-purple transition duration-150" placeholder="Enter Name">
+                                        </div>
+                                        
+                                        <!-- Last Name -->
+                                        <div class="flex flex-col sm:flex-row items-start sm:items-center">
+                                            <label for="lastName" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">
+                                                Last Name
+                                            </label>
+                                            <input type="text" id="lastName" class="w-full sm:w-2/3 border border-gray-300 rounded-lg p-2.5 focus:ring-ku-purple focus:border-ku-purple transition duration-150" placeholder="Enter Last Name">
+                                        </div>
+                                        
+                                        <!-- Student Number -->
+                                        <div class="flex flex-col sm:flex-row items-start sm:items-center">
+                                            <label for="studentNumber" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">
+                                                Student Number
+                                            </label>
+                                            <div class="relative w-full sm:w-2/3">
+                                                <input type="text" id="studentNumber" class="w-full border border-gray-300 rounded-lg p-2.5 pr-10 focus:ring-ku-purple focus:border-ku-purple transition duration-150" placeholder="Enter Student Number">
+                                                <button onclick="openModal('studentSearchModal')" class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-ku-purple transition duration-150" title="Search for Student">
+                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Application Number -->
+                                        <div class="flex flex-col sm:flex-row items-start sm:items-center">
+                                            <label for="appNumber" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">
+                                                Application Number
+                                            </label>
+                                            <input type="text" id="appNumber" class="w-full sm:w-2/3 border border-gray-300 rounded-lg p-2.5 focus:ring-ku-purple focus:border-ku-purple transition duration-150" placeholder="Enter Application Number">
+                                        </div>
+                                        
+                                        <!-- DreamApply ID -->
+                                        <div class="flex flex-col sm:flex-row items-start sm:items-center">
+                                            <label for="dreamApplyId" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">
+                                                DreamApply ID
+                                            </label>
+                                            <input type="text" id="dreamApplyId" class="w-full sm:w-2/3 border border-gray-300 rounded-lg p-2.5 focus:ring-ku-purple focus:border-ku-purple transition duration-150" placeholder="Enter DreamApply ID">
+                                        </div>
+                                        
+                                        <!-- National ID -->
+                                        <div class="flex flex-col sm:flex-row items-start sm:items-center">
+                                            <label for="nationalId" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">
+                                                National ID
+                                            </label>
+                                            <input type="text" id="nationalId" class="w-full sm:w-2/3 border border-gray-300 rounded-lg p-2.5 focus:ring-ku-purple focus:border-ku-purple transition duration-150" placeholder="Enter National ID">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!-- Accordion 2: Academic & Status Details -->
+                            <div class="mb-6 border border-gray-200 rounded-lg">
+                                <button type="button" class="w-full flex justify-between items-center p-4 text-lg font-medium text-gray-700 hover:bg-gray-50 transition duration-150 accordion-toggle" data-target="accordion2">
+                                    Academic & Status Details
+                                    <svg id="icon2" class="w-5 h-5 text-gray-500 transform transition-transform duration-300 rotate-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </button>
+                                <div id="accordion2" class="accordion-content p-6 transition-all duration-300">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                                        
+                                        <!-- Academic Institution -->
+                                        <div class="flex flex-col sm:flex-row items-start sm:items-center">
+                                            <label for="academicInstitution" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">
+                                                Academic Institution
+                                            </label>
+                                            <select id="academicInstitution" class="w-full sm:w-2/3 border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple appearance-none transition duration-150">
+                                                <option>KOÇLIN – Koç University</option>
+                                                <option>Other Institution</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <!-- Academic Career -->
+                                        <div class="flex flex-col sm:flex-row items-start sm:items-center">
+                                            <label for="academicCareer" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">
+                                                Academic Career
+                                            </label>
+                                            <select id="academicCareer" class="w-full sm:w-2/3 border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple appearance-none transition duration-150">
+                                                <option>Select</option>
+                                                <option>Undergraduate</option>
+                                                <option>Graduate</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <!-- Academic Program -->
+                                        <div class="flex flex-col sm:flex-row items-start sm:items-center">
+                                            <label for="academicProgram" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">
+                                                Academic Program
+                                            </label>
+                                            <select id="academicProgram" class="w-full sm:w-2/3 border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple appearance-none transition duration-150">
+                                                <option>Select</option>
+                                                <option>Computer Science</option>
+                                                <option>Business Administration</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <!-- Academic Plan -->
+                                        <div class="flex flex-col sm:flex-row items-start sm:items-center">
+                                            <label for="academicPlan" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">
+                                                Academic Plan
+                                            </label>
+                                            <select id="academicPlan" class="w-full sm:w-2/3 border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple appearance-none transition duration-150">
+                                                <option>Select</option>
+                                                <option>Plan A</option>
+                                                <option>Plan B</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <!-- Admit Term -->
+                                        <div class="flex flex-col sm:flex-row items-start sm:items-center">
+                                            <label for="admitTerm" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">
+                                                <span class="text-red-600">*</span> Admit Term
+                                            </label>
+                                            <select id="admitTerm" class="w-full sm:w-2/3 border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple appearance-none transition duration-150">
+                                                <option>Select</option>
+                                                <option>2025 Fall</option>
+                                                <option>2026 Spring</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <!-- E-Registered -->
+                                        <div class="flex flex-col sm:flex-row items-start sm:items-center">
+                                            <label for="eRegistered" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">
+                                                E-Registered
+                                            </label>
+                                            <select id="eRegistered" class="w-full sm:w-2/3 border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple appearance-none transition duration-150">
+                                                <option>All</option>
+                                                <option>Yes</option>
+                                                <option>No</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Accordion 3: Operational Options (NEW) -->
+                            <div class="mb-6 border border-gray-200 rounded-lg">
+                                <button type="button" class="w-full flex justify-between items-center p-4 text-lg font-medium text-gray-700 hover:bg-gray-50 transition duration-150 accordion-toggle" data-target="accordion3">
+                                    Operational Options
+                                    <svg id="icon3" class="w-5 h-5 text-gray-500 transform transition-transform duration-300 rotate-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </button>
+                                <div id="accordion3" class="accordion-content p-6 transition-all duration-300">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                                        
+                                        <!-- From Date -->
+                                        <div class="flex flex-col sm:flex-row items-start sm:items-center">
+                                            <label for="fromDate" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">
+                                                From Date
+                                            </label>
+                                            <div class="relative w-full sm:w-2/3">
+                                                <input type="text" id="fromDate" class="w-full border border-gray-300 rounded-lg p-2.5 pr-10 focus:ring-ku-purple focus:border-ku-purple transition duration-150" placeholder="Select Date">
+                                                <div class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 pointer-events-none">
+                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h.01M7 11h.01M7 15h.01M11 15h.01M15 15h.01M11 11h.01M15 11h.01M4 5h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V7a2 2 0 012-2z"></path></svg>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- To Date -->
+                                        <div class="flex flex-col sm:flex-row items-start sm:items-center">
+                                            <label for="toDate" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">
+                                                To Date
+                                            </label>
+                                            <div class="relative w-full sm:w-2/3">
+                                                <input type="text" id="toDate" class="w-full border border-gray-300 rounded-lg p-2.5 pr-10 focus:ring-ku-purple focus:border-ku-purple transition duration-150" placeholder="Select Date">
+                                                <div class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 pointer-events-none">
+                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h.01M7 11h.01M7 15h.01M11 15h.01M15 15h.01M11 11h.01M15 11h.01M4 5h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V7a2 2 0 012-2z"></path></svg>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Matriculation Form -->
+                                        <div class="flex flex-col sm:flex-row items-start sm:items-center">
+                                            <label for="matriculationForm" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">
+                                                Matriculation Form
+                                            </label>
+                                            <select id="matriculationForm" class="w-full sm:w-2/3 border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple appearance-none transition duration-150">
+                                                <option>Select</option>
+                                                <option>Submitted</option>
+                                                <option>Not Submitted</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <!-- Registration Documents -->
+                                        <div class="flex flex-col sm:flex-row items-start sm:items-center">
+                                            <label for="registrationDocuments" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">
+                                                Registration Documents
+                                            </label>
+                                            <select id="registrationDocuments" class="w-full sm:w-2/3 border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple appearance-none transition duration-150">
+                                                <option>Select</option>
+                                                <option>Submitted</option>
+                                                <option>Not Submitted</option>
+                                            </select>
+                                        </div>
+
+                                        <!-- Photo -->
+                                        <div class="flex flex-col sm:flex-row items-start sm:items-center">
+                                            <label for="photo" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">
+                                                Photo
+                                            </label>
+                                            <select id="photo" class="w-full sm:w-2/3 border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple appearance-none transition duration-150">
+                                                <option>Select</option>
+                                                <option>Submitted</option>
+                                                <option>Not Submitted</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <!-- Health Information Form -->
+                                        <div class="flex flex-col sm:flex-row items-start sm:items-center">
+                                            <label for="healthInformationForm" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">
+                                                Health Information Form
+                                            </label>
+                                            <select id="healthInformationForm" class="w-full sm:w-2/3 border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple appearance-none transition duration-150">
+                                                <option>Select</option>
+                                                <option>Submitted</option>
+                                                <option>Not Submitted</option>
+                                            </select>
+                                        </div>
+
+                                        <!-- ELC Form -->
+                                        <div class="flex flex-col sm:flex-row items-start sm:items-center">
+                                            <label for="elcForm" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">
+                                                ELC Form
+                                            </label>
+                                            <select id="elcForm" class="w-full sm:w-2/3 border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple appearance-none transition duration-150">
+                                                <option>Select</option>
+                                                <option>Submitted</option>
+                                                <option>Not Submitted</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <!-- ELC Approval Status -->
+                                        <div class="flex flex-col sm:flex-row items-start sm:items-center">
+                                            <label for="elcApprovalStatus" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">
+                                                ELC Approval Status
+                                            </label>
+                                            <select id="elcApprovalStatus" class="w-full sm:w-2/3 border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple appearance-none transition duration-150">
+                                                <option>Select</option>
+                                                <option>Approved</option>
+                                                <option>Pending</option>
+                                                <option>Rejected</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!-- Search and Clear Buttons -->
+                            <div class="mt-8 flex justify-end space-x-4">
+                                <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-2 px-8 rounded-xl shadow-md transition duration-150 flex items-center">
+                                    Clear Selection
+                                </button>
+                                <button class="bg-ku-purple-new hover:bg-ku-purple-new-hover text-white font-semibold py-2 px-8 rounded-xl shadow-md transition duration-150 flex items-center">
+                                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                                    Search
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Search Results Card -->
+                    <div class="bg-white p-6 rounded-xl shadow-lg">
+                        <h2 class="text-xl font-semibold text-gray-800 mb-6 border-b pb-4">Search Results (Registration)</h2>
+                        
+                        <!-- Table Controls -->
+                        <div class="flex flex-col sm:flex-row justify-between items-center mb-4 space-y-3 sm:space-y-0">
+                            
+                            <!-- Filter Input -->
+                            <div class="relative w-full sm:w-auto">
+                                <input type="text" placeholder="Filter current results..." class="w-full sm:w-64 border border-gray-300 rounded-lg p-2.5 pl-10 focus:ring-ku-purple focus:border-ku-purple transition duration-150">
+                                <svg class="w-5 h-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                            </div>
+                            
+                            <!-- Action Buttons -->
+                            <div class="flex flex-col sm:flex-row w-full sm:w-auto space-y-2 sm:space-y-0 sm:space-x-3 sm:justify-end">
+                                
+                                <!-- Columns Dropdown -->
+                                <div class="relative inline-block w-full sm:w-auto" id="columnsDropdownContainer">
+                                    <button id="columnsToggle" type="button" class="w-full flex justify-center sm:justify-start items-center bg-ku-purple-new hover:bg-ku-purple-new-hover text-white font-semibold py-2 px-4 rounded-xl shadow-sm transition duration-150">
+                                        <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"></path></svg>
+                                        Columns
+                                        <svg class="w-5 h-5 ml-2 -mr-1 text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                                    </button>
+                                    <div id="columnsMenu" class="hidden absolute right-0 mt-2 w-full sm:w-64 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20 max-h-80 overflow-y-auto">
+                                        <!-- Content generated by JS -->
+                                    </div>
+                                </div>
+
+                                <!-- Download Dropdown -->
+                                <div class="relative inline-block w-full sm:w-auto" id="downloadDropdownContainer">
+                                    <button id="downloadToggle" type="button" class="w-full flex justify-center sm:justify-start items-center bg-ku-purple-new hover:bg-ku-purple-new-hover text-white font-semibold py-2 px-4 rounded-xl shadow-sm transition duration-150">
+                                        Download Report
+                                        <svg class="w-5 h-5 ml-2 -mr-1 text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                                    </button>
+                                    <div id="downloadMenu" class="hidden absolute right-0 mt-2 w-full sm:w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20">
+                                        <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Download as Excel</a>
+                                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Download as CSV</a>
+                                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Download as PDF</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Power BI Button -->
+                                <button class="bg-powerbi-yellow hover:bg-powerbi-yellow-hover text-black font-semibold py-2 px-4 rounded-xl shadow-sm transition duration-150 w-full sm:w-auto">
+                                    Open Power BI Report
+                                </button>
+                            </div>
+                        </div>
+
+
+                        <!-- Results Table -->
+                        <div class="overflow-x-auto rounded-xl border border-gray-200">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <!-- Table Headers -->
+                                        <th data-column="app_id" class="table-column-data px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Application ID</th>
+                                        <th data-column="student_num" class="table-column-data px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Student Number</th>
+                                        <th data-column="name" class="table-column-data px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                                        <th data-column="last_name" class="table-column-data px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Name</th>
+                                        <th data-column="acad_inst" class="table-column-data px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Academic Institution</th>
+                                        <th data-column="acad_career" class="table-column-data px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Academic Career</th>
+                                        <th data-column="acad_program" class="table-column-data px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Academic Program</th>
+                                        <th data-column="acad_plan" class="table-column-data px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Academic Plan</th>
+                                        <th data-column="acad_sub_plan" class="table-column-data px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Academic Sub-Plan</th>
+                                        <th data-column="admit_term" class="table-column-data px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Admit Term</th>
+                                        <th data-column="app_center" class="table-column-data px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">App Center</th>
+                                        <th data-column="admit_type" class="table-column-data px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Admit Type</th>
+                                        <th data-column="program_action" class="table-column-data px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Program Action</th>
+                                        <th data-column="actions" class="table-column-data px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    <!-- Sample Data Rows -->
+                                    <tr>
+                                        <td data-column="app_id" class="table-column-data px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">APP-6001</td>
+                                        <td data-column="student_num" class="table-column-data px-6 py-4 whitespace-nowrap text-sm text-gray-500">S-778899</td>
+                                        <td data-column="name" class="table-column-data px-6 py-4 whitespace-nowrap text-sm text-gray-500">Ayşe</td>
+                                        <td data-column="last_name" class="table-column-data px-6 py-4 whitespace-nowrap text-sm text-gray-500">Demir</td>
+                                        <td data-column="acad_inst" class="table-column-data px-6 py-4 whitespace-nowrap text-sm text-gray-500">KOÇLIN</td>
+                                        <td data-column="acad_career" class="table-column-data px-6 py-4 whitespace-nowrap text-sm text-gray-500">Undergrad</td>
+                                        <td data-column="acad_program" class="table-column-data px-6 py-4 whitespace-nowrap text-sm text-gray-500">Elect. Eng.</td>
+                                        <td data-column="acad_plan" class="table-column-data px-6 py-4 whitespace-nowrap text-sm text-gray-500">EE-A</td>
+                                        <td data-column="acad_sub_plan" class="table-column-data px-6 py-4 whitespace-nowrap text-sm text-gray-500">Nano Tech</td>
+                                        <td data-column="admit_term" class="table-column-data px-6 py-4 whitespace-nowrap text-sm text-gray-500">2025 Fall</td>
+                                        <td data-column="app_center" class="table-column-data px-6 py-4 whitespace-nowrap text-sm text-gray-500">Istanbul</td>
+                                        <td data-column="admit_type" class="table-column-data px-6 py-4 whitespace-nowrap text-sm text-gray-500">Freshman</td>
+                                        <td data-column="program_action" class="table-column-data px-6 py-4 whitespace-nowrap text-sm text-green-600 font-semibold">ACT</td>
+                                        <td data-column="actions" class="table-column-data px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <a href="#" class="text-indigo-600 hover:text-indigo-900">Process</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td data-column="app_id" class="table-column-data px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">APP-6002</td>
+                                        <td data-column="student_num" class="table-column-data px-6 py-4 whitespace-nowrap text-sm text-gray-500">S-665544</td>
+                                        <td data-column="name" class="table-column-data px-6 py-4 whitespace-nowrap text-sm text-gray-500">Burak</td>
+                                        <td data-column="last_name" class="table-column-data px-6 py-4 whitespace-nowrap text-sm text-gray-500">Can</td>
+                                        <td data-column="acad_inst" class="table-column-data px-6 py-4 whitespace-nowrap text-sm text-gray-500">KOÇLIN</td>
+                                        <td data-column="acad_career" class="table-column-data px-6 py-4 whitespace-nowrap text-sm text-gray-500">Graduate</td>
+                                        <td data-column="acad_program" class="table-column-data px-6 py-4 whitespace-nowrap text-sm text-gray-500">History</td>
+                                        <td data-column="acad_plan" class="table-column-data px-6 py-4 whitespace-nowrap text-sm text-gray-500">MA Thesis</td>
+                                        <td data-column="acad_sub_plan" class="table-column-data px-6 py-4 whitespace-nowrap text-sm text-gray-500">Ottoman</td>
+                                        <td data-column="admit_term" class="table-column-data px-6 py-4 whitespace-nowrap text-sm text-gray-500">2026 Spring</td>
+                                        <td data-column="app_center" class="table-column-data px-6 py-4 whitespace-nowrap text-sm text-gray-500">Ankara</td>
+                                        <td data-column="admit_type" class="table-column-data px-6 py-4 whitespace-nowrap text-sm text-gray-500">Transfer</td>
+                                        <td data-column="program_action" class="table-column-data px-6 py-4 whitespace-nowrap text-sm text-orange-600 font-semibold">DATA</td>
+                                        <td data-column="actions" class="table-column-data px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <a href="#" class="text-indigo-600 hover:text-indigo-900">Process</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Pagination -->
+                        <div class="mt-4 flex justify-between items-center text-sm text-gray-600">
+                            <div class="flex items-center space-x-2">
+                                <select class="border border-gray-300 rounded-lg p-1.5 text-xs bg-white">
+                                    <option>10</option>
+                                    <option>25</option>
+                                    <option>50</option>
+                                </select>
+                                <span>2 entries shown</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <button class="text-gray-400 p-1 rounded-lg border border-gray-300 hover:text-ku-purple transition duration-150">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                                </button>
+                                <button class="text-gray-400 p-1 rounded-lg border border-gray-300 hover:text-ku-purple transition duration-150">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </main>
+        </div>
+    </div>
+        
+    <!-- Footer -->
+    <footer class="w-full bg-slate-800 text-white text-xs p-3 flex justify-end items-center z-40 sticky bottom-0 flex-shrink-0">
+        <div class="flex items-center space-x-4">
+            <span>Copyright © 2025 Koç University Version 9.1.12</span>
+            <a href="#" class="hover:text-indigo-400">Privacy Policy</a>
+            <a href="#" class="hover:text-indigo-400">Cookie Policy</a>
+        </div>
+    </footer>
+    
+    <!-- Modal for Student Search -->
+    <div id="studentSearchModal" class="modal fixed inset-0 hidden items-center justify-center z-50 p-4" onclick="closeModal(event, 'studentSearchModal')">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg p-6 transform transition-all duration-300" onclick="event.stopPropagation()">
+            <div class="flex justify-between items-center border-b pb-3 mb-4">
+                <h3 class="text-xl font-semibold text-gray-800">Search Student Records</h3>
+                <button onclick="closeModal(null, 'studentSearchModal')" class="text-gray-400 hover:text-gray-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            
+            <div class="space-y-4">
+                <input type="text" placeholder="Student Name or Number" class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-ku-purple focus:border-ku-purple transition duration-150">
+                <button class="w-full bg-ku-purple-new hover:bg-ku-purple-new-hover text-white font-semibold py-2.5 rounded-xl shadow-md transition duration-150">
+                    Perform Search
+                </button>
+            </div>
+
+            <div class="mt-6 border-t pt-4">
+                <p class="text-sm text-gray-600 mb-2">Recent Matches (Select one):</p>
+                <ul class="space-y-2 max-h-40 overflow-y-auto">
+                    <li onclick="selectStudent('S-123456', 'studentSearchModal')" class="p-2 bg-gray-50 hover:bg-ku-purple-new hover:text-white rounded-lg cursor-pointer text-sm transition duration-150">
+                        <span class="font-medium">S-123456</span> - Ece Yılmaz (Computer Science)
+                    </li>
+                    <li onclick="selectStudent('S-987654', 'studentSearchModal')" class="p-2 bg-gray-50 hover:bg-ku-purple-new hover:text-white rounded-lg cursor-pointer text-sm transition duration-150">
+                        <span class="font-medium">S-987654</span> - Can Öztürk (Business Admin)
+                    </li>
+                </ul>
+            </div>
+            <div class="mt-4 flex justify-end">
+                <button onclick="closeModal(null, 'studentSearchModal')" class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-2 px-6 rounded-xl transition duration-150">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Global variable to track the current application mode/view
+        let currentMode = 'tiles'; // Default to the new tile selection screen
+
+        // --- CORE FUNCTION: SWITCH VIEW MODE ---
+        function setMode(mode, event) {
+            if (event) event.preventDefault();
+            currentMode = mode;
+            
+            const tilesView = document.getElementById('tilesView');
+            const dashboardView = document.getElementById('dashboardView');
+            
+            // Show/Hide main content views
+            tilesView.classList.toggle('hidden', mode !== 'tiles');
+            dashboardView.classList.toggle('hidden', mode !== 'dashboard');
+
+            // Update sidebar active state
+            document.querySelectorAll('.active-mode-link').forEach(link => {
+                link.classList.remove('bg-slate-700', 'text-white');
+                link.classList.add('text-gray-400', 'hover:bg-slate-700', 'hover:text-white');
+
+                if (link.getAttribute('data-mode') === mode) {
+                    link.classList.add('bg-slate-700', 'text-white');
+                    link.classList.remove('text-gray-400', 'hover:bg-slate-700', 'hover:text-white');
+                }
+            });
+            
+            // Special handling for the main "Home" link
+            const homeLink = document.querySelector('aside ul li:first-child a');
+            if (mode === 'tiles') {
+                homeLink.classList.add('bg-slate-700', 'text-white');
+                homeLink.classList.remove('text-gray-400', 'hover:bg-slate-700', 'hover:text-white');
+            } else {
+                 homeLink.classList.remove('bg-slate-700', 'text-white');
+                 homeLink.classList.add('text-gray-400', 'hover:bg-slate-700', 'hover:text-white');
+            }
+        }
+        
+        // --- CORE FUNCTION: TOGGLE COLUMN VISIBILITY ---
+        function toggleColumnVisibility(columnName, isVisible) {
+            const displayStyle = isVisible ? 'table-cell' : 'none';
+            const columnElements = document.querySelectorAll(`[data-column="${columnName}"]`);
+
+            columnElements.forEach(element => {
+                element.style.display = displayStyle;
+            });
+        }
+        
+        // --- MODAL LOGIC ---
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeModal(event, modalId) {
+             // Close only if event is null (button click) or if the click target is the modal backdrop itself
+            if (!event || event.target.id === modalId) {
+                const modal = document.getElementById(modalId);
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+        }
+
+        function selectStudent(studentNumber, modalId) {
+            document.getElementById('studentNumber').value = studentNumber;
+            closeModal(null, modalId);
+        }
+
+        // Column definitions moved outside DOMContentLoaded for wider scope
+        const COLUMNS = [
+            { id: 'app_id', name: 'Application ID', isVisible: true },
+            { id: 'student_num', name: 'Student Number', isVisible: true },
+            { id: 'name', name: 'Name', isVisible: true },
+            { id: 'last_name', name: 'Last Name', isVisible: true },
+            { id: 'acad_inst', name: 'Academic Institution', isVisible: true },
+            { id: 'acad_career', name: 'Academic Career', isVisible: true },
+            { id: 'acad_program', name: 'Academic Program', isVisible: true },
+            { id: 'acad_plan', name: 'Academic Plan', isVisible: true },
+            { id: 'acad_sub_plan', name: 'Academic Sub-Plan', isVisible: true },
+            { id: 'admit_term', name: 'Admit Term', isVisible: true },
+            { id: 'app_center', name: 'App Center', isVisible: true },
+            { id: 'admit_type', name: 'Admit Type', isVisible: true },
+            { id: 'program_action', name: 'Program Action', isVisible: true },
+            { id: 'actions', name: 'Actions', isVisible: true }
+        ];
+
+        // Function to populate and attach event listeners to the columns menu
+        function renderColumnsMenu() {
+            const columnsMenu = document.getElementById('columnsMenu');
+            if (!columnsMenu) return; // Exit if not in dashboard view
+            
+            const menuHtml = COLUMNS.map(col => `
+                <label class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer">
+                    <input type="checkbox" data-column-id="${col.id}" ${col.isVisible ? 'checked' : ''} 
+                        class="h-4 w-4 text-ku-purple-new focus:ring-ku-purple-new border-gray-300 rounded mr-3">
+                    ${col.name}
+                </label>
+            `).join('');
+            columnsMenu.innerHTML = `<div class="py-1">${menuHtml}</div>`;
+
+            // Attach listeners to checkboxes
+            columnsMenu.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                checkbox.addEventListener('change', (e) => {
+                    const columnId = e.target.getAttribute('data-column-id');
+                    const isChecked = e.target.checked;
+                    toggleColumnVisibility(columnId, isChecked);
+                    
+                    // Update internal state
+                    const column = COLUMNS.find(c => c.id === columnId);
+                    if (column) column.isVisible = isChecked;
+                });
+            });
+        }
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // --- 1. ACCORDION LOGIC ---
+            const toggles = document.querySelectorAll('.accordion-toggle');
+
+            toggles.forEach(toggle => {
+                const targetId = toggle.getAttribute('data-target');
+                const content = document.getElementById(targetId);
+                const icon = toggle.querySelector('svg');
+                
+                // Ensure content starts visible by default
+                content.classList.remove('hidden');
+
+                toggle.addEventListener('click', function() {
+                    content.classList.toggle('hidden');
+                    icon.classList.toggle('rotate-180');
+                });
+            });
+
+            
+            // --- 2. DROPDOWN SETUP & LISTENERS (Only run if in dashboard mode) ---
+            const downloadToggle = document.getElementById('downloadToggle');
+            const downloadMenu = document.getElementById('downloadMenu');
+            const downloadContainer = document.getElementById('downloadDropdownContainer');
+            
+            const columnsToggle = document.getElementById('columnsToggle');
+            const columnsMenu = document.getElementById('columnsMenu');
+            const columnsContainer = document.getElementById('columnsDropdownContainer');
+
+            if (columnsMenu) {
+                renderColumnsMenu();
+            }
+
+            // Download Toggle
+            if (downloadToggle) {
+                downloadToggle.addEventListener('click', (event) => {
+                    event.stopPropagation(); 
+                    downloadMenu.classList.toggle('hidden');
+                    // Ensure columns menu is closed
+                    if (columnsMenu) columnsMenu.classList.add('hidden');
+                });
+            }
+
+            // Columns Toggle
+            if (columnsToggle) {
+                columnsToggle.addEventListener('click', (event) => {
+                    event.stopPropagation(); 
+                    columnsMenu.classList.toggle('hidden');
+                    // Ensure download menu is closed
+                    if (downloadMenu) downloadMenu.classList.add('hidden');
+                });
+            }
+
+            // Close dropdowns if clicking outside
+            document.addEventListener('click', (event) => {
+                // Check Columns Dropdown
+                if (columnsContainer && !columnsContainer.contains(event.target) && columnsMenu && !columnsMenu.classList.contains('hidden')) {
+                    columnsMenu.classList.add('hidden');
+                }
+                // Check Download Dropdown
+                if (downloadContainer && !downloadContainer.contains(event.target) && downloadMenu && !downloadMenu.classList.contains('hidden')) {
+                    downloadMenu.classList.add('hidden');
+                }
+            });
+
+            // Set the initial mode to 'tiles' (or 'dashboard' if you prefer starting there)
+            setMode('tiles'); 
+        });
+    </script>
+
+</body>
+</html>

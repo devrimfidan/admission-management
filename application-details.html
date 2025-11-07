@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KU Campus - Application Details</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+    body { font-family: 'Inter', sans-serif; background-color: #f8fafc; height: 100vh; }
+    .text-ku-purple { color: #4338ca; }
+    .focus\:ring-ku-purple:focus { --tw-ring-color: #4338ca; }
+    .focus\:border-ku-purple:focus { --tw-border-color: #4338ca; }
+    .hover\:text-ku-purple:hover { color: #4338ca; }
+    .bg-ku-purple-new { background-color: #824aef; }
+    .hover\:bg-ku-purple-new-hover:hover { background-color: #713de6; }
+    .bg-powerbi-yellow { background-color: #F2C811; }
+    .hover\:bg-powerbi-yellow-hover:hover { background-color: #e0b80f; }
+  /* Simple tabs: text-only with bottom border, no background and no overflow scroll */
+  .tab-active { color: #4338ca; border-bottom: 2px solid #4338ca; }
+  .tab-inactive { color: #64748b; border-bottom: 2px solid transparent; }
+    .accordion-toggle svg { transition: transform .3s ease; }
+  </style>
+</head>
+<body class="antialiased flex flex-col">
+  <!-- Header -->
+  <header class="h-16 bg-white border-b border-gray-200 px-6 flex items-center justify-between shadow-sm sticky top-0 z-30 flex-shrink-0">
+    <div class="flex items-center">
+      <svg class="w-6 h-6 mr-3 text-ku-purple" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4M12 21V7"></path></svg>
+      <span class="text-xl font-bold text-ku-purple tracking-wide">KU Campus</span>
+    </div>
+    <div class="flex items-center space-x-3">
+      <button class="text-gray-500 hover:text-ku-purple" aria-label="Notifications">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-2.81A3 3 0 0018 10V8a6 6 0 10-12 0v2c0 1.5.54 2.92 1.405 4.19L4 17h5m6 0v1a3 3 0 01-6 0v-1m6 0H9"></path></svg>
+      </button>
+      <div class="flex items-center space-x-2 cursor-pointer">
+        <span class="text-sm font-medium text-gray-700 hidden sm:block">Alparslan O.</span>
+        <img class="h-8 w-8 rounded-full object-cover" src="https://placehold.co/32x32/14b8a6/FFFFFF?text=AO" alt="User Avatar" />
+        <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+      </div>
+    </div>
+  </header>
+
+  <div class="flex flex-1 overflow-hidden">
+    <!-- Sidebar -->
+    <aside class="w-16 sm:w-64 bg-slate-800 flex-shrink-0 overflow-y-auto">
+      <div class="p-4 text-white">
+        <p class="hidden sm:block text-xs font-medium uppercase tracking-wider mb-4 text-indigo-400">Navigation Menu</p>
+        <ul class="space-y-3 text-sm">
+          <li><a href="index.html" class="flex items-center p-2 rounded-lg text-gray-400 hover:bg-slate-700 hover:text-white transition"><svg class="w-6 h-6 sm:mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg><span class="hidden sm:block">Home</span></a></li>
+          <li><a href="admission.html" class="flex items-center p-2 rounded-lg text-gray-400 hover:bg-slate-700 hover:text-white transition"><svg class="w-6 h-6 sm:mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg><span class="hidden sm:block">Admission</span></a></li>
+          <li><a href="staging.html" class="flex items-center p-2 rounded-lg text-gray-400 hover:bg-slate-700 hover:text-white transition"><svg class="w-6 h-6 sm:mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg><span class="hidden sm:block">Staging</span></a></li>
+          <li><a href="mass-admit.html" class="flex items-center p-2 rounded-lg text-gray-400 hover:bg-slate-700 hover:text-white transition"><svg class="w-6 h-6 sm:mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5V4H2v16h5m10 0V10m0 10H7m10-10H7m0 10V10"></path></svg><span class="hidden sm:block">Mass Admit</span></a></li>
+          <li><a href="registration.html" class="flex items-center p-2 rounded-lg text-gray-400 hover:bg-slate-700 hover:text-white transition"><svg class="w-6 h-6 sm:mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg><span class="hidden sm:block">Registration</span></a></li>
+          <li><a href="application-details.html" class="flex items-center p-2 rounded-lg bg-slate-700 text-white transition"><svg class="w-6 h-6 sm:mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5V4H2v16h5m10 0V10m0 10H7m10-10H7m0 10V10"></path></svg><span class="hidden sm:block">App Details</span></a></li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="flex-1 overflow-y-auto flex flex-col">
+      <main class="flex-grow p-6 pb-24">
+        <!-- Breadcrumb + Title -->
+        <div class="mb-6">
+          <nav class="text-xs sm:text-sm text-gray-500 mb-4"><span class="text-gray-400">Home / Academic Administration / Admission Management /</span> <span class="font-semibold text-ku-purple">Application Details</span></nav>
+          <h1 class="text-2xl font-bold text-gray-800">Application Details</h1>
+        </div>
+
+        <!-- Header Summary Bar -->
+        <div class="bg-white rounded-xl shadow mb-6 p-4 border border-gray-200">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+            <div><span class="block text-gray-500 uppercase tracking-wide text-xs mb-1">Student Number</span><span class="font-semibold text-gray-800">S-445566</span></div>
+            <div><span class="block text-gray-500 uppercase tracking-wide text-xs mb-1">Full Name</span><span class="font-semibold text-gray-800">Mehmet Arslan</span></div>
+            <div><span class="block text-gray-500 uppercase tracking-wide text-xs mb-1">Application ID</span><span class="font-semibold text-gray-800">APP-7023</span></div>
+          </div>
+          <div class="mt-4 text-xs text-gray-600">
+            <span class="italic">Demo record for UI preview purposes</span>
+          </div>
+        </div>
+
+        <!-- Tabs (simple, no background, no horizontal scroll) -->
+        <div class="mb-4 border-b border-gray-200">
+          <nav class="flex flex-wrap gap-6 text-sm font-medium">
+            <button data-tab="personal" class="tab-active px-0 py-2">Personal Info</button>
+            <button data-tab="contact" class="tab-inactive px-0 py-2 hover:text-gray-700">Contact Info</button>
+            <button data-tab="program" class="tab-inactive px-0 py-2 hover:text-gray-700">Program Data</button>
+            <button data-tab="external" class="tab-inactive px-0 py-2 hover:text-gray-700">External Edu.</button>
+            <button data-tab="tests" class="tab-inactive px-0 py-2 hover:text-gray-700">Test Results</button>
+            <button data-tab="payments" class="tab-inactive px-0 py-2 hover:text-gray-700">Payment Status</button>
+          </nav>
+        </div>
+
+        <!-- Tab Panels -->
+        <div id="tabPanels">
+          <!-- Personal Info Panel -->
+          <div id="panel-personal" class="space-y-6">
+            <!-- Panel utility -->
+            <div class="flex justify-end">
+              <button id="collapseAllPersonalBtn" class="text-xs text-ku-purple hover:underline">Collapse All</button>
+            </div>
+            <!-- Personal Information Accordion -->
+            <div class="border border-gray-200 rounded-lg">
+              <button type="button" class="w-full flex justify-between items-center p-4 text-lg font-medium text-gray-700 hover:bg-gray-50 accordion-toggle" data-target="personalInfoSection">Personal Information<svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></button>
+              <div id="personalInfoSection" class="p-6 space-y-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6">
+                  <!-- National ID Type -->
+                  <div class="flex flex-col"><label class="text-sm font-medium text-gray-700 mb-1">National ID Type</label><select class="border border-gray-300 rounded-lg p-2.5 focus:ring-ku-purple focus:border-ku-purple"><option>TC Identification No</option><option>Passport</option></select></div>
+                  <!-- National ID -->
+                  <div class="flex flex-col"><label class="text-sm font-medium text-gray-700 mb-1">National ID</label><input type="text" class="border border-gray-300 rounded-lg p-2.5 focus:ring-ku-purple focus:border-ku-purple" value="14520099876" /></div>
+                  <!-- Name -->
+                  <div class="flex flex-col"><label class="text-sm font-medium text-gray-700 mb-1">Name</label><input type="text" class="border border-gray-300 rounded-lg p-2.5 focus:ring-ku-purple focus:border-ku-purple" value="Mehmet" /></div>
+                  <!-- Last Name -->
+                  <div class="flex flex-col"><label class="text-sm font-medium text-gray-700 mb-1">Last Name</label><input type="text" class="border border-gray-300 rounded-lg p-2.5 focus:ring-ku-purple focus:border-ku-purple" value="Arslan" /></div>
+                  <!-- Preferred Name -->
+                  <div class="flex flex-col"><label class="text-sm font-medium text-gray-700 mb-1">Preferred Name (Optional)</label><input type="text" class="border border-gray-300 rounded-lg p-2.5 focus:ring-ku-purple focus:border-ku-purple" placeholder="Enter Preferred Name" value="M. Arslan" /></div>
+                  <!-- Date of Birth -->
+                  <div class="flex flex-col"><label class="text-sm font-medium text-gray-700 mb-1">Date of Birth</label><input type="text" class="border border-gray-300 rounded-lg p-2.5 focus:ring-ku-purple focus:border-ku-purple" value="14.03.1998" /></div>
+                  <!-- Country of Birth -->
+                  <div class="flex flex-col"><label class="text-sm font-medium text-gray-700 mb-1">Country of Birth</label><select class="border border-gray-300 rounded-lg p-2.5 focus:ring-ku-purple focus:border-ku-purple"><option>Türkiye</option><option>Germany</option></select></div>
+                  <!-- Location of Birth -->
+                  <div class="flex flex-col"><label class="text-sm font-medium text-gray-700 mb-1">Location of Birth (City)</label><input type="text" class="border border-gray-300 rounded-lg p-2.5 focus:ring-ku-purple focus:border-ku-purple" value="İzmir" /></div>
+                  <!-- Gender -->
+                  <div class="flex flex-col"><label class="text-sm font-medium text-gray-700 mb-1">Gender</label><select class="border border-gray-300 rounded-lg p-2.5 focus:ring-ku-purple focus:border-ku-purple"><option>Male</option><option>Female</option><option>Other</option></select></div>
+                  <!-- Marital Status -->
+                  <div class="flex flex-col"><label class="text-sm font-medium text-gray-700 mb-1">Marital Status (Optional)</label><select class="border border-gray-300 rounded-lg p-2.5 focus:ring-ku-purple focus:border-ku-purple"><option>Single</option><option>Married</option></select></div>
+                  <!-- Registered City -->
+                  <div class="flex flex-col"><label class="text-sm font-medium text-gray-700 mb-1">Registered City (Optional)</label><input type="text" class="border border-gray-300 rounded-lg p-2.5 focus:ring-ku-purple focus:border-ku-purple" value="İstanbul" /></div>
+                  <!-- Registered Country -->
+                  <div class="flex flex-col"><label class="text-sm font-medium text-gray-700 mb-1">Registered Country (Optional)</label><select class="border border-gray-300 rounded-lg p-2.5 focus:ring-ku-purple focus:border-ku-purple"><option>Türkiye</option><option>Germany</option></select></div>
+                </div>
+
+                <!-- Other Information Group -->
+                <div>
+                  <h4 class="text-sm font-semibold text-gray-700 mb-3">Other Information</h4>
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6">
+                    <div class="flex flex-col"><label class="text-sm font-medium text-gray-700 mb-1">Student Disability (Optional)</label><select class="border border-gray-300 rounded-lg p-2.5 focus:ring-ku-purple focus:border-ku-purple"><option>None</option><option>Visual</option><option>Hearing</option></select></div>
+                    <div class="flex flex-col"><label class="text-sm font-medium text-gray-700 mb-1">Disability Rate (Optional)</label><input type="text" class="border border-gray-300 rounded-lg p-2.5 focus:ring-ku-purple focus:border-ku-purple" placeholder="%" value="0" /></div>
+                    <div class="flex flex-col"><label class="text-sm font-medium text-gray-700 mb-1">Other Disability (Optional)</label><input type="text" class="border border-gray-300 rounded-lg p-2.5 focus:ring-ku-purple focus:border-ku-purple" /></div>
+                    <div class="flex flex-col"><label class="text-sm font-medium text-gray-700 mb-1">Army Status (Optional)</label><select class="border border-gray-300 rounded-lg p-2.5 focus:ring-ku-purple focus:border-ku-purple"><option>Undefined</option><option>Completed</option><option>Deferred</option></select></div>
+                    <div class="flex flex-col"><label class="text-sm font-medium text-gray-700 mb-1">Military End Date (Optional)</label><input type="text" class="border border-gray-300 rounded-lg p-2.5 focus:ring-ku-purple focus:border-ku-purple" placeholder="DD.MM.YYYY" /></div>
+                    <div class="flex items-center space-x-2"><input id="parentEdu" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-ku-purple-new focus:ring-ku-purple-new" /><label for="parentEdu" class="text-sm font-medium text-gray-700">Parent Univ. Edu First (Optional)</label></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Citizenship Accordion -->
+            <div class="border border-gray-200 rounded-lg">
+              <button type="button" class="w-full flex justify-between items-center p-4 text-lg font-medium text-gray-700 hover:bg-gray-50 accordion-toggle" data-target="citizenshipSection">Citizenship<svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></button>
+              <div id="citizenshipSection" class="p-6 space-y-4">
+                <div class="flex justify-end mb-2"><button class="bg-ku-purple-new hover:bg-ku-purple-new-hover text-white text-xs font-semibold px-3 py-1.5 rounded-md">Add New</button></div>
+                <div class="overflow-x-auto border border-gray-200 rounded-lg">
+                  <table class="min-w-full text-sm">
+                    <thead class="bg-gray-50 text-gray-600 uppercase text-xs">
+                      <tr><th class="px-4 py-2 text-left">Country</th><th class="px-4 py-2 text-left">Citizenship Number</th><th class="px-4 py-2 text-left">Actions</th></tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200 bg-white">
+                      <tr><td class="px-4 py-2">Türkiye</td><td class="px-4 py-2">TC-14520099876</td><td class="px-4 py-2"> <button class="text-indigo-600 hover:text-indigo-900 text-xs font-medium">Edit</button> </td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <!-- Passport Accordion -->
+            <div class="border border-gray-200 rounded-lg">
+              <button type="button" class="w-full flex justify-between items-center p-4 text-lg font-medium text-gray-700 hover:bg-gray-50 accordion-toggle" data-target="passportSection">Passport<svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></button>
+              <div id="passportSection" class="p-6 space-y-4">
+                <div class="flex justify-end mb-2"><button class="bg-ku-purple-new hover:bg-ku-purple-new-hover text-white text-xs font-semibold px-3 py-1.5 rounded-md">Add New</button></div>
+                <div class="overflow-x-auto border border-gray-200 rounded-lg">
+                  <table class="min-w-full text-sm">
+                    <thead class="bg-gray-50 text-gray-600 uppercase text-xs">
+                      <tr><th class="px-4 py-2 text-left">Country</th><th class="px-4 py-2 text-left">Passport Number</th><th class="px-4 py-2 text-left">Issue Date</th><th class="px-4 py-2 text-left">Issuing Authority</th><th class="px-4 py-2 text-left">Expiration Date</th><th class="px-4 py-2 text-left">Actions</th></tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200 bg-white">
+                      <tr><td class="px-4 py-2">Türkiye</td><td class="px-4 py-2">U326241A</td><td class="px-4 py-2">18.06.2023</td><td class="px-4 py-2">Emniyet</td><td class="px-4 py-2">18.06.2033</td><td class="px-4 py-2"><button class="text-indigo-600 hover:text-indigo-900 text-xs font-medium">Edit</button></td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex justify-between items-center pt-2">
+              <a href="admission.html" class="text-sm px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium">Return to Search</a>
+              <div class="flex space-x-3">
+                <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-2 px-6 rounded-lg text-sm">Reset</button>
+                <button class="bg-ku-purple-new hover:bg-ku-purple-new-hover text-white font-semibold py-2 px-6 rounded-lg text-sm flex items-center">
+                  <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+                  Save
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Contact Info Panel -->
+          <div id="panel-contact" class="hidden space-y-6">
+            <!-- Panel utility -->
+            <div class="flex justify-end">
+              <button id="collapseAllContactBtn" class="text-xs text-ku-purple hover:underline">Collapse All</button>
+            </div>
+
+            <!-- Addresses -->
+            <div class="border border-gray-200 rounded-lg">
+              <button type="button" class="w-full flex justify-between items-center p-4 text-lg font-medium text-gray-700 hover:bg-gray-50 accordion-toggle" data-target="addressesSection">
+                Addresses
+                <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+              </button>
+              <div id="addressesSection" class="p-6 space-y-4">
+                <div class="flex justify-end">
+                  <button class="bg-ku-purple-new hover:bg-ku-purple-new-hover text-white text-xs font-semibold px-3 py-1.5 rounded-md">Add New</button>
+                </div>
+                <div class="overflow-x-auto border border-gray-200 rounded-lg">
+                  <table class="min-w-full text-sm">
+                    <thead class="bg-gray-50 text-gray-600 uppercase text-xs">
+                      <tr>
+                        <th class="px-4 py-2 text-left">Address Type</th>
+                        <th class="px-4 py-2 text-left">Status</th>
+                        <th class="px-4 py-2 text-left">Address</th>
+                        <th class="px-4 py-2 text-left">Is Billing Address?</th>
+                        <th class="px-4 py-2 text-left">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200 bg-white">
+                      <tr>
+                        <td class="px-4 py-2">Home</td>
+                        <td class="px-4 py-2">Passive</td>
+                        <td class="px-4 py-2">45/2 Ahmetpaşa Street, Block B, Floor 4, 65th Street, Dörtk Neighbourhood, Çankaya, Ankara, 06450 Türkiye</td>
+                        <td class="px-4 py-2">No</td>
+                        <td class="px-4 py-2 space-x-2">
+                          <button class="text-indigo-600 hover:text-indigo-900 text-xs font-medium">Edit</button>
+                          <button class="text-rose-600 hover:text-rose-700 text-xs font-medium">Delete</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <!-- Phones -->
+            <div class="border border-gray-200 rounded-lg">
+              <button type="button" class="w-full flex justify-between items-center p-4 text-lg font-medium text-gray-700 hover:bg-gray-50 accordion-toggle" data-target="phonesSection">
+                Phones
+                <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+              </button>
+              <div id="phonesSection" class="p-6 space-y-4">
+                <div class="flex justify-end">
+                  <button class="bg-ku-purple-new hover:bg-ku-purple-new-hover text-white text-xs font-semibold px-3 py-1.5 rounded-md">Add New</button>
+                </div>
+                <div class="overflow-x-auto border border-gray-200 rounded-lg">
+                  <table class="min-w-full text-sm">
+                    <thead class="bg-gray-50 text-gray-600 uppercase text-xs">
+                      <tr>
+                        <th class="px-4 py-2 text-left">Phone Type</th>
+                        <th class="px-4 py-2 text-left">Phone Number</th>
+                        <th class="px-4 py-2 text-left">Preferred</th>
+                        <th class="px-4 py-2 text-left">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200 bg-white">
+                      <tr>
+                        <td class="px-4 py-2">Mobile</td>
+                        <td class="px-4 py-2">+90 552 783 2886</td>
+                        <td class="px-4 py-2">No</td>
+                        <td class="px-4 py-2 space-x-2">
+                          <button class="text-indigo-600 hover:text-indigo-900 text-xs font-medium">Edit</button>
+                          <button class="text-rose-600 hover:text-rose-700 text-xs font-medium">Delete</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="px-4 py-2">Home</td>
+                        <td class="px-4 py-2">+90 506 541 7952</td>
+                        <td class="px-4 py-2">No</td>
+                        <td class="px-4 py-2 space-x-2">
+                          <button class="text-indigo-600 hover:text-indigo-900 text-xs font-medium">Edit</button>
+                          <button class="text-rose-600 hover:text-rose-700 text-xs font-medium">Delete</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <!-- E-mail Addresses -->
+            <div class="border border-gray-200 rounded-lg">
+              <button type="button" class="w-full flex justify-between items-center p-4 text-lg font-medium text-gray-700 hover:bg-gray-50 accordion-toggle" data-target="emailsSection">
+                E-mail Addresses
+                <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+              </button>
+              <div id="emailsSection" class="p-6 space-y-4">
+                <div class="flex justify-end">
+                  <button class="bg-ku-purple-new hover:bg-ku-purple-new-hover text-white text-xs font-semibold px-3 py-1.5 rounded-md">Add New</button>
+                </div>
+                <div class="overflow-x-auto border border-gray-200 rounded-lg">
+                  <table class="min-w-full text-sm">
+                    <thead class="bg-gray-50 text-gray-600 uppercase text-xs">
+                      <tr>
+                        <th class="px-4 py-2 text-left">E-mail Type</th>
+                        <th class="px-4 py-2 text-left">E-mail Address</th>
+                        <th class="px-4 py-2 text-left">Preferred</th>
+                        <th class="px-4 py-2 text-left">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200 bg-white">
+                      <tr>
+                        <td class="px-4 py-2">Personal</td>
+                        <td class="px-4 py-2">m.arslan@example.com</td>
+                        <td class="px-4 py-2">No</td>
+                        <td class="px-4 py-2 space-x-2">
+                          <button class="text-indigo-600 hover:text-indigo-900 text-xs font-medium">Edit</button>
+                          <button class="text-rose-600 hover:text-rose-700 text-xs font-medium">Delete</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="px-4 py-2">Campus</td>
+                        <td class="px-4 py-2">marslan25@ku.edu.tr</td>
+                        <td class="px-4 py-2">Yes</td>
+                        <td class="px-4 py-2 space-x-2">
+                          <button class="text-indigo-600 hover:text-indigo-900 text-xs font-medium">Edit</button>
+                          <button class="text-rose-600 hover:text-rose-700 text-xs font-medium">Delete</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <!-- Relationship -->
+            <div class="border border-gray-200 rounded-lg">
+              <button type="button" class="w-full flex justify-between items-center p-4 text-lg font-medium text-gray-700 hover:bg-gray-50 accordion-toggle" data-target="relationshipSection">
+                Relationship
+                <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+              </button>
+              <div id="relationshipSection" class="p-6 space-y-4">
+                <div class="flex justify-end">
+                  <button class="bg-ku-purple-new hover:bg-ku-purple-new-hover text-white text-xs font-semibold px-3 py-1.5 rounded-md">Add New</button>
+                </div>
+                <div class="overflow-x-auto border border-gray-200 rounded-lg">
+                  <table class="min-w-full text-sm">
+                    <thead class="bg-gray-50 text-gray-600 uppercase text-xs">
+                      <tr>
+                        <th class="px-4 py-2 text-left">Type of Relation</th>
+                        <th class="px-4 py-2 text-left">Name</th>
+                        <th class="px-4 py-2 text-left">Last Name</th>
+                        <th class="px-4 py-2 text-left">Phone Number</th>
+                        <th class="px-4 py-2 text-left">E-mail Address</th>
+                        <th class="px-4 py-2 text-left">Emergency Contact</th>
+                        <th class="px-4 py-2 text-left">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200 bg-white">
+                      <tr>
+                        <td class="px-4 py-2">Father</td>
+                        <td class="px-4 py-2">Şerifnus</td>
+                        <td class="px-4 py-2">Arslan</td>
+                        <td class="px-4 py-2">+90 533 222 1122</td>
+                        <td class="px-4 py-2">serif.arslan@example.com</td>
+                        <td class="px-4 py-2">No</td>
+                        <td class="px-4 py-2 space-x-2"><button class="text-indigo-600 hover:text-indigo-900 text-xs font-medium">Edit</button><button class="text-rose-600 hover:text-rose-700 text-xs font-medium">Delete</button></td>
+                      </tr>
+                      <tr>
+                        <td class="px-4 py-2">Mother</td>
+                        <td class="px-4 py-2">Leyla</td>
+                        <td class="px-4 py-2">Eren</td>
+                        <td class="px-4 py-2">+90 532 111 2233</td>
+                        <td class="px-4 py-2">leyla.eren@example.com</td>
+                        <td class="px-4 py-2">No</td>
+                        <td class="px-4 py-2 space-x-2"><button class="text-indigo-600 hover:text-indigo-900 text-xs font-medium">Edit</button><button class="text-rose-600 hover:text-rose-700 text-xs font-medium">Delete</button></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Program Data Panel -->
+          <div id="panel-program" class="hidden space-y-6">
+            <!-- Top utility row -->
+            <div class="flex justify-between items-center text-xs">
+              <span class="text-gray-500"></span>
+              <div class="flex items-center gap-4">
+                <button id="collapseAllProgramBtn" class="text-ku-purple hover:underline">Collapse All</button>
+                <a href="#" class="text-ku-purple hover:underline">Log History</a>
+              </div>
+            </div>
+
+            <!-- General Information (Accordion) -->
+            <div class="border border-gray-200 rounded-lg">
+              <button type="button" class="w-full flex justify-between items-center p-4 text-lg font-medium text-gray-700 hover:bg-gray-50 accordion-toggle" data-target="programGeneralSection">
+                General Information
+                <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+              </button>
+              <div id="programGeneralSection" class="p-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6">
+                  <div class="flex flex-col">
+                    <label class="text-sm font-medium text-gray-700 mb-1">Academic Institution</label>
+                    <select class="border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple">
+                      <option>KOÇLIN – Koç University</option>
+                    </select>
+                  </div>
+                  <div class="flex flex-col">
+                    <label class="text-sm font-medium text-gray-700 mb-1">Application Number</label>
+                    <input class="border border-gray-300 rounded-lg p-2.5" value="111519" />
+                  </div>
+                  <div class="flex flex-col">
+                    <label class="text-sm font-medium text-gray-700 mb-1">Application Center</label>
+                    <select class="border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple">
+                      <option>KKÖDİK – Registrar’s and Student Affairs Directorate</option>
+                    </select>
+                  </div>
+                  <div class="flex flex-col">
+                    <label class="text-sm font-medium text-gray-700 mb-1">Academic Career</label>
+                    <select class="border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple">
+                      <option>MAST – Masters</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Program Data (Accordion) -->
+            <div class="border border-gray-200 rounded-lg">
+              <button type="button" class="w-full flex justify-between items-center p-4 text-lg font-medium text-gray-700 hover:bg-gray-50 accordion-toggle" data-target="programDataSection">
+                Program Data
+                <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+              </button>
+              <div id="programDataSection" class="p-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6">
+                  <div class="flex flex-col">
+                    <label class="text-sm font-medium text-gray-700 mb-1">Academic Program</label>
+                    <select class="border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple">
+                      <option>MGSES – Grad Schl Sciences&Eng Master</option>
+                    </select>
+                  </div>
+                  <div class="flex flex-col">
+                    <label class="text-sm font-medium text-gray-700 mb-1">Status</label>
+                    <select class="border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple">
+                      <option>AC – Active in Program</option>
+                    </select>
+                  </div>
+                  <div class="flex flex-col">
+                    <label class="text-sm font-medium text-gray-700 mb-1">Admit Term</label>
+                    <select class="border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple">
+                      <option>2251 – Fall 2025</option>
+                    </select>
+                  </div>
+                  <div class="flex flex-col">
+                    <label class="text-sm font-medium text-gray-700 mb-1">Admit Type</label>
+                    <select class="border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple">
+                      <option>MA – Masters Application</option>
+                    </select>
+                  </div>
+                  <div class="flex flex-col">
+                    <label class="text-sm font-medium text-gray-700 mb-1">Program Action</label>
+                    <select class="border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple">
+                      <option>MATR – Matriculation</option>
+                    </select>
+                  </div>
+                  <div class="flex flex-col">
+                    <label class="text-sm font-medium text-gray-700 mb-1">Action Reason (Optional)</label>
+                    <select class="border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple">
+                      <option>Select</option>
+                    </select>
+                  </div>
+                  <div class="flex flex-col">
+                    <label class="text-sm font-medium text-gray-700 mb-1">Academic Load</label>
+                    <select class="border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple">
+                      <option>Full-Time</option>
+                    </select>
+                  </div>
+                  <div class="flex flex-col">
+                    <label class="text-sm font-medium text-gray-700 mb-1">E-Registered</label>
+                    <div>
+                      <input type="checkbox" class="h-4 w-4 rounded border-gray-300 text-ku-purple-new focus:ring-ku-purple-new" />
+                    </div>
+                  </div>
+                  <div class="flex flex-col">
+                    <label class="text-sm font-medium text-gray-700 mb-1">Quota</label>
+                    <select class="border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple">
+                      <option>Genel</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Plan Data (Accordion) -->
+            <div class="border border-gray-200 rounded-lg">
+              <button type="button" class="w-full flex justify-between items-center p-4 text-lg font-medium text-gray-700 hover:bg-gray-50 accordion-toggle" data-target="planDataSection">
+                Plan Data
+                <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+              </button>
+              <div id="planDataSection" class="p-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6">
+                  <div class="flex flex-col">
+                    <label class="text-sm font-medium text-gray-700 mb-1">Academic Plan</label>
+                    <select class="border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple">
+                      <option>MSBME5TH – M.S. Bio-Medical Sci & Eng TH</option>
+                    </select>
+                  </div>
+                  <div class="flex flex-col">
+                    <label class="text-sm font-medium text-gray-700 mb-1">Academic Sub-Plan (Optional)</label>
+                    <select class="border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple">
+                      <option>Select</option>
+                    </select>
+                  </div>
+                  <div class="flex flex-col">
+                    <label class="text-sm font-medium text-gray-700 mb-1">YÖK Program (Optional)</label>
+                    <select class="border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple">
+                      <option>Select</option>
+                    </select>
+                  </div>
+                  <div class="flex flex-col">
+                    <label class="text-sm font-medium text-gray-700 mb-1">ÖSYM Plan Code (Optional)</label>
+                    <input class="border border-gray-300 rounded-lg p-2.5" placeholder="Enter Code" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="flex justify-end items-center space-x-3 pt-2">
+              <a href="admission.html" class="text-sm px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium">Return to Search</a>
+              <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-2 px-6 rounded-lg text-sm">Reset</button>
+              <button class="bg-ku-purple-new hover:bg-ku-purple-new-hover text-white font-semibold py-2 px-6 rounded-lg text-sm">Save</button>
+            </div>
+          </div>
+
+          <!-- External Education Panel -->
+          <div id="panel-external" class="hidden space-y-6">
+            <!-- Panel utility -->
+            <div class="flex flex-wrap justify-end items-center gap-3">
+              <div class="flex items-center gap-2">
+                <button class="bg-ku-purple-new hover:bg-ku-purple-new-hover text-white text-xs font-semibold px-3 py-1.5 rounded-md" id="externalEduAddBtn">Add</button>
+                <button class="bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-semibold px-3 py-1.5 rounded-md" id="externalEduDeleteBtn">Delete</button>
+                <div class="flex items-center gap-1" id="externalRecordSwitcher">
+                  <button data-record="1" class="record-switch bg-ku-purple-new text-white text-xs font-semibold px-2 py-1 rounded-md">1</button>
+                  <button data-record="2" class="record-switch bg-gray-100 text-gray-700 text-xs font-semibold px-2 py-1 rounded-md hover:bg-gray-200">2</button>
+                </div>
+              </div>
+              <button id="collapseAllExternalBtn" class="text-xs text-ku-purple hover:underline">Collapse All</button>
+            </div>
+
+            <!-- Record 1 Wrapper -->
+            <div id="externalRecord1" class="space-y-6">
+              <!-- External Education Information (Accordion) Record 1 -->
+              <div class="border border-gray-200 rounded-lg">
+                <button type="button" class="w-full flex justify-between items-center p-4 text-lg font-medium text-gray-700 hover:bg-gray-50 accordion-toggle" data-target="externalEduInfoSection">
+                  External Education Information (Record 1)
+                  <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                </button>
+                <div id="externalEduInfoSection" class="p-6">
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6">
+                    <div class="flex flex-col">
+                      <label class="text-sm font-medium text-gray-700 mb-1">School Type</label>
+                      <select class="border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple">
+                        <option>College</option>
+                        <option>High School</option>
+                        <option>Other</option>
+                      </select>
+                    </div>
+                    <div class="flex flex-col">
+                      <label class="text-sm font-medium text-gray-700 mb-1">External Organization</label>
+                      <div class="relative">
+                        <input type="text" class="w-full border border-gray-300 rounded-lg p-2.5 pr-10 focus:ring-ku-purple focus:border-ku-purple" value="ANKARA ÜNİVERSİTESİ" />
+                        <button class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-700" aria-label="Search organization">
+                          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M10 18a8 8 0 110-16 8 8 0 010 16z"/></svg>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="flex flex-col">
+                      <label class="text-sm font-medium text-gray-700 mb-1">School Branch <span class="text-gray-400">– Optional</span></label>
+                      <select class="border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple">
+                        <option>Select</option>
+                      </select>
+                    </div>
+                    <div class="flex flex-col">
+                      <label class="text-sm font-medium text-gray-700 mb-1">High School Type <span class="text-gray-400">– Optional</span></label>
+                      <select class="border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple">
+                        <option>Select</option>
+                      </select>
+                    </div>
+                    <div class="flex flex-col md:col-span-2">
+                      <label class="text-sm font-medium text-gray-700 mb-1">Education Status <span class="text-gray-400">– Optional</span></label>
+                      <select class="border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple w-full md:w-1/2">
+                        <option>Select</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- School Career Data (Accordion) Record 1 -->
+              <div class="border border-gray-200 rounded-lg">
+                <button type="button" class="w-full flex justify-between items-center p-4 text-lg font-medium text-gray-700 hover:bg-gray-50 accordion-toggle" data-target="schoolCareerSection">
+                  School Career Data (Record 1)
+                  <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                </button>
+                <div id="schoolCareerSection" class="p-6">
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6">
+                    <div class="flex flex-col">
+                      <label class="text-sm font-medium text-gray-700 mb-1">Career</label>
+                      <select class="border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple">
+                        <option>UGRD – Undergraduate</option>
+                      </select>
+                    </div>
+                    <div class="flex flex-col">
+                      <label class="text-sm font-medium text-gray-700 mb-1">Term Year <span class="text-gray-400">– Optional</span></label>
+                      <input type="text" class="border border-gray-300 rounded-lg p-2.5" value="2022" />
+                    </div>
+                    <div class="flex flex-col">
+                      <label class="text-sm font-medium text-gray-700 mb-1">From Date <span class="text-gray-400">– Optional</span></label>
+                      <input type="text" class="border border-gray-300 rounded-lg p-2.5" value="17.08.2017" />
+                    </div>
+                    <div class="flex flex-col">
+                      <label class="text-sm font-medium text-gray-700 mb-1">To Date <span class="text-gray-400">– Optional</span></label>
+                      <input type="text" class="border border-gray-300 rounded-lg p-2.5" value="28.10.2022" />
+                    </div>
+                    <div class="flex flex-col">
+                      <label class="text-sm font-medium text-gray-700 mb-1">Academic Level <span class="text-gray-400">– Optional</span></label>
+                      <select class="border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple">
+                        <option>Select</option>
+                      </select>
+                    </div>
+                    <div class="flex flex-col">
+                      <label class="text-sm font-medium text-gray-700 mb-1">Level of Study <span class="text-gray-400">– Optional</span></label>
+                      <select class="border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple">
+                        <option>UGRD – Undergraduate</option>
+                      </select>
+                    </div>
+                    <div class="flex flex-col md:col-span-2">
+                      <label class="text-sm font-medium text-gray-700 mb-1">Field of Study <span class="text-gray-400">– Optional</span></label>
+                      <input type="text" class="border border-gray-300 rounded-lg p-2.5" value="Electrical and Electronics Engineering" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Transcript Summary (Accordion) Record 1 -->
+              <div class="border border-gray-200 rounded-lg">
+                <button type="button" class="w-full flex justify-between items-center p-4 text-lg font-medium text-gray-700 hover:bg-gray-50 accordion-toggle" data-target="transcriptSummarySection">
+                  Transcript Summary (Record 1)
+                  <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                </button>
+                <div id="transcriptSummarySection" class="p-6">
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6">
+                    <div class="flex flex-col">
+                      <label class="text-sm font-medium text-gray-700 mb-1">External GPA <span class="text-gray-400">– Optional</span></label>
+                      <input type="text" class="border border-gray-300 rounded-lg p-2.5" value="3.46" />
+                    </div>
+                    <div class="flex flex-col">
+                      <label class="text-sm font-medium text-gray-700 mb-1">GPA Type <span class="text-gray-400">– Optional</span></label>
+                      <select class="border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple">
+                        <option>4PT – Four Point Scale</option>
+                      </select>
+                    </div>
+                    <div class="flex flex-col md:col-span-2">
+                      <label class="text-sm font-medium text-gray-700 mb-1">GPA Short Description <span class="text-gray-400">– Optional</span></label>
+                      <input type="text" class="border border-gray-300 rounded-lg p-2.5" placeholder="" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Degree (Accordion) Record 1 -->
+              <div class="border border-gray-200 rounded-lg">
+                <button type="button" class="w-full flex justify-between items-center p-4 text-lg font-medium text-gray-700 hover:bg-gray-50 accordion-toggle" data-target="degreeSection">
+                  Degree (Record 1)
+                  <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                </button>
+                <div id="degreeSection" class="p-6">
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6">
+                    <div class="flex flex-col">
+                      <label class="text-sm font-medium text-gray-700 mb-1">Degree <span class="text-gray-400">– Optional</span></label>
+                      <select class="border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple">
+                        <option>BS – Bachelor of Science</option>
+                      </select>
+                    </div>
+                    <div class="flex flex-col">
+                      <label class="text-sm font-medium text-gray-700 mb-1">Data Source</label>
+                      <select class="border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple">
+                        <option>SLF – Self-Reported Information</option>
+                      </select>
+                    </div>
+                    <div class="flex flex-col">
+                      <label class="text-sm font-medium text-gray-700 mb-1">Degree Status</label>
+                      <select class="border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple">
+                        <option>C – Complete</option>
+                      </select>
+                    </div>
+                    <div class="flex flex-col">
+                      <label class="text-sm font-medium text-gray-700 mb-1">Honors Category <span class="text-gray-400">– Optional</span></label>
+                      <select class="border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple">
+                        <option>Select</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Record 2 Wrapper -->
+            <div id="externalRecord2" class="space-y-6 hidden">
+              <!-- External Education Information (Accordion) Record 2 -->
+              <div class="border border-gray-200 rounded-lg">
+                <button type="button" class="w-full flex justify-between items-center p-4 text-lg font-medium text-gray-700 hover:bg-gray-50 accordion-toggle" data-target="externalEduInfoSection2">
+                  External Education Information (Record 2)
+                  <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                </button>
+                <div id="externalEduInfoSection2" class="p-6">
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6">
+                    <div class="flex flex-col">
+                      <label class="text-sm font-medium text-gray-700 mb-1">School Type</label>
+                      <select class="border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple">
+                        <option>High School</option>
+                        <option>College</option>
+                        <option>Other</option>
+                      </select>
+                    </div>
+                    <div class="flex flex-col">
+                      <label class="text-sm font-medium text-gray-700 mb-1">External Organization</label>
+                      <div class="relative">
+                        <input type="text" class="w-full border border-gray-300 rounded-lg p-2.5 pr-10 focus:ring-ku-purple focus:border-ku-purple" value="İSTANBUL LİSESİ" />
+                        <button class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-700" aria-label="Search organization">
+                          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M10 18a8 8 0 110-16 8 8 0 010 16z"/></svg>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="flex flex-col">
+                      <label class="text-sm font-medium text-gray-700 mb-1">School Branch <span class="text-gray-400">– Optional</span></label>
+                      <select class="border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple">
+                        <option>Select</option>
+                      </select>
+                    </div>
+                    <div class="flex flex-col">
+                      <label class="text-sm font-medium text-gray-700 mb-1">High School Type <span class="text-gray-400">– Optional</span></label>
+                      <select class="border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple">
+                        <option>Public</option>
+                        <option>Private</option>
+                      </select>
+                    </div>
+                    <div class="flex flex-col md:col-span-2">
+                      <label class="text-sm font-medium text-gray-700 mb-1">Education Status <span class="text-gray-400">– Optional</span></label>
+                      <select class="border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple w-full md:w-1/2">
+                        <option>Select</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- School Career Data (Accordion) Record 2 -->
+              <div class="border border-gray-200 rounded-lg">
+                <button type="button" class="w-full flex justify-between items-center p-4 text-lg font-medium text-gray-700 hover:bg-gray-50 accordion-toggle" data-target="schoolCareerSection2">
+                  School Career Data (Record 2)
+                  <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                </button>
+                <div id="schoolCareerSection2" class="p-6">
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6">
+                    <div class="flex flex-col">
+                      <label class="text-sm font-medium text-gray-700 mb-1">Career</label>
+                      <select class="border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple">
+                        <option>HSED – High School Ed.</option>
+                      </select>
+                    </div>
+                    <div class="flex flex-col">
+                      <label class="text-sm font-medium text-gray-700 mb-1">Term Year <span class="text-gray-400">– Optional</span></label>
+                      <input type="text" class="border border-gray-300 rounded-lg p-2.5" value="2017" />
+                    </div>
+                    <div class="flex flex-col">
+                      <label class="text-sm font-medium text-gray-700 mb-1">From Date <span class="text-gray-400">– Optional</span></label>
+                      <input type="text" class="border border-gray-300 rounded-lg p-2.5" value="01.09.2013" />
+                    </div>
+                    <div class="flex flex-col">
+                      <label class="text-sm font-medium text-gray-700 mb-1">To Date <span class="text-gray-400">– Optional</span></label>
+                      <input type="text" class="border border-gray-300 rounded-lg p-2.5" value="15.06.2017" />
+                    </div>
+                    <div class="flex flex-col">
+                      <label class="text-sm font-medium text-gray-700 mb-1">Academic Level <span class="text-gray-400">– Optional</span></label>
+                      <select class="border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple">
+                        <option>Grade 12</option>
+                      </select>
+                    </div>
+                    <div class="flex flex-col">
+                      <label class="text-sm font-medium text-gray-700 mb-1">Level of Study <span class="text-gray-400">– Optional</span></label>
+                      <select class="border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple">
+                        <option>Secondary</option>
+                      </select>
+                    </div>
+                    <div class="flex flex-col md:col-span-2">
+                      <label class="text-sm font-medium text-gray-700 mb-1">Field of Study <span class="text-gray-400">– Optional</span></label>
+                      <input type="text" class="border border-gray-300 rounded-lg p-2.5" value="Science" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Transcript Summary (Accordion) Record 2 -->
+              <div class="border border-gray-200 rounded-lg">
+                <button type="button" class="w-full flex justify-between items-center p-4 text-lg font-medium text-gray-700 hover:bg-gray-50 accordion-toggle" data-target="transcriptSummarySection2">
+                  Transcript Summary (Record 2)
+                  <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                </button>
+                <div id="transcriptSummarySection2" class="p-6">
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6">
+                    <div class="flex flex-col">
+                      <label class="text-sm font-medium text-gray-700 mb-1">External GPA <span class="text-gray-400">– Optional</span></label>
+                      <input type="text" class="border border-gray-300 rounded-lg p-2.5" value="92" />
+                    </div>
+                    <div class="flex flex-col">
+                      <label class="text-sm font-medium text-gray-700 mb-1">GPA Type <span class="text-gray-400">– Optional</span></label>
+                      <select class="border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple">
+                        <option>100 Scale</option>
+                      </select>
+                    </div>
+                    <div class="flex flex-col md:col-span-2">
+                      <label class="text-sm font-medium text-gray-700 mb-1">GPA Short Description <span class="text-gray-400">– Optional</span></label>
+                      <input type="text" class="border border-gray-300 rounded-lg p-2.5" placeholder="" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Degree (Accordion) Record 2 -->
+              <div class="border border-gray-200 rounded-lg">
+                <button type="button" class="w-full flex justify-between items-center p-4 text-lg font-medium text-gray-700 hover:bg-gray-50 accordion-toggle" data-target="degreeSection2">
+                  Degree (Record 2)
+                  <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                </button>
+                <div id="degreeSection2" class="p-6">
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6">
+                    <div class="flex flex-col">
+                      <label class="text-sm font-medium text-gray-700 mb-1">Degree <span class="text-gray-400">– Optional</span></label>
+                      <select class="border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple">
+                        <option>HS Diploma</option>
+                      </select>
+                    </div>
+                    <div class="flex flex-col">
+                      <label class="text-sm font-medium text-gray-700 mb-1">Data Source</label>
+                      <select class="border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple">
+                        <option>SLF – Self-Reported Information</option>
+                      </select>
+                    </div>
+                    <div class="flex flex-col">
+                      <label class="text-sm font-medium text-gray-700 mb-1">Degree Status</label>
+                      <select class="border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple">
+                        <option>C – Complete</option>
+                      </select>
+                    </div>
+                    <div class="flex flex-col">
+                      <label class="text-sm font-medium text-gray-700 mb-1">Honors Category <span class="text-gray-400">– Optional</span></label>
+                      <select class="border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple">
+                        <option>Select</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="flex justify-end items-center space-x-3 pt-2">
+              <a href="admission.html" class="text-sm px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium">Return to Search</a>
+              <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-2 px-6 rounded-lg text-sm">Reset</button>
+              <button class="bg-ku-purple-new hover:bg-ku-purple-new-hover text-white font-semibold py-2 px-6 rounded-lg text-sm">Save</button>
+            </div>
+          </div>
+
+          <!-- Test Results Panel -->
+          <div id="panel-tests" class="hidden space-y-6">
+            <!-- Panel utility -->
+            <div class="flex flex-wrap justify-end items-center gap-3">
+              <div class="flex items-center gap-2">
+                <button class="bg-ku-purple-new hover:bg-ku-purple-new-hover text-white text-xs font-semibold px-3 py-1.5 rounded-md" id="testsAddBtn">Add</button>
+                <button class="bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-semibold px-3 py-1.5 rounded-md" id="testsDeleteBtn">Delete</button>
+                <div class="flex items-center gap-1" id="testsRecordSwitcher">
+                  <button data-record="1" class="record-switch-tests bg-ku-purple-new text-white text-xs font-semibold px-2 py-1 rounded-md">1</button>
+                  <button data-record="2" class="record-switch-tests bg-gray-100 text-gray-700 text-xs font-semibold px-2 py-1 rounded-md hover:bg-gray-200">2</button>
+                </div>
+              </div>
+              <button id="collapseAllTestsBtn" class="text-xs text-ku-purple hover:underline">Collapse All</button>
+            </div>
+
+            <!-- Record 1 Wrapper -->
+            <div id="testsRecord1" class="space-y-6">
+              <!-- Test Result (Accordion) Record 1 -->
+              <div class="border border-gray-200 rounded-lg">
+                <button type="button" class="w-full flex justify-between items-center p-4 text-lg font-medium text-gray-700 hover:bg-gray-50 accordion-toggle" data-target="testInfoSection1">
+                  Test Result (Record 1)
+                  <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                </button>
+                <div id="testInfoSection1" class="p-6">
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6">
+                    <div class="flex flex-col">
+                      <label class="text-sm font-medium text-gray-700 mb-1">Test ID</label>
+                      <select class="border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple">
+                        <option>TOEFL</option>
+                        <option>IELTS</option>
+                        <option>GRE</option>
+                        <option>GMAT</option>
+                      </select>
+                    </div>
+                    <div class="flex flex-col">
+                      <label class="text-sm font-medium text-gray-700 mb-1">Test Date <span class="text-gray-400">– Optional</span></label>
+                      <div class="relative">
+                        <input type="text" class="w-full border border-gray-300 rounded-lg p-2.5 pr-10 focus:ring-ku-purple focus:border-ku-purple" value="12.01.2025" />
+                        <span class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500">
+                          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="flex flex-col md:col-span-2">
+                      <label class="text-sm font-medium text-gray-700 mb-1">Data Source</label>
+                      <select class="border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple w-full md:w-1/2">
+                        <option>Self-Reported</option>
+                        <option>Official</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Test Components (Accordion) Record 1 -->
+              <div class="border border-gray-200 rounded-lg">
+                <button type="button" class="w-full flex justify-between items-center p-4 text-lg font-medium text-gray-700 hover:bg-gray-50 accordion-toggle" data-target="testComponentsSection1">
+                  Test Components (Record 1)
+                  <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                </button>
+                <div id="testComponentsSection1" class="p-6 space-y-4">
+                  <div class="flex justify-end">
+                    <button class="bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-semibold px-3 py-1.5 rounded-md">Add New</button>
+                  </div>
+                  <div class="overflow-x-auto border border-gray-200 rounded-lg">
+                    <table class="min-w-full text-sm">
+                      <thead class="bg-gray-50 text-gray-600 uppercase text-xs">
+                        <tr>
+                          <th class="px-4 py-2 text-left">Component</th>
+                          <th class="px-4 py-2 text-left">Score</th>
+                          <th class="px-4 py-2 text-left">Letter Score</th>
+                          <th class="px-4 py-2 text-left">Percentile</th>
+                          <th class="px-4 py-2 text-left">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody class="divide-y divide-gray-200 bg-white">
+                        <tr>
+                          <td class="px-4 py-2">Reading</td>
+                          <td class="px-4 py-2">28</td>
+                          <td class="px-4 py-2">—</td>
+                          <td class="px-4 py-2">95</td>
+                          <td class="px-4 py-2 space-x-2"><button class="text-indigo-600 hover:text-indigo-900 text-xs font-medium">Edit</button><button class="text-rose-600 hover:text-rose-700 text-xs font-medium">Delete</button></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Record 2 Wrapper -->
+            <div id="testsRecord2" class="space-y-6 hidden">
+              <!-- Test Result (Accordion) Record 2 -->
+              <div class="border border-gray-200 rounded-lg">
+                <button type="button" class="w-full flex justify-between items-center p-4 text-lg font-medium text-gray-700 hover:bg-gray-50 accordion-toggle" data-target="testInfoSection2">
+                  Test Result (Record 2)
+                  <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                </button>
+                <div id="testInfoSection2" class="p-6">
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6">
+                    <div class="flex flex-col">
+                      <label class="text-sm font-medium text-gray-700 mb-1">Test ID</label>
+                      <select class="border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple">
+                        <option selected>YKS – Undergrad Placement Test</option>
+                        <option>IELTS</option>
+                        <option>TOEFL</option>
+                        <option>GRE</option>
+                        <option>GMAT</option>
+                      </select>
+                    </div>
+                    <div class="flex flex-col">
+                      <label class="text-sm font-medium text-gray-700 mb-1">Test Date <span class="text-gray-400">– Optional</span></label>
+                      <div class="relative">
+                        <input type="text" class="w-full border border-gray-300 rounded-lg p-2.5 pr-10 focus:ring-ku-purple focus:border-ku-purple" value="03.02.2025" />
+                        <span class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500">
+                          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="flex flex-col md:col-span-2">
+                      <label class="text-sm font-medium text-gray-700 mb-1">Data Source</label>
+                      <select class="border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple w-full md:w-1/2">
+                        <option>Official</option>
+                        <option>Self-Reported</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Test Components (Accordion) Record 2 -->
+              <div class="border border-gray-200 rounded-lg">
+                <button type="button" class="w-full flex justify-between items-center p-4 text-lg font-medium text-gray-700 hover:bg-gray-50 accordion-toggle" data-target="testComponentsSection2">
+                  Placement Metrics (YKS Record 2)
+                  <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                </button>
+                <div id="testComponentsSection2" class="p-6">
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6">
+                    <div class="flex flex-col">
+                      <label class="text-sm font-medium text-gray-700 mb-1">KU Placement Score <span class="text-gray-400">– Optional</span></label>
+                      <input type="text" class="border border-gray-300 rounded-lg p-2.5" placeholder="" />
+                    </div>
+                    <div class="flex flex-col">
+                      <label class="text-sm font-medium text-gray-700 mb-1">KU Placement Rank <span class="text-gray-400">– Optional</span></label>
+                      <input type="text" class="border border-gray-300 rounded-lg p-2.5" placeholder="" />
+                    </div>
+                    <div class="flex flex-col">
+                      <label class="text-sm font-medium text-gray-700 mb-1">KU Preference Rank <span class="text-gray-400">– Optional</span></label>
+                      <input type="text" class="border border-gray-300 rounded-lg p-2.5" placeholder="" />
+                    </div>
+                    <div class="flex flex-col">
+                      <label class="text-sm font-medium text-gray-700 mb-1">YKS Score <span class="text-gray-400">– Optional</span></label>
+                      <input type="text" class="border border-gray-300 rounded-lg p-2.5" placeholder="" />
+                    </div>
+                    <div class="flex flex-col">
+                      <label class="text-sm font-medium text-gray-700 mb-1">Placement Type <span class="text-gray-400">– Optional</span></label>
+                      <select class="border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple">
+                        <option>Select</option>
+                        <option>Central</option>
+                        <option>Additional</option>
+                      </select>
+                    </div>
+                    <div class="flex flex-col">
+                      <label class="text-sm font-medium text-gray-700 mb-1">KU Placement Type <span class="text-gray-400">– Optional</span></label>
+                      <select class="border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple">
+                        <option>Select</option>
+                        <option>Scholarship</option>
+                        <option>Full Tuition</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Payment Status Panel -->
+          <div id="panel-payments" class="hidden">
+            <div class="bg-white rounded-xl shadow p-6 border border-gray-200">
+              <h2 class="text-lg font-semibold text-gray-800 mb-4">Payment Status</h2>
+              <p class="text-sm text-gray-600">(Demo placeholder) Application fee, tuition deposits, outstanding balances.</p>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="w-full bg-slate-800 text-white text-xs p-3 flex justify-end items-center z-40 sticky bottom-0 flex-shrink-0">
+    <div class="flex items-center space-x-4">
+      <span>Copyright © 2025 Koç University Version 9.1.12</span>
+      <a href="#" class="hover:text-indigo-400">Privacy Policy</a>
+      <a href="#" class="hover:text-indigo-400">Cookie Policy</a>
+    </div>
+  </footer>
+
+  <script>
+    // Tabs logic
+    const tabButtons = document.querySelectorAll('[data-tab]');
+    const panels = {
+      personal: document.getElementById('panel-personal'),
+      contact: document.getElementById('panel-contact'),
+      program: document.getElementById('panel-program'),
+      external: document.getElementById('panel-external'),
+      tests: document.getElementById('panel-tests'),
+      payments: document.getElementById('panel-payments')
+    };
+
+    tabButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.getAttribute('data-tab');
+        // update button styles
+        tabButtons.forEach(b => { b.classList.remove('tab-active'); b.classList.add('tab-inactive'); });
+        btn.classList.add('tab-active'); btn.classList.remove('tab-inactive');
+        // show panel
+        Object.keys(panels).forEach(key => {
+          panels[key].classList.toggle('hidden', key !== target);
+        });
+      });
+    });
+
+    // Accordions logic
+    document.querySelectorAll('.accordion-toggle').forEach(toggle => {
+      const targetId = toggle.getAttribute('data-target');
+      const content = document.getElementById(targetId);
+      const icon = toggle.querySelector('svg');
+      // start expanded
+      content.classList.remove('hidden');
+      toggle.addEventListener('click', () => {
+        content.classList.toggle('hidden');
+        icon.classList.toggle('rotate-180');
+      });
+    });
+
+    // Collapse All (Personal tab)
+    const collapseAllPersonalBtn = document.getElementById('collapseAllPersonalBtn');
+    if (collapseAllPersonalBtn) {
+      collapseAllPersonalBtn.addEventListener('click', () => {
+        ['personalInfoSection','citizenshipSection','passportSection'].forEach(id => {
+          const el = document.getElementById(id); if (el && !el.classList.contains('hidden')) el.classList.add('hidden');
+        });
+        // rotate icons
+        document.querySelectorAll('#panel-personal .accordion-toggle svg').forEach(svg => svg.classList.add('rotate-180'));
+      });
+    }
+
+    // Collapse All (Contact tab)
+    const collapseAllContactBtn = document.getElementById('collapseAllContactBtn');
+    if (collapseAllContactBtn) {
+      collapseAllContactBtn.addEventListener('click', () => {
+        ['addressesSection','phonesSection','emailsSection','relationshipSection'].forEach(id => {
+          const el = document.getElementById(id); if (el && !el.classList.contains('hidden')) el.classList.add('hidden');
+        });
+        document.querySelectorAll('#panel-contact .accordion-toggle svg').forEach(svg => svg.classList.add('rotate-180'));
+      });
+    }
+
+    // Collapse All (Program tab)
+    const collapseAllProgramBtn = document.getElementById('collapseAllProgramBtn');
+    if (collapseAllProgramBtn) {
+      collapseAllProgramBtn.addEventListener('click', () => {
+        ['programGeneralSection','programDataSection','planDataSection'].forEach(id => {
+          const el = document.getElementById(id); if (el && !el.classList.contains('hidden')) el.classList.add('hidden');
+        });
+        document.querySelectorAll('#panel-program .accordion-toggle svg').forEach(svg => svg.classList.add('rotate-180'));
+      });
+    }
+
+    // Collapse All (External Edu tab)
+    const collapseAllExternalBtn = document.getElementById('collapseAllExternalBtn');
+    if (collapseAllExternalBtn) {
+      collapseAllExternalBtn.addEventListener('click', () => {
+        // Collapse currently visible record's accordions
+        const activeRecord = document.querySelector('#panel-external #externalRecord1.hidden') ? '2' : '1';
+        const ids = activeRecord === '1'
+          ? ['externalEduInfoSection','schoolCareerSection','transcriptSummarySection','degreeSection']
+          : ['externalEduInfoSection2','schoolCareerSection2','transcriptSummarySection2','degreeSection2'];
+        ids.forEach(id => {
+          const el = document.getElementById(id); if (el && !el.classList.contains('hidden')) el.classList.add('hidden');
+        });
+        const recordWrapper = activeRecord === '1' ? '#externalRecord1' : '#externalRecord2';
+        document.querySelectorAll(`${recordWrapper} .accordion-toggle svg`).forEach(svg => svg.classList.add('rotate-180'));
+      });
+    }
+
+    // Placeholder handlers for Add/Delete in External Edu (for future dynamic list expansion)
+    const externalEduAddBtn = document.getElementById('externalEduAddBtn');
+    const externalEduDeleteBtn = document.getElementById('externalEduDeleteBtn');
+    if (externalEduAddBtn) {
+      externalEduAddBtn.addEventListener('click', () => {
+        // In a dynamic implementation, this would clone a template or open a modal.
+        console.log('Add External Education record (placeholder)');
+      });
+    }
+    if (externalEduDeleteBtn) {
+      externalEduDeleteBtn.addEventListener('click', () => {
+        // In a dynamic implementation, this would remove a selected record.
+        console.log('Delete External Education record (placeholder)');
+      });
+    }
+
+    // Record switcher logic
+    const recordSwitchButtons = document.querySelectorAll('#externalRecordSwitcher .record-switch');
+    const record1 = document.getElementById('externalRecord1');
+    const record2 = document.getElementById('externalRecord2');
+    function setActiveRecord(record) {
+      if (record === '1') {
+        record1.classList.remove('hidden');
+        record2.classList.add('hidden');
+      } else {
+        record2.classList.remove('hidden');
+        record1.classList.add('hidden');
+      }
+      recordSwitchButtons.forEach(btn => {
+        const isActive = btn.getAttribute('data-record') === record;
+        btn.classList.toggle('bg-ku-purple-new', isActive);
+        btn.classList.toggle('text-white', isActive);
+        btn.classList.toggle('bg-gray-100', !isActive);
+        btn.classList.toggle('text-gray-700', !isActive);
+      });
+    }
+    recordSwitchButtons.forEach(btn => {
+      btn.addEventListener('click', () => setActiveRecord(btn.getAttribute('data-record')));
+    });
+    // initialize record 1 active
+    setActiveRecord('1');
+    
+    // Test Results tab logic
+    const collapseAllTestsBtn = document.getElementById('collapseAllTestsBtn');
+    const testsAddBtn = document.getElementById('testsAddBtn');
+    const testsDeleteBtn = document.getElementById('testsDeleteBtn');
+    const testsRecord1 = document.getElementById('testsRecord1');
+    const testsRecord2 = document.getElementById('testsRecord2');
+    const testsRecordSwitchButtons = document.querySelectorAll('#testsRecordSwitcher .record-switch-tests');
+
+    function setActiveTestsRecord(record) {
+      if (record === '1') {
+        testsRecord1.classList.remove('hidden');
+        testsRecord2.classList.add('hidden');
+      } else {
+        testsRecord2.classList.remove('hidden');
+        testsRecord1.classList.add('hidden');
+      }
+      testsRecordSwitchButtons.forEach(btn => {
+        const isActive = btn.getAttribute('data-record') === record;
+        btn.classList.toggle('bg-ku-purple-new', isActive);
+        btn.classList.toggle('text-white', isActive);
+        btn.classList.toggle('bg-gray-100', !isActive);
+        btn.classList.toggle('text-gray-700', !isActive);
+      });
+    }
+
+    testsRecordSwitchButtons.forEach(btn => {
+      btn.addEventListener('click', () => setActiveTestsRecord(btn.getAttribute('data-record')));
+    });
+    // initialize tests record 1 active
+    setActiveTestsRecord('1');
+
+    if (collapseAllTestsBtn) {
+      collapseAllTestsBtn.addEventListener('click', () => {
+        const activeRecord = testsRecord1.classList.contains('hidden') ? '2' : '1';
+        const ids = activeRecord === '1'
+          ? ['testInfoSection1','testComponentsSection1']
+          : ['testInfoSection2','testComponentsSection2'];
+        ids.forEach(id => {
+          const el = document.getElementById(id);
+          if (el && !el.classList.contains('hidden')) el.classList.add('hidden');
+        });
+        const recordWrapper = activeRecord === '1' ? '#testsRecord1' : '#testsRecord2';
+        document.querySelectorAll(`${recordWrapper} .accordion-toggle svg`).forEach(svg => svg.classList.add('rotate-180'));
+      });
+    }
+
+    if (testsAddBtn) {
+      testsAddBtn.addEventListener('click', () => {
+        console.log('Add Test Result record (placeholder)');
+      });
+    }
+    if (testsDeleteBtn) {
+      testsDeleteBtn.addEventListener('click', () => {
+        console.log('Delete Test Result record (placeholder)');
+      });
+    }
+  </script>
+</body>
+</html>

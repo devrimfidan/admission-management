@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staging Analytics - Power BI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Segoe+UI:wght@300;400;600;700&display=swap');
+        body { 
+            font-family: 'Segoe UI', 'Helvetica Neue', sans-serif; 
+            background-color: #f3f2f1;
+            margin: 0;
+            overflow: hidden;
+        }
+        .powerbi-header {
+            background: linear-gradient(90deg, #F2C811 0%, #e0b80f 100%);
+            height: 44px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .filter-pane {
+            background: #ffffff;
+            border-right: 1px solid #e1dfdd;
+            overflow-y: auto;
+        }
+        .visual-container {
+            background: white;
+            border-radius: 2px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            padding: 16px;
+        }
+        .checkbox-custom {
+            width: 16px;
+            height: 16px;
+            border: 1px solid #605e5c;
+            border-radius: 2px;
+            cursor: pointer;
+        }
+        .checkbox-custom:checked {
+            background-color: #0078d4;
+            border-color: #0078d4;
+        }
+        .metric-card {
+            background: linear-gradient(135deg, #0078d4 0%, #005a9e 100%);
+            color: white;
+            border-radius: 2px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .metric-value {
+            font-size: 48px;
+            font-weight: 600;
+            line-height: 1;
+        }
+        .metric-label {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-top: 8px;
+        }
+        .table-powerbi {
+            width: 100%;
+            font-size: 12px;
+            border-collapse: collapse;
+        }
+        .table-powerbi thead {
+            background-color: #f3f2f1;
+            font-weight: 600;
+        }
+        .table-powerbi th, .table-powerbi td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #edebe9;
+        }
+        .table-powerbi tbody tr:hover {
+            background-color: #f3f2f1;
+        }
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 2px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .status-posted { background-color: #dff6dd; color: #107c10; }
+        .status-saved { background-color: #deecf9; color: #004578; }
+        .status-error { background-color: #fde7e9; color: #a80000; }
+        .status-new { background-color: #fff4ce; color: #797673; }
+        .filter-section-header {
+            font-size: 12px;
+            font-weight: 600;
+            color: #323130;
+            padding: 12px 16px 8px;
+            background-color: #faf9f8;
+            border-bottom: 1px solid #edebe9;
+        }
+        .search-box {
+            border: 1px solid #edebe9;
+            padding: 6px 12px;
+            font-size: 12px;
+            border-radius: 2px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .search-box:focus {
+            outline: none;
+            border-color: #0078d4;
+        }
+    </style>
+</head>
+<body>
+    <!-- Power BI Header -->
+    <div class="powerbi-header flex items-center justify-between px-4">
+        <div class="flex items-center space-x-4">
+            <svg class="w-5 h-5 text-black" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M4 3a1 1 0 0 0-1 1v16a1 1 0 0 0 2 0V4a1 1 0 0 0-1-1Zm5 4a1 1 0 0 0-1 1v12a1 1 0 0 0 2 0V8a1 1 0 0 0-1-1Zm5 3a1 1 0 0 0-1 1v9a1 1 0 0 0 2 0v-9a1 1 0 0 0-1-1Zm5-4a1 1 0 0 0-1 1v13a1 1 0 0 0 2 0V7a1 1 0 0 0-1-1Z"/>
+            </svg>
+            <span class="text-sm font-semibold text-black">Staging Analytics</span>
+        </div>
+        <div class="flex items-center space-x-3">
+            <button class="text-black text-xs hover:bg-black hover:bg-opacity-10 px-3 py-1 rounded">Refresh</button>
+            <button class="text-black text-xs hover:bg-black hover:bg-opacity-10 px-3 py-1 rounded">Export</button>
+            <button class="text-black text-xs hover:bg-black hover:bg-opacity-10 px-3 py-1 rounded" onclick="window.location.href='powerbi-reports.html'">Exit</button>
+        </div>
+    </div>
+
+    <div class="flex" style="height: calc(100vh - 44px);">
+        <!-- Filters Pane -->
+        <div class="filter-pane w-64 flex-shrink-0">
+            <div class="p-4 border-b border-gray-200">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-sm font-semibold text-gray-800">Filters</span>
+                    <button class="text-xs text-blue-600 hover:underline" onclick="clearAllFilters()">Clear all</button>
+                </div>
+            </div>
+
+            <!-- Academic Career Filter -->
+            <div class="filter-section">
+                <div class="filter-section-header">Academic Career</div>
+                <div class="p-3">
+                    <input type="text" placeholder="Search" class="search-box mb-2" id="careerSearch" oninput="filterCheckboxes('career')">
+                    <div id="careerFilters" class="space-y-1">
+                        <label class="flex items-center space-x-2 text-sm cursor-pointer p-1 hover:bg-gray-50 rounded">
+                            <input type="checkbox" class="checkbox-custom filter-checkbox" data-filter="career" value="Undergrad" checked onchange="applyFilters()">
+                            <span>Undergraduate</span>
+                        </label>
+                        <label class="flex items-center space-x-2 text-sm cursor-pointer p-1 hover:bg-gray-50 rounded">
+                            <input type="checkbox" class="checkbox-custom filter-checkbox" data-filter="career" value="Graduate" checked onchange="applyFilters()">
+                            <span>Graduate</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Constituent Status Filter -->
+            <div class="filter-section">
+                <div class="filter-section-header">Constituent Status</div>
+                <div class="p-3">
+                    <input type="text" placeholder="Search" class="search-box mb-2" id="statusSearch" oninput="filterCheckboxes('status')">
+                    <div id="statusFilters" class="space-y-1">
+                        <label class="flex items-center space-x-2 text-sm cursor-pointer p-1 hover:bg-gray-50 rounded">
+                            <input type="checkbox" class="checkbox-custom filter-checkbox" data-filter="status" value="Posted" checked onchange="applyFilters()">
+                            <span>Posted</span>
+                        </label>
+                        <label class="flex items-center space-x-2 text-sm cursor-pointer p-1 hover:bg-gray-50 rounded">
+                            <input type="checkbox" class="checkbox-custom filter-checkbox" data-filter="status" value="Saved" checked onchange="applyFilters()">
+                            <span>Saved</span>
+                        </label>
+                        <label class="flex items-center space-x-2 text-sm cursor-pointer p-1 hover:bg-gray-50 rounded">
+                            <input type="checkbox" class="checkbox-custom filter-checkbox" data-filter="status" value="Error" checked onchange="applyFilters()">
+                            <span>Error</span>
+                        </label>
+                        <label class="flex items-center space-x-2 text-sm cursor-pointer p-1 hover:bg-gray-50 rounded">
+                            <input type="checkbox" class="checkbox-custom filter-checkbox" data-filter="status" value="New" checked onchange="applyFilters()">
+                            <span>New</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Source Filter -->
+            <div class="filter-section">
+                <div class="filter-section-header">Source</div>
+                <div class="p-3">
+                    <input type="text" placeholder="Search" class="search-box mb-2" id="sourceSearch" oninput="filterCheckboxes('source')">
+                    <div id="sourceFilters" class="space-y-1">
+                        <label class="flex items-center space-x-2 text-sm cursor-pointer p-1 hover:bg-gray-50 rounded">
+                            <input type="checkbox" class="checkbox-custom filter-checkbox" data-filter="source" value="Slate" checked onchange="applyFilters()">
+                            <span>Slate</span>
+                        </label>
+                        <label class="flex items-center space-x-2 text-sm cursor-pointer p-1 hover:bg-gray-50 rounded">
+                            <input type="checkbox" class="checkbox-custom filter-checkbox" data-filter="source" value="Manual" checked onchange="applyFilters()">
+                            <span>Manual</span>
+                        </label>
+                        <label class="flex items-center space-x-2 text-sm cursor-pointer p-1 hover:bg-gray-50 rounded">
+                            <input type="checkbox" class="checkbox-custom filter-checkbox" data-filter="source" value="Import" checked onchange="applyFilters()">
+                            <span>Import</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 overflow-y-auto p-4">
+            <div class="grid grid-cols-1 gap-4">
+                <!-- KPI Cards Row -->
+                <div class="grid grid-cols-4 gap-4">
+                    <div class="metric-card">
+                        <div class="metric-value" id="totalStaging">152</div>
+                        <div class="metric-label">Total in Staging</div>
+                    </div>
+                    <div class="metric-card" style="background: linear-gradient(135deg, #107c10 0%, #0b5a08 100%);">
+                        <div class="metric-value" id="postedCount">86</div>
+                        <div class="metric-label">Posted (57%)</div>
+                    </div>
+                    <div class="metric-card" style="background: linear-gradient(135deg, #d13438 0%, #a4262c 100%);">
+                        <div class="metric-value" id="errorCount">24</div>
+                        <div class="metric-label">Errors (16%)</div>
+                    </div>
+                    <div class="metric-card" style="background: linear-gradient(135deg, #0078d4 0%, #004578 100%);">
+                        <div class="metric-value" id="savedCount">42</div>
+                        <div class="metric-label">Saved (28%)</div>
+                    </div>
+                </div>
+
+                <!-- Charts Row -->
+                <div class="grid grid-cols-2 gap-4">
+                    <!-- Status Distribution -->
+                    <div class="visual-container" style="min-height: 300px; max-height: 300px; display: flex; flex-direction: column;">
+                        <h3 class="text-sm font-semibold mb-4 text-gray-800">Status Distribution</h3>
+                        <div style="flex: 1; position: relative; min-height: 0;">
+                            <canvas id="statusChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Source Distribution -->
+                    <div class="visual-container" style="min-height: 300px; max-height: 300px; display: flex; flex-direction: column;">
+                        <h3 class="text-sm font-semibold mb-4 text-gray-800">Applications by Source</h3>
+                        <div style="flex: 1; position: relative; min-height: 0;">
+                            <canvas id="sourceChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Error Analysis and Timeline -->
+                <div class="grid grid-cols-2 gap-4">
+                    <!-- Error Types -->
+                    <div class="visual-container" style="min-height: 280px; max-height: 280px; display: flex; flex-direction: column;">
+                        <h3 class="text-sm font-semibold mb-4 text-gray-800">Top Error Types</h3>
+                        <div style="flex: 1; position: relative; min-height: 0;">
+                            <canvas id="errorChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Processing Timeline -->
+                    <div class="visual-container" style="min-height: 280px; max-height: 280px; display: flex; flex-direction: column;">
+                        <h3 class="text-sm font-semibold mb-4 text-gray-800">Processing Timeline</h3>
+                        <div style="flex: 1; position: relative; min-height: 0;">
+                            <canvas id="timelineChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detailed Data Table -->
+                <div class="visual-container">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-sm font-semibold text-gray-800">Staging Details</h3>
+                        <input type="text" placeholder="Search..." class="search-box w-64" id="tableSearch" oninput="filterTable()">
+                    </div>
+                    <div class="overflow-x-auto" style="max-height: 400px;">
+                        <table class="table-powerbi" id="dataTable">
+                            <thead>
+                                <tr>
+                                    <th>Application Number</th>
+                                    <th>Full Name</th>
+                                    <th>Academic Career</th>
+                                    <th>Academic Plan</th>
+                                    <th>Source</th>
+                                    <th>Constituent Status</th>
+                                    <th>Created Date</th>
+                                    <th>Last Updated</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableBody">
+                                <!-- Data will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample data
+        const stagingData = [
+            { appNum: 'STG-7001', name: 'Ahmet Yılmaz', career: 'Undergrad', plan: 'Engineering', source: 'Slate', status: 'Posted', created: '2025-11-01', updated: '2025-11-05' },
+            { appNum: 'STG-7002', name: 'Fatma Kaya', career: 'Graduate', plan: 'Business', source: 'Manual', status: 'Saved', created: '2025-11-02', updated: '2025-11-03' },
+            { appNum: 'STG-7003', name: 'Mustafa Demir', career: 'Undergrad', plan: 'Arts', source: 'Slate', status: 'Error', created: '2025-11-03', updated: '2025-11-03' },
+            { appNum: 'STG-7004', name: 'Ayşe Öztürk', career: 'Graduate', plan: 'Computer Science', source: 'Import', status: 'Posted', created: '2025-11-03', updated: '2025-11-06' },
+            { appNum: 'STG-7005', name: 'Mehmet Şahin', career: 'Undergrad', plan: 'Engineering', source: 'Slate', status: 'Saved', created: '2025-11-04', updated: '2025-11-04' },
+            { appNum: 'STG-7006', name: 'Zeynep Çelik', career: 'Graduate', plan: 'Business', source: 'Manual', status: 'New', created: '2025-11-05', updated: '2025-11-05' },
+            { appNum: 'STG-7007', name: 'Can Arslan', career: 'Undergrad', plan: 'Arts', source: 'Slate', status: 'Posted', created: '2025-11-05', updated: '2025-11-07' },
+            { appNum: 'STG-7008', name: 'Selin Aydın', career: 'Graduate', plan: 'Computer Science', source: 'Import', status: 'Error', created: '2025-11-06', updated: '2025-11-06' },
+        ];
+
+        let filteredData = [...stagingData];
+        let statusChart, sourceChart, errorChart, timelineChart;
+
+        function initCharts() {
+            // Status Distribution Chart
+            const statusCtx = document.getElementById('statusChart').getContext('2d');
+            statusChart = new Chart(statusCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Posted', 'Saved', 'Error', 'New'],
+                    datasets: [{
+                        data: [86, 42, 24, 10],
+                        backgroundColor: ['#107c10', '#0078d4', '#d13438', '#ca5010'],
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom' } }
+                }
+            });
+
+            // Source Distribution Chart
+            const sourceCtx = document.getElementById('sourceChart').getContext('2d');
+            sourceChart = new Chart(sourceCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Slate', 'Manual', 'Import'],
+                    datasets: [{
+                        label: 'Applications',
+                        data: [92, 38, 22],
+                        backgroundColor: '#0078d4',
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true } }
+                }
+            });
+
+            // Error Types Chart
+            const errorCtx = document.getElementById('errorChart').getContext('2d');
+            errorChart = new Chart(errorCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Missing Data', 'Invalid Format', 'Duplicate', 'Validation'],
+                    datasets: [{
+                        label: 'Error Count',
+                        data: [8, 6, 5, 5],
+                        backgroundColor: '#d13438',
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    plugins: { legend: { display: false } },
+                    scales: { x: { beginAtZero: true } }
+                }
+            });
+
+            // Timeline Chart
+            const timelineCtx = document.getElementById('timelineChart').getContext('2d');
+            timelineChart = new Chart(timelineCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Nov 1', 'Nov 2', 'Nov 3', 'Nov 4', 'Nov 5', 'Nov 6'],
+                    datasets: [{
+                        label: 'Processed',
+                        data: [18, 32, 56, 78, 112, 142],
+                        borderColor: '#107c10',
+                        backgroundColor: 'rgba(16, 124, 16, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true } }
+                }
+            });
+        }
+
+        function getStatusBadge(status) {
+            const classes = {
+                'Posted': 'status-posted',
+                'Saved': 'status-saved',
+                'Error': 'status-error',
+                'New': 'status-new'
+            };
+            return `<span class="status-badge ${classes[status]}">${status}</span>`;
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+            
+            filteredData.forEach(row => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${row.appNum}</td>
+                    <td>${row.name}</td>
+                    <td>${row.career}</td>
+                    <td>${row.plan}</td>
+                    <td>${row.source}</td>
+                    <td>${getStatusBadge(row.status)}</td>
+                    <td>${row.created}</td>
+                    <td>${row.updated}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            updateKPIs();
+        }
+
+        function updateKPIs() {
+            const total = filteredData.length;
+            const posted = filteredData.filter(r => r.status === 'Posted').length;
+            const error = filteredData.filter(r => r.status === 'Error').length;
+            const saved = filteredData.filter(r => r.status === 'Saved').length;
+
+            document.getElementById('totalStaging').textContent = total;
+            document.getElementById('postedCount').textContent = posted;
+            document.getElementById('errorCount').textContent = error;
+            document.getElementById('savedCount').textContent = saved;
+
+            const postedPct = Math.round((posted / total) * 100);
+            const errorPct = Math.round((error / total) * 100);
+            const savedPct = Math.round((saved / total) * 100);
+
+            document.querySelector('#postedCount').nextElementSibling.textContent = `Posted (${postedPct}%)`;
+            document.querySelector('#errorCount').nextElementSibling.textContent = `Errors (${errorPct}%)`;
+            document.querySelector('#savedCount').nextElementSibling.textContent = `Saved (${savedPct}%)`;
+        }
+
+        function applyFilters() {
+            const careerFilters = Array.from(document.querySelectorAll('[data-filter="career"]:checked')).map(cb => cb.value);
+            const statusFilters = Array.from(document.querySelectorAll('[data-filter="status"]:checked')).map(cb => cb.value);
+            const sourceFilters = Array.from(document.querySelectorAll('[data-filter="source"]:checked')).map(cb => cb.value);
+
+            filteredData = stagingData.filter(row => {
+                return careerFilters.includes(row.career) &&
+                       statusFilters.includes(row.status) &&
+                       sourceFilters.includes(row.source);
+            });
+
+            renderTable();
+        }
+
+        function filterTable() {
+            const searchTerm = document.getElementById('tableSearch').value.toLowerCase();
+            const rows = document.querySelectorAll('#tableBody tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchTerm) ? '' : 'none';
+            });
+        }
+
+        function filterCheckboxes(type) {
+            const searchId = type + 'Search';
+            const containerId = type + 'Filters';
+            const searchTerm = document.getElementById(searchId).value.toLowerCase();
+            const labels = document.querySelectorAll(`#${containerId} label`);
+            
+            labels.forEach(label => {
+                const text = label.textContent.toLowerCase();
+                label.style.display = text.includes(searchTerm) ? 'flex' : 'none';
+            });
+        }
+
+        function clearAllFilters() {
+            document.querySelectorAll('.filter-checkbox').forEach(cb => cb.checked = true);
+            applyFilters();
+        }
+
+        window.addEventListener('load', () => {
+            initCharts();
+            renderTable();
+        });
+    </script>
+</body>
+</html>

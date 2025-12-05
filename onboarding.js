@@ -5,14 +5,17 @@ console.log('[Onboarding] Script loaded');
 
 function startOnboardingTour() {
     console.log('[Onboarding] startOnboardingTour called');
-    // Check if driver is available
-    if (typeof window.driver === 'undefined' || !window.driver) {
-        console.error('[Onboarding] Driver.js library not loaded', window.driver);
+    
+    // Get driver reference - it should be available as window.driver
+    const driverLib = window.driver;
+    if (!driverLib) {
+        console.error('[Onboarding] window.driver not available');
         return;
     }
-
-    console.log('[Onboarding] Driver.js is available', window.driver);
-    const driver = window.driver.driver;
+    
+    console.log('[Onboarding] Driver available, creating tour');
+    // The IIFE loads driver.js into window.driver directly
+    const driver = driverLib.driver;
     
     const driverObj = driver({
         showProgress: true,
@@ -148,6 +151,7 @@ function startOnboardingTour() {
 // Wait for Driver.js library to load, then auto-start tour on page load
 function initializeOnboarding() {
     console.log('[Onboarding] initializeOnboarding called');
+    
     // Check if tour has been completed before
     const tourCompleted = localStorage.getItem('registrationOnboardingCompleted');
     console.log('[Onboarding] Tour completed before?', tourCompleted);
@@ -155,14 +159,14 @@ function initializeOnboarding() {
     // Only show tour if it hasn't been completed before
     if (!tourCompleted) {
         // Check if driver is available
-        console.log('[Onboarding] Checking driver availability...', typeof window.driver, !!window.driver, window.driver ? !!window.driver.driver : 'N/A');
-        if (typeof window.driver !== 'undefined' && window.driver && window.driver.driver) {
+        console.log('[Onboarding] Checking window.driver:', typeof window.driver, !!window.driver);
+        if (window.driver && window.driver.driver) {
             console.log('[Onboarding] Driver ready, starting tour in 1 second');
             // Small delay to ensure all elements are rendered
             setTimeout(startOnboardingTour, 1000);
         } else {
             // If driver not ready, retry after a short delay
-            console.log('[Onboarding] Driver not ready, retrying in 500ms');
+            console.log('[Onboarding] Driver not ready (window.driver=' + typeof window.driver + '), retrying in 500ms');
             setTimeout(initializeOnboarding, 500);
         }
     } else {
@@ -170,23 +174,34 @@ function initializeOnboarding() {
     }
 }
 
-// Start initialization when DOM is ready
-console.log('[Onboarding] Document ready state:', document.readyState);
-if (document.readyState === 'loading') {
-    console.log('[Onboarding] Waiting for DOMContentLoaded');
-    document.addEventListener('DOMContentLoaded', initializeOnboarding);
-} else {
-    // DOM already loaded
-    console.log('[Onboarding] DOM already loaded, initializing with delay');
-    setTimeout(initializeOnboarding, 500);
+// Use a polling approach to wait for driver.js to load
+let driverCheckCount = 0;
+const maxChecks = 60; // 30 seconds with 500ms intervals
+
+function waitForDriver() {
+    driverCheckCount++;
+    console.log('[Onboarding] Waiting for driver.js... attempt', driverCheckCount, 'window.driver=', typeof window.driver);
+    
+    if (window.driver && window.driver.driver) {
+        console.log('[Onboarding] Driver.js loaded successfully!');
+        initializeOnboarding();
+    } else if (driverCheckCount < maxChecks) {
+        setTimeout(waitForDriver, 500);
+    } else {
+        console.error('[Onboarding] Driver.js failed to load after', maxChecks * 500 / 1000, 'seconds');
+    }
 }
+
+// Start waiting for driver immediately
+console.log('[Onboarding] Starting driver detection...');
+waitForDriver();
 
 // Make tour restartable via button or console
 window.restartOnboarding = function() {
     console.log('[Onboarding] Restart requested');
     localStorage.removeItem('registrationOnboardingCompleted');
     // Ensure driver is loaded before starting
-    if (typeof window.driver !== 'undefined' && window.driver && window.driver.driver) {
+    if (window.driver && window.driver.driver) {
         startOnboardingTour();
     } else {
         console.error('[Onboarding] Driver.js library not available');

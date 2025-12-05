@@ -1,9 +1,15 @@
 // Registration Management Onboarding Tour
 // Uses Driver.js for interactive guided tour
 
-const driver = window.driver.js.driver;
-
 function startOnboardingTour() {
+    // Check if driver is available
+    if (typeof window.driver === 'undefined' || !window.driver) {
+        console.error('Driver.js library not loaded');
+        return;
+    }
+
+    const driver = window.driver.driver;
+    
     const driverObj = driver({
         showProgress: true,
         steps: [
@@ -135,19 +141,39 @@ function startOnboardingTour() {
     driverObj.drive();
 }
 
-// Auto-start tour on page load if not completed before
-document.addEventListener('DOMContentLoaded', function() {
+// Wait for Driver.js library to load, then auto-start tour on page load
+function initializeOnboarding() {
+    // Check if tour has been completed before
     const tourCompleted = localStorage.getItem('registrationOnboardingCompleted');
     
     // Only show tour if it hasn't been completed before
     if (!tourCompleted) {
-        // Small delay to ensure all elements are rendered
-        setTimeout(startOnboardingTour, 1000);
+        // Check if driver is available
+        if (typeof window.driver !== 'undefined' && window.driver && window.driver.driver) {
+            // Small delay to ensure all elements are rendered
+            setTimeout(startOnboardingTour, 1000);
+        } else {
+            // If driver not ready, retry after a short delay
+            setTimeout(initializeOnboarding, 500);
+        }
     }
-});
+}
 
-// Make tour restartable via console or other means if needed
+// Start initialization when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeOnboarding);
+} else {
+    // DOM already loaded
+    setTimeout(initializeOnboarding, 500);
+}
+
+// Make tour restartable via button or console
 window.restartOnboarding = function() {
     localStorage.removeItem('registrationOnboardingCompleted');
-    startOnboardingTour();
+    // Ensure driver is loaded before starting
+    if (typeof window.driver !== 'undefined' && window.driver && window.driver.driver) {
+        startOnboardingTour();
+    } else {
+        console.error('Driver.js library not available');
+    }
 };

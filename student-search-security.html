@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>KU Campus - Student Search (Security)</title>
+	<script src="https://cdn.tailwindcss.com"></script>
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+		body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+		.text-ku-purple { color: #4338ca; }
+		.bg-ku-purple-new { background-color: #824aef; }
+		.hover\:bg-ku-purple-new-hover:hover { background-color: #713de6; }
+		.table-column-data { display: table-cell; }
+		.sticky-column { position: sticky; left: 0; z-index: 10; background-color: white; }
+		thead .sticky-column { background-color: rgb(249, 250, 251); z-index: 11; }
+	</style>
+</head>
+<body class="antialiased min-h-screen flex flex-col">
+	<header class="h-16 bg-white border-b border-gray-200 px-6 flex items-center justify-between sticky top-0 z-30">
+		<div class="flex items-center">
+			<svg class="w-6 h-6 mr-3 text-ku-purple" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7"></path></svg>
+			<span class="text-xl font-bold text-ku-purple tracking-wide">KU Campus</span>
+		</div>
+		<div class="flex items-center">
+			<span class="text-sm mr-4 text-gray-600">Security</span>
+			<img class="h-8 w-8 rounded-full object-cover" src="https://placehold.co/32x32/14b8a6/FFFFFF?text=S" alt="User">
+		</div>
+	</header>
+
+	<div class="flex flex-1">
+		<aside class="w-16 sm:w-64 bg-slate-800 text-white p-4">
+			<nav class="space-y-3 text-sm">
+				<a href="student-search-security.html" class="flex items-center p-2 rounded-lg bg-slate-700">Security Search</a>
+			</nav>
+		</aside>
+
+		<main class="flex-1 p-6 overflow-auto">
+			<h1 class="text-2xl font-bold mb-4">Student Search - Security</h1>
+
+			<div class="bg-white rounded-xl shadow-lg mb-6">
+				<div class="p-6">
+					<!-- Filters: copied from main search and extended for security -->
+					<div class="mb-6 border rounded-lg">
+						<button class="w-full p-4 text-left accordion-toggle" data-target="accordion1">Student Details</button>
+						<div id="accordion1" class="p-6">
+							<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+								<div>
+									<label class="text-sm">Student Number</label>
+									<input id="studentNumber" class="w-full border rounded p-2" placeholder="Enter Student Number">
+								</div>
+								<div>
+									<label class="text-sm">National ID</label>
+									<input id="nationalId" class="w-full border rounded p-2" placeholder="Enter National ID">
+								</div>
+								<div>
+									<label class="text-sm">Name</label>
+									<input id="name" class="w-full border rounded p-2" placeholder="Enter Name">
+								</div>
+								<div>
+									<label class="text-sm">Surname</label>
+									<input id="surname" class="w-full border rounded p-2" placeholder="Enter Surname">
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="mb-6 border rounded-lg">
+						<button class="w-full p-4 text-left accordion-toggle" data-target="accordion2">Academic Details</button>
+						<div id="accordion2" class="p-6">
+							<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+								<div>
+									<label class="text-sm">Academic Career</label>
+									<select id="academicCareer" class="w-full border rounded p-2"><option>Select</option><option>Undergraduate</option><option>Graduate</option></select>
+								</div>
+								<div>
+									<label class="text-sm">Academic Program</label>
+									<select id="academicProgram" class="w-full border rounded p-2"><option>Select</option><option value="CE">CE</option></select>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="mb-6 border rounded-lg">
+						<button class="w-full p-4 text-left accordion-toggle" data-target="accordion3">Operational Options</button>
+						<div id="accordion3" class="p-6">
+							<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+								
+
+
+								<div>
+									<label class="text-sm">Vehicle Status</label>
+									<select id="vehicleStatus" class="w-full border rounded p-2"><option value="">Select</option><option value="Yes">Yes</option><option value="No">No</option></select>
+								</div>
+								<div id="vehicleDetailsWrapper" class="hidden">
+									<label class="text-sm">Plate Number</label>
+									<input id="plateNumber" class="w-full border rounded p-2" placeholder="Enter Plate">
+								</div>
+								<div>
+									<label class="text-sm">HGS Status</label>
+									<select id="hgsStatus" class="w-full border rounded p-2"><option value="">Select</option><option value="Pending">Pending</option><option value="Assigned">Assigned</option></select>
+								</div>
+							
+
+
+                                <div>
+									<label class="text-sm">Additional Filters</label>
+									<div id="extraFiltersDropdownContainer">
+										<button id="extraFiltersDropdown" class="w-full border rounded p-2 text-left"><span id="extraFiltersLabel">Select</span></button>
+										<select id="extraFilters" multiple class="hidden"><option value="international">Is International Student</option></select>
+									</div>
+								</div>
+								<div>
+									<label class="text-sm">Status</label>
+									<div id="studentStatusDropdownContainer">
+										<button id="studentStatusDropdown" class="w-full border rounded p-2 text-left"><span id="studentStatusLabel">Select</span></button>
+										<select id="studentStatus" multiple class="hidden"></select>
+									</div>
+								</div>
+								<div>
+									<label class="text-sm">Dorm Status</label>
+									<select id="dormStatus" class="w-full border rounded p-2"><option value="">Select</option><option value="Yes">Yes</option><option value="No">No</option></select>
+								</div>
+                                
+								<div id="dormSelectWrapper" class="hidden">
+									<label class="text-sm">Select Dorm</label>
+									<select id="dormSelect" class="w-full border rounded p-2"><option value="">Select Dorm</option><option>Dorm A</option></select>
+								</div>
+                                
+							</div>
+						</div>
+					</div>
+
+					
+
+					<div class="flex justify-end space-x-3">
+						<button id="clearFilters" class="px-6 py-2 bg-gray-200 rounded">Clear</button>
+						<button id="doSearch" class="px-6 py-2 bg-ku-purple-new text-white rounded">Search</button>
+					</div>
+				</div>
+			</div>
+
+			<div class="bg-white p-6 rounded-xl shadow-lg">
+				<h2 class="text-xl font-semibold mb-4">Search Results</h2>
+				<div class="overflow-x-auto">
+					<table class="min-w-full divide-y divide-gray-200">
+						<thead class="bg-gray-50">
+							<tr>
+								<th data-column="profile_photo" class="table-column-data px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Profile</th>
+								<th data-column="student_num" class="table-column-data sticky-column px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Student Number</th>
+								<th data-column="full_name" class="table-column-data px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Full Name</th>
+								<th data-column="status" class="table-column-data px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+								<th data-column="dorm_info" class="table-column-data px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden">Dorm Info</th>
+								<th data-column="dorm_details" class="table-column-data px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden">Dorm Details</th>
+								<th data-column="vehicle_status" class="table-column-data px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden">Vehicle</th>
+								<th data-column="plate_number" class="table-column-data px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden">Plate</th>
+								<th data-column="hgs_status" class="table-column-data px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden">HGS</th>
+								<th data-column="actions" class="table-column-data px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+							</tr>
+						</thead>
+						<tbody class="bg-white divide-y divide-gray-200">
+							<tr>
+								<td data-column="profile_photo" class="px-6 py-4"><img class="h-10 w-10 rounded-full" src="https://placehold.co/40x40" alt=""></td>
+								<td data-column="student_num" class="px-6 py-4">S-778899</td>
+								<td data-column="full_name" class="px-6 py-4">Ayşe Demir</td>
+								<td data-column="status" class="px-6 py-4">Active</td>
+								<td data-column="dorm_info" class="px-6 py-4 hidden">Not Assigned</td>
+								<td data-column="dorm_details" class="px-6 py-4 hidden">-</td>
+								<td data-column="vehicle_status" class="px-6 py-4 hidden">No</td>
+								<td data-column="plate_number" class="px-6 py-4 hidden">-</td>
+								<td data-column="hgs_status" class="px-6 py-4 hidden">Pending</td>
+								<td data-column="actions" class="px-6 py-4"><a href="student-details-security.html" class="text-indigo-600">Profile</a></td>
+							</tr>
+							<tr>
+								<td data-column="profile_photo" class="px-6 py-4"><img class="h-10 w-10 rounded-full" src="https://placehold.co/40x40" alt=""></td>
+								<td data-column="student_num" class="px-6 py-4">S-665544</td>
+								<td data-column="full_name" class="px-6 py-4">Burak Can</td>
+								<td data-column="status" class="px-6 py-4">Leave of Absence</td>
+								<td data-column="dorm_info" class="px-6 py-4 hidden">Dorm A</td>
+								<td data-column="dorm_details" class="px-6 py-4 hidden">Room 203</td>
+								<td data-column="vehicle_status" class="px-6 py-4 hidden">Yes</td>
+								<td data-column="plate_number" class="px-6 py-4 hidden">34 ABC 123</td>
+								<td data-column="hgs_status" class="px-6 py-4 hidden">Assigned</td>
+								<td data-column="actions" class="px-6 py-4"><a href="student-details-security.html" class="text-indigo-600">Profile</a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+		</main>
+	</div>
+
+	<footer class="w-full bg-slate-800 text-white text-xs p-3 flex justify-end">
+		<div class="flex items-center space-x-4"><span>Copyright © 2025 Koç University</span></div>
+	</footer>
+
+	<script>
+		document.addEventListener('DOMContentLoaded', () => {
+			// Accordions
+			document.querySelectorAll('.accordion-toggle').forEach(btn => {
+				const target = btn.getAttribute('data-target');
+				const el = document.getElementById(target);
+				if (!el) return;
+				el.classList.add('hidden');
+				btn.addEventListener('click', () => el.classList.toggle('hidden'));
+			});
+
+			// Dorm show/hide
+			const dormStatusEl = document.getElementById('dormStatus');
+			const dormSelectWrapper = document.getElementById('dormSelectWrapper');
+			dormStatusEl?.addEventListener('change', function(){ if (this.value === 'Yes') dormSelectWrapper.classList.remove('hidden'); else dormSelectWrapper.classList.add('hidden'); });
+
+			// Vehicle show/hide
+			const vehicleStatusEl = document.getElementById('vehicleStatus');
+			const vehicleDetailsWrapper = document.getElementById('vehicleDetailsWrapper');
+			vehicleStatusEl?.addEventListener('change', function(){ if (this.value === 'Yes') vehicleDetailsWrapper.classList.remove('hidden'); else vehicleDetailsWrapper.classList.add('hidden'); });
+
+			// Columns menu
+			const columnsToggle = document.getElementById('columnsToggle');
+			const columnsMenu = document.getElementById('columnsMenu');
+			const COLUMNS = [
+				{ id: 'profile_photo', name: 'Profile Photo', isVisible: true },
+				{ id: 'student_num', name: 'Student Number', isVisible: true },
+				{ id: 'full_name', name: 'Full Name', isVisible: true },
+				{ id: 'status', name: 'Status', isVisible: true },
+				{ id: 'dorm_info', name: 'Dorm Info', isVisible: false },
+				{ id: 'dorm_details', name: 'Dorm Details', isVisible: false },
+				{ id: 'vehicle_status', name: 'Vehicle Status', isVisible: false },
+				{ id: 'plate_number', name: 'Plate Number', isVisible: false },
+				{ id: 'hgs_status', name: 'HGS Status', isVisible: false },
+				{ id: 'actions', name: 'Actions', isVisible: true }
+			];
+			function toggleColumnVisibility(name, visible){ const display = visible ? 'table-cell' : 'none'; document.querySelectorAll(`[data-column="${name}"]`).forEach(el => el.style.display = display); }
+			function renderColumnsMenu(){ if (!columnsMenu) return; columnsMenu.innerHTML = `<div class='py-1'>${COLUMNS.map(c => `<label class='flex items-center px-4 py-2 text-sm'><input type='checkbox' data-column-id='${c.id}' ${c.isVisible ? 'checked' : ''} class='mr-3'>${c.name}</label>`).join('')}</div>`; columnsMenu.querySelectorAll('input[type=checkbox]').forEach(cb => cb.addEventListener('change', e => { const id = e.target.getAttribute('data-column-id'); const visible = e.target.checked; toggleColumnVisibility(id, visible); const col = COLUMNS.find(x=>x.id===id); if (col) col.isVisible = visible; })); }
+			renderColumnsMenu(); COLUMNS.forEach(c=>toggleColumnVisibility(c.id, c.isVisible));
+			columnsToggle?.addEventListener('click', e => { e.stopPropagation(); columnsMenu.classList.toggle('hidden'); });
+			document.addEventListener('click', e => { if (columnsMenu && !columnsMenu.contains(e.target) && columnsToggle && !columnsToggle.contains(e.target)) columnsMenu.classList.add('hidden'); });
+
+			// extra/ student status dropdowns: simple toggles for demo
+			const extraFiltersDropdown = document.getElementById('extraFiltersDropdown');
+			const extraFiltersMenu = document.getElementById('extraFiltersMenu');
+			extraFiltersDropdown?.addEventListener('click', (e)=>{ e.stopPropagation(); extraFiltersMenu.classList.toggle('hidden'); });
+			document.addEventListener('click', ()=> extraFiltersMenu?.classList.add('hidden'));
+
+			const studentStatusDropdown = document.getElementById('studentStatusDropdown');
+			const studentStatusMenu = document.getElementById('studentStatusMenu');
+			studentStatusDropdown?.addEventListener('click', (e)=>{ e.stopPropagation(); studentStatusMenu.classList.toggle('hidden'); });
+
+		});
+	</script>
+</body>
+</html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>KU Campus - Student Search (Security)</title>
+	<script src="https://cdn.tailwindcss.com"></script>
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+		body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+		body { height: 100vh; }
+		.text-ku-purple { color: #4338ca; }
+		.focus\:ring-ku-purple:focus { --tw-ring-color: #4338ca; }
+		.focus\:border-ku-purple:focus { --tw-border-color: #4338ca; }
+		.hover\:text-ku-purple:hover { color: #4338ca; }
+		.bg-ku-purple-new { background-color: #824aef; }
+		.hover\:bg-ku-purple-new-hover:hover { background-color: #713de6; }
+		.bg-powerbi-yellow { background-color: #F2C811; }
+		.hover\:bg-powerbi-yellow-hover:hover { background-color: #e0b80f; }
+		.table-column-data { display: table-cell; }
+		/* Sticky column styles */
+		.sticky-column {
+			position: sticky;
+			left: 0;
+			z-index: 10;
+			background-color: white;
+		}
+		thead .sticky-column {
+			background-color: rgb(249, 250, 251);
+			z-index: 11;
+		}
+		tbody tr .sticky-column {
+			box-shadow: 2px 0 5px -2px rgba(0, 0, 0, 0.1);
+		}
+		.lock-icon { opacity: 0; transition: opacity 0.3s ease; margin-left: 6px; }
+		.scrolled .lock-icon { opacity: 1; }
+	</style>
+</head>
+<body class="antialiased min-h-screen flex flex-col">
+	<!-- Header -->
+	<header class="h-16 bg-white border-b border-gray-200 px-6 flex items-center justify-between shadow-sm sticky top-0 z-30 flex-shrink-0">
+		<div class="flex items-center">
+			<svg class="w-6 h-6 mr-3 text-ku-purple" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4M12 21V7"></path></svg>
+			<span class="text-xl font-bold text-ku-purple tracking-wide">KU Campus</span>
+		</div>
+		<div class="flex items-center space-x-3">
+			<button class="text-gray-500 hover:text-ku-purple">
+				<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-2.81A3 3 0 0018 10V8a6 6 0 10-12 0v2c0 1.5.54 2.92 1.405 4.19L4 17h5m6 0v1a3 3 0 01-6 0v-1m6 0H9"></path></svg>
+			</button>
+			<div class="flex items-center space-x-2 cursor-pointer">
+				<span class="text-sm font-medium text-gray-700 hidden sm:block">Security</span>
+				<img class="h-8 w-8 rounded-full object-cover" src="https://placehold.co/32x32/14b8a6/FFFFFF?text=S" alt="User Avatar">
+				<svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+			</div>
+		</div>
+	</header>
+	<div class="flex flex-1 min-h-0 overflow-hidden">
+		<!-- Sidebar -->
+		<aside class="w-16 sm:w-64 bg-slate-800 flex-shrink-0 overflow-y-auto">
+			<div class="p-4 text-white">
+				<p class="hidden sm:block text-xs font-medium uppercase tracking-wider mb-4 text-indigo-400">Navigation Menu</p>
+				<ul class="space-y-3 text-sm">
+					<li class="group">
+						<a href="index.html" class="flex items-center p-2 rounded-lg text-gray-400 hover:bg-slate-700 hover:text-white transition duration-150">
+							<svg class="w-6 h-6 sm:mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+							<span class="hidden sm:block">Home</span>
+						</a>
+					</li>
+					<li class="group">
+						<a href="student-search-security.html" class="flex items-center p-2 rounded-lg bg-slate-700 text-white transition duration-150">
+							<svg class="w-6 h-6 sm:mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+							<span class="hidden sm:block">Security Search</span>
+						</a>
+					</li>
+
+				</ul>
+			</div>
+		</aside>
+		<!-- Main Content -->
+		<div class="flex-1 min-h-0 overflow-y-auto flex flex-col">
+			<main class="flex-grow p-6 pb-20">
+				<div class="mb-6">
+					<nav class="text-xs sm:text-sm text-gray-500 mb-4">
+						<span class="text-gray-400">Home / Security / Student Search /</span>
+						<span class="font-semibold text-ku-purple">Security Search</span>
+					</nav>
+					<h1 class="text-2xl font-bold text-gray-800">Student Search - Security</h1>
+				</div>
+				<!-- Student Search Card -->
+				<div class="bg-white rounded-xl shadow-lg mb-8">
+					<div class="w-full flex justify-between items-center p-6 border-b border-gray-200">
+						<h2 class="text-xl font-semibold text-gray-800">Security Student Search</h2>
+					</div>
+					<div id="filterContent" class="p-6">
+						<!-- Student Details Accordion -->
+						<div class="mb-6 border border-gray-200 rounded-lg">
+							<button type="button" class="w-full flex justify-between items-center p-4 text-lg font-medium text-gray-700 hover:bg-gray-50 transition duration-150 accordion-toggle" data-target="accordion1">
+								Student Details
+								<svg id="icon1" class="w-5 h-5 text-gray-500 transform transition-transform duration-300 rotate-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+							</button>
+							<div id="accordion1" class="accordion-content p-6 transition-all duration-300">
+								<div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+									<div class="flex flex-col sm:flex-row items-start sm:items-center">
+										<label for="studentNumber" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">Student Number</label>
+										<input type="text" id="studentNumber" class="w-full sm:w-2/3 border border-gray-300 rounded-lg p-2.5 focus:ring-ku-purple focus:border-ku-purple transition duration-150" placeholder="Enter Student Number">
+									</div>
+									<div class="flex flex-col sm:flex-row items-start sm:items-center">
+										<label for="nationalId" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">National ID</label>
+										<input type="text" id="nationalId" class="w-full sm:w-2/3 border border-gray-300 rounded-lg p-2.5 focus:ring-ku-purple focus:border-ku-purple transition duration-150" placeholder="Enter National ID">
+									</div>
+									<div class="flex flex-col sm:flex-row items-start sm:items-center">
+										<label for="name" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">Name</label>
+										<input type="text" id="name" class="w-full sm:w-2/3 border border-gray-300 rounded-lg p-2.5 focus:ring-ku-purple focus:border-ku-purple transition duration-150" placeholder="Enter Name">
+									</div>
+									<div class="flex flex-col sm:flex-row items-start sm:items-center">
+										<label for="surname" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">Surname</label>
+										<input type="text" id="surname" class="w-full sm:w-2/3 border border-gray-300 rounded-lg p-2.5 focus:ring-ku-purple focus:border-ku-purple transition duration-150" placeholder="Enter Surname">
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- Academic Details Accordion -->
+						<div class="mb-6 border border-gray-200 rounded-lg">
+							<button type="button" class="w-full flex justify-between items-center p-4 text-lg font-medium text-gray-700 hover:bg-gray-50 transition duration-150 accordion-toggle" data-target="accordion2">
+								Academic Details
+								<svg id="icon2" class="w-5 h-5 text-gray-500 transform transition-transform duration-300 rotate-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+							</button>
+							<div id="accordion2" class="accordion-content p-6 transition-all duration-300">
+								<div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+									<div class="flex flex-col sm:flex-row items-start sm:items-center">
+										<label for="academicCareer" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">Academic Career</label>
+										<select id="academicCareer" class="w-full sm:w-2/3 border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple appearance-none transition duration-150">
+											<option>Select</option>
+											<option>Undergraduate</option>
+											<option>Graduate</option>
+										</select>
+									</div>
+									<div class="flex flex-col sm:flex-row items-start sm:items-center">
+										<label for="academicProgram" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">Academic Program</label>
+										<select id="academicProgram" class="w-full sm:w-2/3 border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple appearance-none transition duration-150">
+											<option>Select</option>
+											<option value="CE">CE - College of Engineering</option>
+											<option value="MGSSH">MGSSH - Grad Schl Soc Sci &amp; Human Mast</option>
+											<option value="PGSB">PGSB - Grad Schl of Business PhD</option>
+											<option value="PGSSE">PGSSE - Grad Schl Science &amp; Eng PhD</option>
+											<option value="SPEC">SPEC - Special</option>
+											<option value="PGSSH">PGSSH - Grad Schl Soc Sci &amp; Human PhD</option>
+											<option value="EXCHN">EXCHN - Exchange</option>
+											<option value="CSSH">CSSH - Col of Social Sci &amp; Humanities</option>
+											<option value="LAW">LAW - Law School</option>
+											<option value="CASE">CASE - Coll of Admin Science and Econ</option>
+											<option value="MGSHS">MGSHS - Grad Schl of Health Scie Maste</option>
+											<option value="PGSHS">PGSHS - Grad Schl Health Sciences PhD</option>
+											<option value="MGSSE">MGSSE - Grad Schl Sciences&amp;Eng Master</option>
+											<option value="CN">CN - School of Nursing</option>
+											<option value="MGSB">MGSB - Grad Schl of Business Master</option>
+											<option value="EEDUC">EEDUC - Extended Education</option>
+											<option value="SOM">SOM - School of Medicine</option>
+											<option value="ELC">ELC - English Language Center</option>
+											<option value="CS">CS - College of Sciences</option>
+										</select>
+									</div>
+									<div class="flex flex-col sm:flex-row items-start sm:items-center">
+										<label for="academicPlan" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">Academic Plan</label>
+										<select id="academicPlan" class="w-full sm:w-2/3 border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple appearance-none transition duration-150">
+											<option>Select</option>
+											<option value="DMMEDI">DMMEDI - Doctor of Medicine</option>
+											<option value="PHDBUSADM">PHDBUSADM - PhD in Business Administration</option>
+											<option value="MSCOMPTH">MSCOMPTH - M.S. Computer Sci &amp; Eng TH</option>
+											<option value="MAARHATH">MAARHATH - M.A. Arch. & History of Art TH</option>
+											<option value="LAW">LAW - Law</option>
+											<option value="DMINTL">DMINTL - DM International Relations</option>
+											<option value="MSREPBIOL">MSREPBIOL - M.S. Reproductive Biology TH</option>
+											<option value="ECON">ECON - Economics</option>
+											<option value="ASOCDBUSAD">ASOCDBUSAD - Assoc Deg in Business Admin.</option>
+											<option value="MIARHA">MIARHA - Minor Archaeol. &amp; Hist. of Art</option>
+										</select>
+									</div>
+									<div class="flex flex-col sm:flex-row items-start sm:items-center">
+										<label for="academicSubPlan" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">Academic Sub-Plan</label>
+										<select id="academicSubPlan" class="w-full sm:w-2/3 border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple appearance-none transition duration-150">
+											<option>Select</option>
+											<option>Nano Tech</option>
+											<option>AI Track</option>
+										</select>
+									</div>
+									<div class="flex flex-col sm:flex-row items-start sm:items-center">
+										<label for="admitTerm" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">Admit Term</label>
+										<select id="admitTerm" class="w-full sm:w-2/3 border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple appearance-none transition duration-150">
+											<option>Select</option>
+											<option>2025 Fall</option>
+											<option>2026 Spring</option>
+										</select>
+									</div>
+
+									 <!-- Admit Type -->
+										<div class="flex flex-col sm:flex-row items-start sm:items-center">
+											<label for="admitType" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">Admit Type</label>
+											<select id="admitType" class="w-full sm:w-2/3 border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple appearance-none transition duration-150">
+												<option>Select</option>
+												<option>Freshman</option>
+												<option>Transfer</option>
+											</select>
+										</div>
+								</div>
+						</div>
+						<!-- Operational Options Accordion -->
+						<div class="mb-6 border border-gray-200 rounded-lg">
+							<button type="button" class="w-full flex justify-between items-center p-4 text-lg font-medium text-gray-700 hover:bg-gray-50 transition duration-150 accordion-toggle" data-target="accordion3">
+								Operational Options
+								<svg id="icon3" class="w-5 h-5 text-gray-500 transform transition-transform duration-300 rotate-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+							</button>
+							<div id="accordion3" class="accordion-content p-6 transition-all duration-300">
+								<div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+									<!-- Additional Filters - Custom Multi-Select (match Mass Admit style) -->
+									<div class="flex flex-col sm:flex-row items-start sm:items-center">
+										<label for="extraFilters" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">Additional Filters</label>
+										<div class="w-full sm:w-2/3 relative" id="extraFiltersDropdownContainer">
+											<button type="button" id="extraFiltersDropdown" class="w-full border border-gray-300 rounded-lg p-2.5 bg-white text-left focus:ring-ku-purple focus:border-ku-purple">
+												<span id="extraFiltersLabel">Select</span>
+											</button>
+											<div id="extraFiltersMenu" class="absolute mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg z-20 hidden">
+												<div class="max-h-48 overflow-y-auto py-2">
+													<label class="flex items-center px-3 py-1 text-sm text-gray-700 hover:bg-gray-50 cursor-pointer">
+														<input type="checkbox" class="filter-option mr-2" value="international"> Is International Student
+													</label>
+													<label class="flex items-center px-3 py-1 text-sm text-gray-700 hover:bg-gray-50 cursor-pointer">
+														<input type="checkbox" class="filter-option mr-2" value="address"> Has Address
+													</label>
+													<label class="flex items-center px-3 py-1 text-sm text-gray-700 hover:bg-gray-50 cursor-pointer">
+														<input type="checkbox" class="filter-option mr-2" value="phone"> Has Verified Phone
+													</label>
+													<label class="flex items-center px-3 py-1 text-sm text-gray-700 hover:bg-gray-50 cursor-pointer">
+														<input type="checkbox" class="filter-option mr-2" value="photo"> Has Photo
+													</label>
+													<label class="flex items-center px-3 py-1 text-sm text-gray-700 hover:bg-gray-50 cursor-pointer">
+														<input type="checkbox" class="filter-option mr-2" value="email"> Has Verified Email
+													</label>
+													<label class="flex items-center px-3 py-1 text-sm text-gray-700 hover:bg-gray-50 cursor-pointer">
+														<input type="checkbox" class="filter-option mr-2" value="relation"> Has Relation Info
+													</label>
+												</div>
+												<div class="flex items-center justify-between px-3 py-2 border-t bg-gray-50">
+													<button type="button" id="extraFiltersClearBtn" class="text-xs text-gray-600 hover:underline">Clear</button>
+													<button type="button" id="extraFiltersDoneBtn" class="text-xs text-blue-600 hover:underline">Done</button>
+												</div>
+											</div>
+											<!-- Hidden select to preserve form semantics -->
+											<select id="extraFilters" name="extraFilters" multiple class="hidden">
+												<option value="international">Is International Student</option>
+												<option value="address">Has Address</option>
+												<option value="phone">Has Verified Phone</option>
+												<option value="photo">Has Photo</option>
+												<option value="email">Has Verified Email</option>
+												<option value="relation">Has Relation Info</option>
+											</select>
+										</div>
+									</div>
+
+									<!-- Student Status - Custom Multi-Select -->
+									<div class="flex flex-col sm:flex-row items-start sm:items-center">
+										<label for="studentStatus" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">Status</label>
+										<div class="w-full sm:w-2/3 relative" id="studentStatusDropdownContainer">
+											<button type="button" id="studentStatusDropdown" class="w-full border border-gray-300 rounded-lg p-2.5 bg-white text-left focus:ring-ku-purple focus:border-ku-purple">
+												<span id="studentStatusLabel">Select</span>
+											</button>
+											<div id="studentStatusMenu" class="absolute mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg z-20 hidden">
+												<div class="max-h-48 overflow-y-auto py-2">
+													<label class="flex items-center px-3 py-1 text-sm text-gray-700 hover:bg-gray-50 cursor-pointer">
+														<input type="checkbox" class="status-option mr-2" value="active"> Active
+													</label>
+													<label class="flex items-center px-3 py-1 text-sm text-gray-700 hover:bg-gray-50 cursor-pointer">
+														<input type="checkbox" class="status-option mr-2" value="inactive"> Inactive
+													</label>
+													<label class="flex items-center px-3 py-1 text-sm text-gray-700 hover:bg-gray-50 cursor-pointer">
+														<input type="checkbox" class="status-option mr-2" value="graduated"> Graduated
+													</label>
+													<label class="flex items-center px-3 py-1 text-sm text-gray-700 hover:bg-gray-50 cursor-pointer">
+														<input type="checkbox" class="status-option mr-2" value="suspended"> Suspended
+													</label>
+													<label class="flex items-center px-3 py-1 text-sm text-gray-700 hover:bg-gray-50 cursor-pointer">
+														<input type="checkbox" class="status-option mr-2" value="dismissed"> Dismissed
+													</label>
+													<label class="flex items-center px-3 py-1 text-sm text-gray-700 hover:bg-gray-50 cursor-pointer">
+														<input type="checkbox" class="status-option mr-2" value="leave"> Leave of Absence
+													</label>
+													<label class="flex items-center px-3 py-1 text-sm text-gray-700 hover:bg-gray-50 cursor-pointer">
+														<input type="checkbox" class="status-option mr-2" value="withdrawn"> Withdrawn
+													</label>
+												</div>
+												<div class="flex items-center justify-between px-3 py-2 border-t bg-gray-50">
+													<button type="button" id="studentStatusClearBtn" class="text-xs text-gray-600 hover:underline">Clear</button>
+													<button type="button" id="studentStatusDoneBtn" class="text-xs text-blue-600 hover:underline">Done</button>
+												</div>
+											</div>
+											<!-- Hidden select to preserve form semantics -->
+											<select id="studentStatus" name="studentStatus" multiple class="hidden">
+												<option value="active">Active</option>
+												<option value="inactive">Inactive</option>
+												<option value="graduated">Graduated</option>
+												<option value="suspended">Suspended</option>
+												<option value="dismissed">Dismissed</option>
+												<option value="leave">Leave of Absence</option>
+												<option value="withdrawn">Withdrawn</option>
+											</select>
+										</div>
+									</div>
+
+				<!-- Dorm Status -->
+				<div class="flex flex-col sm:flex-row items-start sm:items-center">
+					<label for="dormStatus" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">Dorm Status</label>
+					<div class="w-full sm:w-2/3 relative">
+						<select id="dormStatus" class="w-full border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple appearance-none transition duration-150">
+							<option value="">Select</option>
+							<option value="Yes">Yes</option>
+							<option value="No">No</option>
+						</select>
+					</div>
+				</div>
+
+				<!-- Dorm Select (hidden until Dorm Status == Yes) -->
+				<div id="dormSelectWrapper" class="flex flex-col sm:flex-row items-start sm:items-center hidden">
+					<label for="dormSelect" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">Select Dorm</label>
+					<div class="w-full sm:w-2/3 relative">
+						<select id="dormSelect" class="w-full border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple appearance-none transition duration-150">
+							<option value="">Select Dorm</option>
+							<option value="Dorm A">Dorm A</option>
+							<option value="Dorm B">Dorm B</option>
+							<option value="Dorm C">Dorm C</option>
+						</select>
+					</div>
+				</div>
+									</div>
+								</div>
+
+								<!-- Security Options (Vehicle/HGS) -->
+								<div class="mb-6 border border-gray-200 rounded-lg">
+									<button type="button" class="w-full flex justify-between items-center p-4 text-lg font-medium text-gray-700 hover:bg-gray-50 transition duration-150 accordion-toggle" data-target="sec-accordion3">
+										Security Options
+										<svg id="iconSec3" class="w-5 h-5 text-gray-500 transform transition-transform duration-300 rotate-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+									</button>
+									<div id="sec-accordion3" class="accordion-content p-6 transition-all duration-300">
+										<div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+											<div class="flex flex-col sm:flex-row items-start sm:items-center">
+												<label for="vehicleStatus" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">Vehicle Status</label>
+												<div class="w-full sm:w-2/3 relative">
+													<select id="vehicleStatus" class="w-full border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple appearance-none transition duration-150">
+														<option value="">Select</option>
+														<option value="Yes">Yes</option>
+														<option value="No">No</option>
+													</select>
+												</div>
+											</div>
+
+											<div id="vehicleDetailsWrapper" class="flex flex-col sm:flex-row items-start sm:items-center hidden">
+												<label for="plateNumber" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">Plate Number</label>
+												<div class="w-full sm:w-2/3 relative">
+													<input id="plateNumber" type="text" placeholder="Enter Plate Number" class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-ku-purple focus:border-ku-purple transition duration-150">
+												</div>
+											</div>
+
+											<div class="flex flex-col sm:flex-row items-start sm:items-center">
+												<label for="hgsStatus" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">HGS Status</label>
+												<div class="w-full sm:w-2/3 relative">
+													<select id="hgsStatus" class="w-full border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple appearance-none transition duration-150">
+													<option value="">Select</option>
+													<option value="Pending">Pending</option>
+													<option value="Assigned">Assigned</option>
+													</select>
+												</div>
+											</div>
+
+										</div>
+									</div>
+								</div>
+
+								<!-- Action Buttons -->
+								<div class="mt-8 flex justify-end space-x-4">
+									<button class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-2 px-8 rounded-xl shadow-md transition duration-150">Clear Selection</button>
+									<button class="bg-ku-purple-new hover:bg-ku-purple-new-hover text-white font-semibold py-2 px-8 rounded-xl shadow-md transition duration-150 flex items-center">
+										<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+										Search
+									</button>
+								</div>
+							</div>
+						</div>
+
+					   <!-- Search Results Card -->
+					   <div class="bg-white p-6 rounded-xl shadow-lg">
+						   <h2 class="text-xl font-semibold text-gray-800 mb-6 border-b pb-4">Search Results</h2>
+							   <!-- Results Action Buttons -->
+							   <div class="flex flex-col sm:flex-row justify-between items-center mb-4 space-y-3 sm:space-y-0">
+								   <div class="relative w-full sm:w-auto">
+									   <input type="text" placeholder="Filter current results..." class="w-full sm:w-64 border border-gray-300 rounded-lg p-2.5 pl-10 focus:ring-ku-purple focus:border-ku-purple transition duration-150">
+									   <svg class="w-5 h-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+								   </div>
+								   <div class="flex flex-col sm:flex-row w-full sm:w-auto space-y-2 sm:space-y-0 sm:space-x-3 sm:justify-end">
+									   <div class="relative inline-block w-full sm:w-auto" id="columnsDropdownContainer">
+										   <button id="columnsToggle" type="button" class="w-full flex justify-center sm:justify-start items-center bg-ku-purple-new hover:bg-ku-purple-new-hover text-white font-semibold py-2 px-4 rounded-xl shadow-sm transition duration-150">
+											   <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"></path></svg>
+											   Columns
+											   <svg class="w-5 h-5 ml-2 -mr-1 text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+										   </button>
+										   <div id="columnsMenu" class="hidden absolute right-0 mt-2 w-full sm:w-64 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20 max-h-80 overflow-y-auto"></div>
+									   </div>
+									   <div class="relative inline-block w-full sm:w-auto" id="downloadDropdownContainer">
+											<button id="downloadToggle" type="button" class="w-full flex justify-center sm:justify-start items-center bg-ku-purple-new hover:bg-ku-purple-new-hover text-white font-semibold py-2 px-4 rounded-xl shadow-sm transition duration-150">
+												Download Report
+												<svg class="w-5 h-5 ml-2 -mr-1 text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+											</button>
+											<div id="downloadMenu" class="hidden absolute right-0 mt-2 w-full sm:w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20">
+												<div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+													<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Download as Excel</a>
+													<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Download as CSV</a>
+													<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Download as PDF</a>
+												</div>
+											</div>
+										</div>
+								   </div>
+							   </div>
+							   <div class="overflow-x-auto rounded-xl border border-gray-200">
+								   <table class="min-w-full divide-y divide-gray-200">
+									   <thead class="bg-gray-50">
+										   <tr>
+											   <th data-column="profile_photo" class="table-column-data px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+												   <span>Profile Photo</span>
+											   </th>
+											   <th data-column="student_num" class="sortable table-column-data sticky-column px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+												   <div class="flex items-center justify-between relative">
+													   <span>Student Number</span>
+													   <svg class="lock-icon w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg>
+													   <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"></path></svg>
+												   </div>
+											   </th>
+											   <th data-column="national_id" class="sortable table-column-data px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden">
+												   <div class="flex items-center justify-between">
+													   <span>National ID</span>
+													   <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"></path></svg>
+												   </div>
+											   </th>
+											   <th data-column="full_name" class="sortable table-column-data px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+												   <div class="flex items-center justify-between">
+													   <span>Full Name</span>
+													   <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"></path></svg>
+												   </div>
+											   </th>
+											   <th data-column="name" class="sortable table-column-data px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden">
+												   <div class="flex items-center justify-between">
+													   <span>Name</span>
+													   <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"></path></svg>
+												   </div>
+											   </th>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>KU Campus - Student Search (Security)</title>
+	<script src="https://cdn.tailwindcss.com"></script>
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+		body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+		body { height: 100vh; }
+		.text-ku-purple { color: #4338ca; }
+		.focus\:ring-ku-purple:focus { --tw-ring-color: #4338ca; }
+		.focus\:border-ku-purple:focus { --tw-border-color: #4338ca; }
+		.hover\:text-ku-purple:hover { color: #4338ca; }
+		.bg-ku-purple-new { background-color: #824aef; }
+		.hover\:bg-ku-purple-new-hover:hover { background-color: #713de6; }
+		.bg-powerbi-yellow { background-color: #F2C811; }
+		.hover\:bg-powerbi-yellow-hover:hover { background-color: #e0b80f; }
+		.table-column-data { display: table-cell; }
+		/* Sticky column styles */
+		.sticky-column {
+			position: sticky;
+			left: 0;
+			z-index: 10;
+			background-color: white;
+		}
+		thead .sticky-column {
+			background-color: rgb(249, 250, 251);
+			z-index: 11;
+		}
+		tbody tr .sticky-column {
+			box-shadow: 2px 0 5px -2px rgba(0, 0, 0, 0.1);
+		}
+		.lock-icon {
+			opacity: 0;
+			transition: opacity 0.3s ease;
+			margin-left: 6px;
+		}
+		.scrolled .lock-icon {
+			opacity: 1;
+		}
+	</style>
+</head>
+<body class="antialiased min-h-screen flex flex-col">
+	<!-- Header -->
+	<header class="h-16 bg-white border-b border-gray-200 px-6 flex items-center justify-between shadow-sm sticky top-0 z-30 flex-shrink-0">
+		<div class="flex items-center">
+			<svg class="w-6 h-6 mr-3 text-ku-purple" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4M12 21V7"></path></svg>
+			<span class="text-xl font-bold text-ku-purple tracking-wide">KU Campus</span>
+		</div>
+		<div class="flex items-center space-x-3">
+			<button class="text-gray-500 hover:text-ku-purple">
+				<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-2.81A3 3 0 0018 10V8a6 6 0 10-12 0v2c0 1.5.54 2.92 1.405 4.19L4 17h5m6 0v1a3 3 0 01-6 0v-1m6 0H9"></path></svg>
+			</button>
+			<div class="flex items-center space-x-2 cursor-pointer">
+				<span class="text-sm font-medium text-gray-700 hidden sm:block">Security</span>
+				<img class="h-8 w-8 rounded-full object-cover" src="https://placehold.co/32x32/14b8a6/FFFFFF?text=S" alt="User Avatar">
+				<svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+			</div>
+		</div>
+	</header>
+	   <div class="flex flex-1 min-h-0 overflow-hidden">
+		   <!-- Sidebar -->
+		   <aside class="w-16 sm:w-64 bg-slate-800 flex-shrink-0 overflow-y-auto">
+			<div class="p-4 text-white">
+				<p class="hidden sm:block text-xs font-medium uppercase tracking-wider mb-4 text-indigo-400">Navigation Menu</p>
+				<ul class="space-y-3 text-sm">
+					<li class="group">
+						<a href="index.html" class="flex items-center p-2 rounded-lg text-gray-400 hover:bg-slate-700 hover:text-white transition duration-150">
+							<svg class="w-6 h-6 sm:mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+							<span class="hidden sm:block">Home</span>
+						</a>
+					</li>
+					<li class="group">
+						<a href="student-search-security.html" class="flex items-center p-2 rounded-lg bg-slate-700 text-white transition duration-150">
+							<svg class="w-6 h-6 sm:mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+							<span class="hidden sm:block">Security Search</span>
+						</a>
+					</li>
+
+				</ul>
+			</div>
+		</aside>
+		   <!-- Main Content -->
+		   <div class="flex-1 min-h-0 overflow-y-auto flex flex-col">
+			   <main class="flex-grow p-6 pb-20">
+			<div class="mb-6">
+				<nav class="text-xs sm:text-sm text-gray-500 mb-4">
+					<span class="text-gray-400">Home / Security / Student Search /</span>
+					<span class="font-semibold text-ku-purple">Security Search</span>
+				</nav>
+				<h1 class="text-2xl font-bold text-gray-800">Student Search - Security</h1>
+			</div>
+			<!-- Student Search Card -->
+			<div class="bg-white rounded-xl shadow-lg mb-8">
+				<div class="w-full flex justify-between items-center p-6 border-b border-gray-200">
+					<h2 class="text-xl font-semibold text-gray-800">Security Student Search</h2>
+				</div>
+				<div id="filterContent" class="p-6">
+					<!-- Full filter content copied from main student-search page -->
+						<!-- Student Details Accordion -->
+						<div class="mb-6 border border-gray-200 rounded-lg">
+							<button type="button" class="w-full flex justify-between items-center p-4 text-lg font-medium text-gray-700 hover:bg-gray-50 transition duration-150 accordion-toggle" data-target="accordion1">
+								Student Details
+								<svg id="icon1" class="w-5 h-5 text-gray-500 transform transition-transform duration-300 rotate-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+							</button>
+							<div id="accordion1" class="accordion-content p-6 transition-all duration-300">
+								<div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+									<!-- Student Number -->
+									<div class="flex flex-col sm:flex-row items-start sm:items-center">
+										<label for="studentNumber" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">Student Number</label>
+										<input type="text" id="studentNumber" class="w-full sm:w-2/3 border border-gray-300 rounded-lg p-2.5 focus:ring-ku-purple focus:border-ku-purple transition duration-150" placeholder="Enter Student Number">
+									</div>
+									<!-- National ID -->
+									<div class="flex flex-col sm:flex-row items-start sm:items-center">
+										<label for="nationalId" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">National ID</label>
+										<input type="text" id="nationalId" class="w-full sm:w-2/3 border border-gray-300 rounded-lg p-2.5 focus:ring-ku-purple focus:border-ku-purple transition duration-150" placeholder="Enter National ID">
+									</div>
+									<!-- Name -->
+									<div class="flex flex-col sm:flex-row items-start sm:items-center">
+										<label for="name" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">Name</label>
+										<input type="text" id="name" class="w-full sm:w-2/3 border border-gray-300 rounded-lg p-2.5 focus:ring-ku-purple focus:border-ku-purple transition duration-150" placeholder="Enter Name">
+									</div>
+									<!-- Surname -->
+									<div class="flex flex-col sm:flex-row items-start sm:items-center">
+										<label for="surname" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">Surname</label>
+										<input type="text" id="surname" class="w-full sm:w-2/3 border border-gray-300 rounded-lg p-2.5 focus:ring-ku-purple focus:border-ku-purple transition duration-150" placeholder="Enter Surname">
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- Academic Details Accordion -->
+						<div class="mb-6 border border-gray-200 rounded-lg">
+							<button type="button" class="w-full flex justify-between items-center p-4 text-lg font-medium text-gray-700 hover:bg-gray-50 transition duration-150 accordion-toggle" data-target="accordion2">
+								Academic Details
+								<svg id="icon2" class="w-5 h-5 text-gray-500 transform transition-transform duration-300 rotate-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+							</button>
+							<div id="accordion2" class="accordion-content p-6 transition-all duration-300">
+								<div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+									<!-- Academic Career -->
+									<div class="flex flex-col sm:flex-row items-start sm:items-center">
+										<label for="academicCareer" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">Academic Career</label>
+										<select id="academicCareer" class="w-full sm:w-2/3 border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple appearance-none transition duration-150">
+											<option>Select</option>
+											<option>Undergraduate</option>
+											<option>Graduate</option>
+										</select>
+									</div>
+									<!-- Academic Program -->
+									<div class="flex flex-col sm:flex-row items-start sm:items-center">
+										<label for="academicProgram" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">Academic Program</label>
+										<select id="academicProgram" class="w-full sm:w-2/3 border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple appearance-none transition duration-150">
+											<option>Select</option>
+											<option value="CE">CE - College of Engineering</option>
+											<option value="MGSSH">MGSSH - Grad Schl Soc Sci &amp; Human Mast</option>
+											<option value="PGSB">PGSB - Grad Schl of Business PhD</option>
+											<option value="PGSSE">PGSSE - Grad Schl Science &amp; Eng PhD</option>
+											<option value="SPEC">SPEC - Special</option>
+											<option value="PGSSH">PGSSH - Grad Schl Soc Sci &amp; Human PhD</option>
+											<option value="EXCHN">EXCHN - Exchange</option>
+											<option value="CSSH">CSSH - Col of Social Sci &amp; Humanities</option>
+											<option value="LAW">LAW - Law School</option>
+											<option value="CASE">CASE - Coll of Admin Science and Econ</option>
+											<option value="MGSHS">MGSHS - Grad Schl of Health Scie Maste</option>
+											<option value="PGSHS">PGSHS - Grad Schl Health Sciences PhD</option>
+											<option value="MGSSE">MGSSE - Grad Schl Sciences&amp;Eng Master</option>
+											<option value="CN">CN - School of Nursing</option>
+											<option value="MGSB">MGSB - Grad Schl of Business Master</option>
+											<option value="EEDUC">EEDUC - Extended Education</option>
+											<option value="SOM">SOM - School of Medicine</option>
+											<option value="ELC">ELC - English Language Center</option>
+											<option value="CS">CS - College of Sciences</option>
+										</select>
+									</div>
+									<!-- Academic Plan -->
+									<div class="flex flex-col sm:flex-row items-start sm:items-center">
+										<label for="academicPlan" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">Academic Plan</label>
+										<select id="academicPlan" class="w-full sm:w-2/3 border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple appearance-none transition duration-150">
+											<option>Select</option>
+											<option value="DMMEDI">DMMEDI - Doctor of Medicine</option>
+											<option value="PHDBUSADM">PHDBUSADM - PhD in Business Administration</option>
+											<option value="MSCOMPTH">MSCOMPTH - M.S. Computer Sci &amp; Eng TH</option>
+											<option value="MAARHATH">MAARHATH - M.A. Arch. &amp; History of Art TH</option>
+											<option value="LAW">LAW - Law</option>
+											<option value="DMINTL">DMINTL - DM International Relations</option>
+											<option value="MSREPBIOL">MSREPBIOL - M.S. Reproductive Biology TH</option>
+											<option value="ECON">ECON - Economics</option>
+											<option value="ASOCDBUSAD">ASOCDBUSAD - Assoc Deg in Business Admin.</option>
+											<option value="MIARHA">MIARHA - Minor Archaeol. &amp; Hist. of Art</option>
+										</select>
+									</div>
+									<!-- Academic Sub-Plan -->
+									<div class="flex flex-col sm:flex-row items-start sm:items-center">
+										<label for="academicSubPlan" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">Academic Sub-Plan</label>
+										<select id="academicSubPlan" class="w-full sm:w-2/3 border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple appearance-none transition duration-150">
+											<option>Select</option>
+											<option>Nano Tech</option>
+											<option>AI Track</option>
+										</select>
+									</div>
+									<!-- Admit Term -->
+									<div class="flex flex-col sm:flex-row items-start sm:items-center">
+										<label for="admitTerm" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">Admit Term</label>
+										<select id="admitTerm" class="w-full sm:w-2/3 border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple appearance-none transition duration-150">
+											<option>Select</option>
+											<option>2025 Fall</option>
+											<option>2026 Spring</option>
+										</select>
+									</div>
+
+									 <!-- Admit Type -->
+										<div class="flex flex-col sm:flex-row items-start sm:items-center">
+											<label for="admitType" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">Admit Type</label>
+											<select id="admitType" class="w-full sm:w-2/3 border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple appearance-none transition duration-150">
+												<option>Select</option>
+												<option>Freshman</option>
+												<option>Transfer</option>
+											</select>
+										</div>
+								</div>
+                        
+						<!-- Operational Options Accordion (include dorm controls as in main page) -->
+						<div class="mb-6 border border-gray-200 rounded-lg">
+							<button type="button" class="w-full flex justify-between items-center p-4 text-lg font-medium text-gray-700 hover:bg-gray-50 transition duration-150 accordion-toggle" data-target="accordion3">
+								Operational Options
+								<svg id="icon3" class="w-5 h-5 text-gray-500 transform transition-transform duration-300 rotate-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+							</button>
+								<div id="accordion3" class="accordion-content p-6 transition-all duration-300">
+									<div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+										<!-- Additional Filters - Custom Multi-Select (match Mass Admit style) -->
+										<div class="flex flex-col sm:flex-row items-start sm:items-center">
+											<label for="extraFilters" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">Additional Filters</label>
+											<div class="w-full sm:w-2/3 relative" id="extraFiltersDropdownContainer">
+												<button type="button" id="extraFiltersDropdown" class="w-full border border-gray-300 rounded-lg p-2.5 bg-white text-left focus:ring-ku-purple focus:border-ku-purple">
+													<span id="extraFiltersLabel">Select</span>
+												</button>
+												<div id="extraFiltersMenu" class="absolute mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg z-20 hidden">
+													<div class="max-h-48 overflow-y-auto py-2">
+														<label class="flex items-center px-3 py-1 text-sm text-gray-700 hover:bg-gray-50 cursor-pointer">
+															<input type="checkbox" class="filter-option mr-2" value="international"> Is International Student
+														</label>
+														<label class="flex items-center px-3 py-1 text-sm text-gray-700 hover:bg-gray-50 cursor-pointer">
+															<input type="checkbox" class="filter-option mr-2" value="address"> Has Address
+														</label>
+														<label class="flex items-center px-3 py-1 text-sm text-gray-700 hover:bg-gray-50 cursor-pointer">
+															<input type="checkbox" class="filter-option mr-2" value="phone"> Has Verified Phone
+														</label>
+														<label class="flex items-center px-3 py-1 text-sm text-gray-700 hover:bg-gray-50 cursor-pointer">
+															<input type="checkbox" class="filter-option mr-2" value="photo"> Has Photo
+														</label>
+														<label class="flex items-center px-3 py-1 text-sm text-gray-700 hover:bg-gray-50 cursor-pointer">
+															<input type="checkbox" class="filter-option mr-2" value="email"> Has Verified Email
+														</label>
+														<label class="flex items-center px-3 py-1 text-sm text-gray-700 hover:bg-gray-50 cursor-pointer">
+															<input type="checkbox" class="filter-option mr-2" value="relation"> Has Relation Info
+														</label>
+													</div>
+													<div class="flex items-center justify-between px-3 py-2 border-t bg-gray-50">
+														<button type="button" id="extraFiltersClearBtn" class="text-xs text-gray-600 hover:underline">Clear</button>
+														<button type="button" id="extraFiltersDoneBtn" class="text-xs text-blue-600 hover:underline">Done</button>
+													</div>
+												</div>
+												<!-- Hidden select to preserve form semantics -->
+												<select id="extraFilters" name="extraFilters" multiple class="hidden">
+													<option value="international">Is International Student</option>
+													<option value="address">Has Address</option>
+													<option value="phone">Has Verified Phone</option>
+													<option value="photo">Has Photo</option>
+													<option value="email">Has Verified Email</option>
+													<option value="relation">Has Relation Info</option>
+												</select>
+											</div>
+										</div>
+
+										<!-- Student Status - Custom Multi-Select -->
+										<div class="flex flex-col sm:flex-row items-start sm:items-center">
+											<label for="studentStatus" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">Status</label>
+											<div class="w-full sm:w-2/3 relative" id="studentStatusDropdownContainer">
+												<button type="button" id="studentStatusDropdown" class="w-full border border-gray-300 rounded-lg p-2.5 bg-white text-left focus:ring-ku-purple focus:border-ku-purple">
+													<span id="studentStatusLabel">Select</span>
+												</button>
+												<div id="studentStatusMenu" class="absolute mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg z-20 hidden">
+													<div class="max-h-48 overflow-y-auto py-2">
+														<label class="flex items-center px-3 py-1 text-sm text-gray-700 hover:bg-gray-50 cursor-pointer">
+															<input type="checkbox" class="status-option mr-2" value="active"> Active
+														</label>
+														<label class="flex items-center px-3 py-1 text-sm text-gray-700 hover:bg-gray-50 cursor-pointer">
+															<input type="checkbox" class="status-option mr-2" value="inactive"> Inactive
+														</label>
+														<label class="flex items-center px-3 py-1 text-sm text-gray-700 hover:bg-gray-50 cursor-pointer">
+															<input type="checkbox" class="status-option mr-2" value="graduated"> Graduated
+														</label>
+														<label class="flex items-center px-3 py-1 text-sm text-gray-700 hover:bg-gray-50 cursor-pointer">
+															<input type="checkbox" class="status-option mr-2" value="suspended"> Suspended
+														</label>
+														<label class="flex items-center px-3 py-1 text-sm text-gray-700 hover:bg-gray-50 cursor-pointer">
+															<input type="checkbox" class="status-option mr-2" value="dismissed"> Dismissed
+														</label>
+														<label class="flex items-center px-3 py-1 text-sm text-gray-700 hover:bg-gray-50 cursor-pointer">
+															<input type="checkbox" class="status-option mr-2" value="leave"> Leave of Absence
+														</label>
+														<label class="flex items-center px-3 py-1 text-sm text-gray-700 hover:bg-gray-50 cursor-pointer">
+															<input type="checkbox" class="status-option mr-2" value="withdrawn"> Withdrawn
+														</label>
+													</div>
+													<div class="flex items-center justify-between px-3 py-2 border-t bg-gray-50">
+														<button type="button" id="studentStatusClearBtn" class="text-xs text-gray-600 hover:underline">Clear</button>
+														<button type="button" id="studentStatusDoneBtn" class="text-xs text-blue-600 hover:underline">Done</button>
+													</div>
+												</div>
+												<!-- Hidden select to preserve form semantics -->
+												<select id="studentStatus" name="studentStatus" multiple class="hidden">
+													<option value="active">Active</option>
+													<option value="inactive">Inactive</option>
+													<option value="graduated">Graduated</option>
+													<option value="suspended">Suspended</option>
+													<option value="dismissed">Dismissed</option>
+													<option value="leave">Leave of Absence</option>
+													<option value="withdrawn">Withdrawn</option>
+												</select>
+											</div>
+										</div>
+
+				<!-- Dorm Status -->
+				<div class="flex flex-col sm:flex-row items-start sm:items-center">
+					<label for="dormStatus" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">Dorm Status</label>
+					<div class="w-full sm:w-2/3 relative">
+						<select id="dormStatus" class="w-full border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple appearance-none transition duration-150">
+							<option value="">Select</option>
+							<option value="Yes">Yes</option>
+							<option value="No">No</option>
+						</select>
+					</div>
+				</div>
+
+				<!-- Dorm Select (hidden until Dorm Status == Yes) -->
+				<div id="dormSelectWrapper" class="flex flex-col sm:flex-row items-start sm:items-center hidden">
+					<label for="dormSelect" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">Select Dorm</label>
+					<div class="w-full sm:w-2/3 relative">
+						<select id="dormSelect" class="w-full border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple appearance-none transition duration-150">
+							<option value="">Select Dorm</option>
+							<option value="Dorm A">Dorm A</option>
+							<option value="Dorm B">Dorm B</option>
+							<option value="Dorm C">Dorm C</option>
+						</select>
+					</div>
+				</div>
+									</div>
+								</div>
+
+								<!-- Vehicle / HGS specific options (security) -->
+								<div class="mb-6 border border-gray-200 rounded-lg">
+									<button type="button" class="w-full flex justify-between items-center p-4 text-lg font-medium text-gray-700 hover:bg-gray-50 transition duration-150 accordion-toggle" data-target="sec-accordion3">
+										Security Options
+										<svg id="iconSec3" class="w-5 h-5 text-gray-500 transform transition-transform duration-300 rotate-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+									</button>
+									<div id="sec-accordion3" class="accordion-content p-6 transition-all duration-300">
+										<div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+											<!-- Vehicle Status -->
+											<div class="flex flex-col sm:flex-row items-start sm:items-center">
+												<label for="vehicleStatus" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">Vehicle Status</label>
+												<div class="w-full sm:w-2/3 relative">
+													<select id="vehicleStatus" class="w-full border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple appearance-none transition duration-150">
+														<option value="">Select</option>
+														<option value="Yes">Yes</option>
+														<option value="No">No</option>
+													</select>
+												</div>
+											</div>
+
+											<!-- Vehicle Details (hidden until Vehicle Status == Yes) -->
+											<div id="vehicleDetailsWrapper" class="flex flex-col sm:flex-row items-start sm:items-center hidden">
+												<label for="plateNumber" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">Plate Number</label>
+												<div class="w-full sm:w-2/3 relative">
+													<input id="plateNumber" type="text" placeholder="Enter Plate Number" class="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-ku-purple focus:border-ku-purple transition duration-150">
+												</div>
+											</div>
+
+											<!-- HGS Status -->
+											<div class="flex flex-col sm:flex-row items-start sm:items-center">
+												<label for="hgsStatus" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">HGS Status</label>
+												<div class="w-full sm:w-2/3 relative">
+													<select id="hgsStatus" class="w-full border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple appearance-none transition duration-150">
+													<option value="">Select</option>
+													<option value="Pending">Pending</option>
+													<option value="Assigned">Assigned</option>
+													</select>
+												</div>
+											</div>
+
+										</div>
+									</div>
+								</div>
+
+								<!-- Action Buttons -->
+								<div class="mt-8 flex justify-end space-x-4">
+									<button class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-2 px-8 rounded-xl shadow-md transition duration-150">Clear Selection</button>
+									<button class="bg-ku-purple-new hover:bg-ku-purple-new-hover text-white font-semibold py-2 px-8 rounded-xl shadow-md transition duration-150 flex items-center">
+										<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+										Search
+									</button>
+								</div>
+							</div>
+						</div>
+
+		   <!-- Search Results Card -->
+		   <div class="bg-white p-6 rounded-xl shadow-lg">
+			   <h2 class="text-xl font-semibold text-gray-800 mb-6 border-b pb-4">Search Results</h2>
+			   <!-- Results Action Buttons -->
+			   <div class="flex flex-col sm:flex-row justify-between items-center mb-4 space-y-3 sm:space-y-0">
+				   <div class="relative w-full sm:w-auto">
+					   <input type="text" placeholder="Filter current results..." class="w-full sm:w-64 border border-gray-300 rounded-lg p-2.5 pl-10 focus:ring-ku-purple focus:border-ku-purple transition duration-150">
+					   <svg class="w-5 h-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+				   </div>
+				   <div class="flex flex-col sm:flex-row w-full sm:w-auto space-y-2 sm:space-y-0 sm:space-x-3 sm:justify-end">
+					   <div class="relative inline-block w-full sm:w-auto" id="columnsDropdownContainer">
+						   <button id="columnsToggle" type="button" class="w-full flex justify-center sm:justify-start items-center bg-ku-purple-new hover:bg-ku-purple-new-hover text-white font-semibold py-2 px-4 rounded-xl shadow-sm transition duration-150">
+							   <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"></path></svg>
+							   Columns
+							   <svg class="w-5 h-5 ml-2 -mr-1 text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+						   </button>
+						   <div id="columnsMenu" class="hidden absolute right-0 mt-2 w-full sm:w-64 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20 max-h-80 overflow-y-auto"></div>
+					   </div>
+					   <div class="relative inline-block w-full sm:w-auto" id="downloadDropdownContainer">
+					        <button id="downloadToggle" type="button" class="w-full flex justify-center sm:justify-start items-center bg-ku-purple-new hover:bg-ku-purple-new-hover text-white font-semibold py-2 px-4 rounded-xl shadow-sm transition duration-150">
+					            Download Report
+					            <svg class="w-5 h-5 ml-2 -mr-1 text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+					        </button>
+					        <div id="downloadMenu" class="hidden absolute right-0 mt-2 w-full sm:w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20">
+					            <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+					                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Download as Excel</a>
+					                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Download as CSV</a>
+					                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Download as PDF</a>
+					            </div>
+					        </div>
+					    </div>
+				   </div>
+				</div>
+				<div class="overflow-x-auto rounded-xl border border-gray-200">
+				   <table class="min-w-full divide-y divide-gray-200">
+					   <thead class="bg-gray-50">
+						   <tr>
+							   <th data-column="profile_photo" class="table-column-data px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+								   <span>Profile Photo</span>
+							   </th>
+							   <th data-column="student_num" class="sortable table-column-data sticky-column px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+								   <div class="flex items-center justify-between relative">
+									   <span>Student Number</span>
+									   <svg class="lock-icon w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg>
+									   <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"></path></svg>
+								   </div>
+							   </th>
+							   <th data-column="national_id" class="sortable table-column-data px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden">
+								   <div class="flex items-center justify-between">
+									   <span>National ID</span>
+									   <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"></path></svg>
+								   </div>
+							   </th>
+							   <th data-column="full_name" class="sortable table-column-data px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+								   <div class="flex items-center justify-between">
+									   <span>Full Name</span>
+									   <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"></path></svg>
+								   </div>
+							   </th>
+							   <th data-column="name" class="sortable table-column-data px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden">
+								   <div class="flex items-center justify-between">
+									   <span>Name</span>
+									   <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"></path></svg>
+								   </div>
+							   </th>
+
+(The file continues...)

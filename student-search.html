@@ -306,7 +306,7 @@
 
 											<!-- Student Status - Custom Multi-Select -->
 											<div class="flex flex-col sm:flex-row items-start sm:items-center">
-												<label for="studentStatus" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">Status of the Student</label>
+												<label for="studentStatus" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">Status</label>
 												<div class="w-full sm:w-2/3 relative" id="studentStatusDropdownContainer">
 													<button type="button" id="studentStatusDropdown" class="w-full border border-gray-300 rounded-lg p-2.5 bg-white text-left focus:ring-ku-purple focus:border-ku-purple">
 														<span id="studentStatusLabel">Select</span>
@@ -352,6 +352,32 @@
 													</select>
 												</div>
 											</div>
+
+
+				<!-- Dorm Status -->
+				<div class="flex flex-col sm:flex-row items-start sm:items-center">
+					<label for="dormStatus" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">Dorm Status</label>
+					<div class="w-full sm:w-2/3 relative">
+						<select id="dormStatus" class="w-full border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple appearance-none transition duration-150">
+							<option value="">Select</option>
+							<option value="Yes">Yes</option>
+							<option value="No">No</option>
+						</select>
+					</div>
+				</div>
+
+				<!-- Dorm Select (hidden until Dorm Status == Yes) -->
+				<div id="dormSelectWrapper" class="flex flex-col sm:flex-row items-start sm:items-center hidden">
+					<label for="dormSelect" class="text-sm font-medium text-gray-700 w-full sm:w-1/3 mb-1 sm:mb-0 sm:pr-4 flex-shrink-0">Select Dorm</label>
+					<div class="w-full sm:w-2/3 relative">
+						<select id="dormSelect" class="w-full border border-gray-300 rounded-lg p-2.5 bg-white focus:ring-ku-purple focus:border-ku-purple appearance-none transition duration-150">
+							<option value="">Select Dorm</option>
+							<option value="Dorm A">Dorm A</option>
+							<option value="Dorm B">Dorm B</option>
+							<option value="Dorm C">Dorm C</option>
+						</select>
+					</div>
+				</div>
 										</div>
 									</div>
 					</div>
@@ -365,6 +391,7 @@
 					</div>
 				</div>
 			</div>
+
 		   <!-- Search Results Card -->
 		   <div class="bg-white p-6 rounded-xl shadow-lg">
 			   <h2 class="text-xl font-semibold text-gray-800 mb-6 border-b pb-4">Search Results</h2>
@@ -460,6 +487,16 @@
 										   <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"></path></svg>
 									   </div>
 								   </th>
+								<th data-column="dorm_info" class="table-column-data px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden">
+									<div class="flex items-center justify-between">
+										<span>Dorm Info</span>
+										</div>
+									</th>
+								<th data-column="dorm_details" class="table-column-data px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden">
+									<div class="flex items-center justify-between">
+										<span>Dorm Details</span>
+										</div>
+									</th>
 								   <th data-column="actions" class="table-column-data px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
 							   </tr>
 						   </thead>
@@ -477,6 +514,8 @@
 								   <td data-column="acad_program" class="table-column-data px-6 py-4 whitespace-nowrap text-sm text-gray-500 hidden">CE - College of Engineering</td>
 								   <td data-column="acad_plan" class="table-column-data px-6 py-4 whitespace-nowrap text-sm text-gray-500 hidden">Electrical & Electronics Eng.</td>
 								   <td data-column="status" class="table-column-data px-6 py-4 whitespace-nowrap text-sm"><span class="inline-flex items-center rounded-full bg-green-100 text-green-800 px-2 py-0.5 text-xs font-medium">Active</span></td>
+								<td data-column="dorm_info" class="table-column-data px-6 py-4 whitespace-nowrap text-sm hidden">Not Assigned</td>
+								<td data-column="dorm_details" class="table-column-data px-6 py-4 whitespace-nowrap text-sm hidden">-</td>
 								   <td data-column="actions" class="table-column-data px-6 py-4 whitespace-nowrap text-sm font-medium">
 									   <div class="flex items-center gap-3">
 										   <a href="student-details.html" class="text-indigo-600 hover:text-indigo-800" title="Profile" aria-label="Profile">
@@ -501,6 +540,8 @@
 								   <td data-column="acad_program" class="table-column-data px-6 py-4 whitespace-nowrap text-sm text-gray-500 hidden">PGSB - Grad Schl of Business PhD</td>
 								   <td data-column="acad_plan" class="table-column-data px-6 py-4 whitespace-nowrap text-sm text-gray-500 hidden">PhD in Business Administration</td>
 								   <td data-column="status" class="table-column-data px-6 py-4 whitespace-nowrap text-sm"><span class="inline-flex items-center rounded-full bg-yellow-100 text-yellow-800 px-2 py-0.5 text-xs font-medium">Leave of Absence</span></td>
+								<td data-column="dorm_info" class="table-column-data px-6 py-4 whitespace-nowrap text-sm hidden">Dorm A</td>
+								<td data-column="dorm_details" class="table-column-data px-6 py-4 whitespace-nowrap text-sm hidden">Room 203</td>
 								   <td data-column="actions" class="table-column-data px-6 py-4 whitespace-nowrap text-sm font-medium">
 									   <div class="flex items-center gap-3">
 										   <a href="student-details.html" class="text-indigo-600 hover:text-indigo-800" title="Profile" aria-label="Profile">
@@ -567,19 +608,21 @@
 			   // Columns toggle for results table
 			   const columnsToggle = document.getElementById('columnsToggle');
 			   const columnsMenu = document.getElementById('columnsMenu');
-			   const COLUMNS = [
-			   	{ id: 'profile_photo', name: 'Profile Photo', isVisible: true },
-			   	{ id: 'student_num', name: 'Student Number', isVisible: true },
-			   	{ id: 'national_id', name: 'National ID', isVisible: false },
-			   	{ id: 'full_name', name: 'Full Name', isVisible: true },
-			   	{ id: 'name', name: 'Name', isVisible: false },
-			   	{ id: 'surname', name: 'Surname', isVisible: false },
-			   	{ id: 'acad_career', name: 'Academic Career', isVisible: false },
-			   	{ id: 'acad_program', name: 'Program', isVisible: false },
-			   	{ id: 'acad_plan', name: 'Plan', isVisible: true },
-			   	{ id: 'status', name: 'Status', isVisible: true },
-			   	{ id: 'actions', name: 'Actions', isVisible: true }
-			   ];
+               const COLUMNS = [
+               	{ id: 'profile_photo', name: 'Profile Photo', isVisible: true },
+               	{ id: 'student_num', name: 'Student Number', isVisible: true },
+               	{ id: 'national_id', name: 'National ID', isVisible: false },
+               	{ id: 'full_name', name: 'Full Name', isVisible: true },
+               	{ id: 'name', name: 'Name', isVisible: false },
+               	{ id: 'surname', name: 'Surname', isVisible: false },
+               	{ id: 'acad_career', name: 'Academic Career', isVisible: false },
+               	{ id: 'acad_program', name: 'Program', isVisible: false },
+               	{ id: 'acad_plan', name: 'Plan', isVisible: true },
+               	{ id: 'status', name: 'Status', isVisible: true },
+               	{ id: 'dorm_info', name: 'Dorm Info', isVisible: false },
+               	{ id: 'dorm_details', name: 'Dorm Details', isVisible: false },
+               	{ id: 'actions', name: 'Actions', isVisible: true }
+               ];
 			   function toggleColumnVisibility(columnName, isVisible) {
 				   const displayStyle = isVisible ? 'table-cell' : 'none';
 				   document.querySelectorAll(`[data-column="${columnName}"]`).forEach(el => el.style.display = displayStyle);
@@ -593,6 +636,22 @@
 			   COLUMNS.forEach(c => toggleColumnVisibility(c.id, c.isVisible));
 			   columnsToggle?.addEventListener('click', e => { e.stopPropagation(); columnsMenu.classList.toggle('hidden'); });
 			   document.addEventListener('click', e => { if (columnsMenu && !columnsMenu.contains(e.target) && columnsToggle && !columnsToggle.contains(e.target)) columnsMenu.classList.add('hidden'); });
+
+			   // Dorm status select handler - show dorm select when Yes
+			   const dormStatusEl = document.getElementById('dormStatus');
+			   const dormSelectWrapper = document.getElementById('dormSelectWrapper');
+			   const dormSelect = document.getElementById('dormSelect');
+			   if (dormStatusEl) {
+				   dormStatusEl.addEventListener('change', function() {
+					   const val = this.value;
+					   if (val === 'Yes') {
+						   dormSelectWrapper.classList.remove('hidden');
+					   } else {
+						   dormSelectWrapper.classList.add('hidden');
+						   if (dormSelect) dormSelect.value = '';
+					   }
+				   });
+			   }
 
 			   // Download Report dropdown logic
 			   const downloadToggle = document.getElementById('downloadToggle');
